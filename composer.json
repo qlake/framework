@@ -1,0 +1,22 @@
+{
+	"name": "qlake/framework",
+	"description": "The Qlake Framework",
+	"keywords": [
+		"qlake", "framework"
+	],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Reza Khodadadi",
+			"email": "rezakho@gmail.com",
+			"role": "Founder"
+		}
+	],
+	"require": {
+		"php": ">=5.4.0",
+		"ext-mbstring": "*",
+		"danielstjules/stringy": "~1.9",
+		"ircmaxell/password-compat": "~1.0",
+		"twig/twig": "~1.0"
+	}
+}
