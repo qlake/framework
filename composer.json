@@ -12,6 +12,13 @@
 			"role": "Founder"
 		}
 	],
+	"autoload": {
+		"files": [
+		],
+		"psr-4": {
+			"Qlake\\": "src/"
+		}
+	},
 	"require": {
 		"php": ">=5.4.0",
 		"ext-mbstring": "*",
