@@ -1,9 +1,9 @@
 <?php
 
-namespace Framework\Database\Connection;
+namespace Qlake\Database\Connection;
 
 use PDO;
-use Framework\Exception\ClearException;
+use Qlake\Exception\ClearException;
 
 class Connection
 {

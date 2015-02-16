@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\Config;
+namespace Qlake\Config;
 
-use Framework\Exception\ClearException;
+use Qlake\Exception\ClearException;
 
 class Config
 {

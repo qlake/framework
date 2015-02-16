@@ -1,17 +1,17 @@
 <?php
 
-namespace Framework\Architecture;
+namespace Qlake\Architecture;
 
 use ArrayAccess;
 use Closure;
-use Framework\Exception\ClearException;
+use Qlake\Exception\ClearException;
 
 class Container implements ArrayAccess
 {
 	/**
      * Set of application providers.
      *
-     * @var Framework\Application
+     * @var Qlake\Application
      */
 	protected $providers = [];
 	

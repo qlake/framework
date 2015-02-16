@@ -1,11 +1,11 @@
 <?php
 
-namespace Framework;
+namespace Qlake;
 
-use Framework\Architecture\Extensible;
-use Framework\Architecture\Container;
-use Framework\Architecture\Iwan;
-use Framework\Routing\Router;
+use Qlake\Architecture\Extensible;
+use Qlake\Architecture\Container;
+use Qlake\Architecture\Iwan;
+use Qlake\Routing\Router;
 
 class Application extends Container
 {
@@ -46,7 +46,7 @@ class Application extends Container
 		$request = $this['request'];
 
 
-		require 'app/routes.php';
+		require '../app/routes.php';
 		$response = $this['router']->handel($request);
 
 		

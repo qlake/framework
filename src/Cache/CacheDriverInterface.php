@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Cache;
+namespace Qlake\Cache;
 
 interface CacheDriverInterface
 {

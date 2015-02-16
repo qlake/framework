@@ -1,5 +1,5 @@
 <?php 
-namespace Framework\Cache;
+namespace Qlake\Cache;
 
 class MongoCache implements CacheDriverInterface
 {

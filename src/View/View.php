@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\View;
+namespace Qlake\View;
 
-use Framework\Exception\ClearException;
+use Qlake\Exception\ClearException;
 
 class View
 {

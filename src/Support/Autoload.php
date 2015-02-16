@@ -1,18 +1,18 @@
 <?php
 
-namespace Framework\Support;
+namespace Qlake\Support;
 
 class Autoload
 {
     protected static $aliases = [
-        'App' => 'Framework\Iwan\App',
-        'View' => 'Framework\Iwan\View',
-        //'ClearException' => 'Framework\Exception\ClearException',
-        'Route' => 'Framework\Iwan\Route',
-        'Config' => 'Framework\Iwan\Config',
-        'Cache' => 'Framework\Iwan\Cache',
-        'DB' => 'Framework\Iwan\DB',
-        'Html' => 'Framework\Iwan\HtmlBuilder',
+        'App' => 'Qlake\Iwan\App',
+        'View' => 'Qlake\Iwan\View',
+        //'ClearException' => 'Qlake\Exception\ClearException',
+        'Route' => 'Qlake\Iwan\Route',
+        'Config' => 'Qlake\Iwan\Config',
+        'Cache' => 'Qlake\Iwan\Cache',
+        'DB' => 'Qlake\Iwan\DB',
+        'Html' => 'Qlake\Iwan\HtmlBuilder',
     ];
     /**
      * Array of directories for searching classes.
@@ -29,9 +29,9 @@ class Autoload
     protected static $registered = false;
 
     /**
-     * Search and Include a Class by class name like Framework\Router\Route. 
+     * Search and Include a Class by class name like Qlake\Router\Route. 
      * 
-     * @param string $class Like Framework\Router\Route
+     * @param string $class Like Qlake\Router\Route
      * @return bool
      */
     public static function load($class)

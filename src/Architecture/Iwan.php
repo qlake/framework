@@ -1,15 +1,15 @@
 <?php
 
-namespace Framework\Architecture;
+namespace Qlake\Architecture;
 
-use Framework\Application;
+use Qlake\Application;
 
 trait Iwan
 {
 	/**
 	 * Application instans that is running.
 	 *
-	 * @var Framework\Application
+	 * @var Qlake\Application
 	 */
 	protected static $app;
 
@@ -29,7 +29,7 @@ trait Iwan
 	/**
 	 * Get application instans.
 	 *
-	 * @return Framework\Application
+	 * @return Qlake\Application
 	 */
 	public static function getApplication()
 	{
@@ -39,7 +39,7 @@ trait Iwan
 	/**
 	 * Set application instans.
 	 * 
-	 * @param Framework\Application $app
+	 * @param Qlake\Application $app
 	 * @return void
 	 */
 	public static function setApplication(Application $app)

@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Database\Connector;
+namespace Qlake\Database\Connector;
 
 abstract class Connector
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Http;
+namespace Qlake\Http;
 
 use ArrayAccess;
 use ArrayIterator;

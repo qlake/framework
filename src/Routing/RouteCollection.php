@@ -1,6 +1,6 @@
 <?php 
 
-namespace Framework\Routing;
+namespace Qlake\Routing;
 
 use Countable;
 use ArrayIterator;
@@ -25,8 +25,8 @@ class RouteCollection implements Countable, IteratorAggregate
 	/**
 	 * Add a Route instans to application routes.
 	 *
-	 * @param Framework\Routing\Route
-	 * @return Framework\Routing\Route
+	 * @param Qlake\Routing\Route
+	 * @return Qlake\Routing\Route
 	 */
 	public function addRoute($route)
 	{

@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Config;
+namespace Qlake\Config;
 
 use Exception;
 

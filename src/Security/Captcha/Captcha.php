@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Security\Captcha;
+namespace Qlake\Security\Captcha;
 
 class Captcha
 {

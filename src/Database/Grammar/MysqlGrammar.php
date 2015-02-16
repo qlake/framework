@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\Database\Grammar;
+namespace Qlake\Database\Grammar;
 
 class MysqlGrammar extends Grammar
 {

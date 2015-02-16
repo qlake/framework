@@ -1,13 +1,13 @@
 <?php
 
-namespace Framework\Database;
+namespace Qlake\Database;
 
 use Closure;
 use PDO;
 use PDOException;
-use Framework\Exception\ClearException;
-use Framework\Database\Connection;
-use Framework\Database\Grammar;
+use Qlake\Exception\ClearException;
+use Qlake\Database\Connection;
+use Qlake\Database\Grammar;
 
 
 class Query
@@ -409,7 +409,7 @@ class Query
 			die();
 		}
 
-		$db = new Framework\Database\Query(new Framework\Database\Connection($pdo), new Framework\Database\Grammar);
+		$db = new Qlake\Database\Query(new Qlake\Database\Connection($pdo), new Qlake\Database\Grammar);
 
 		return $db;
 	}

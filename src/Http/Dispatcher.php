@@ -1,9 +1,9 @@
 <?php
 
-namespace Framework\Http;
+namespace Qlake\Http;
 
-use Framework\Http\Request;
-use Framework\Http\Response;
+use Qlake\Http\Request;
+use Qlake\Http\Response;
 
 class Dispatcher
 {

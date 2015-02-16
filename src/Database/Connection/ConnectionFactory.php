@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\Database\Connection;
+namespace Qlake\Database\Connection;
 
-use Framework\Database\Connector\MysqlConnector;
+use Qlake\Database\Connector\MysqlConnector;
 
 class ConnectionFactory
 {
@@ -71,13 +71,13 @@ class ConnectionFactory
 				return new MysqlConnector($config);
 
 			case 'pgsql':
-				return new \Framework\Database\Connector\PostgresConnector($config);
+				return new \Qlake\Database\Connector\PostgresConnector($config);
 
 			case 'sqlite':
-				return new \Framework\Database\Connector\SQLiteConnector($config);
+				return new \Qlake\Database\Connector\SQLiteConnector($config);
 
 			case 'sqlsrv':
-				return new \Framework\Database\Connector\SqlServerConnector($config);
+				return new \Qlake\Database\Connector\SqlServerConnector($config);
 		}
 	}
 }

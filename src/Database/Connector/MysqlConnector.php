@@ -1,11 +1,11 @@
 <?php
 
-namespace Framework\Database\Connector;
+namespace Qlake\Database\Connector;
 
 use PDO;
 use PDOException;
-use Framework\Exception\ClearException;
-use Framework\Database\Connection\MysqlConnection;
+use Qlake\Exception\ClearException;
+use Qlake\Database\Connection\MysqlConnection;
 
 class MysqlConnector extends Connector
 {

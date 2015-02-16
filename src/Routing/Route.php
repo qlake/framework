@@ -1,9 +1,9 @@
 <?php
 
-namespace Framework\Routing;
+namespace Qlake\Routing;
 
-use Framework\Routing\RouteCompiler;
-use Framework\Http\Request;
+use Qlake\Routing\RouteCompiler;
+use Qlake\Http\Request;
 
 class Route
 {

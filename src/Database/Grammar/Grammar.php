@@ -1,10 +1,10 @@
 <?php
 
-namespace Framework\Database\Grammar;
+namespace Qlake\Database\Grammar;
 
-use Framework\Database\Query;
-use Framework\Database\Expression;
-use Framework\Database\Operator;
+use Qlake\Database\Query;
+use Qlake\Database\Expression;
+use Qlake\Database\Operator;
 use Closure;
 
 class Grammar

@@ -1,18 +1,18 @@
 <?php
 
-namespace Framework\Routing;
+namespace Qlake\Routing;
 
-use Framework\Routing\Route;
-use Framework\Routing\RouteCollection;
-use Framework\Http\Request;
-use Framework\Support\Queue;
+use Qlake\Routing\Route;
+use Qlake\Routing\RouteCollection;
+use Qlake\Http\Request;
+use Qlake\Support\Queue;
 
 class Router
 {
 	/**
 	 * Instance of RouteCollection
 	 *
-	 * @var Framework\Routing\RouteCollection
+	 * @var Qlake\Routing\RouteCollection
 	 */
 	protected $routes;
 
@@ -35,7 +35,7 @@ class Router
 	 *
 	 * @param string $uri
 	 * @param Closure|string $action
-	 * @return Framework\Routing\Route
+	 * @return Qlake\Routing\Route
 	 */
 	public function get($uri, $action)
 	{
@@ -47,7 +47,7 @@ class Router
 	 *
 	 * @param string $uri
 	 * @param Closure|string $action
-	 * @return Framework\Routing\Route
+	 * @return Qlake\Routing\Route
 	 */
 	public function head($uri, $action)
 	{
@@ -59,7 +59,7 @@ class Router
 	 *
 	 * @param string $uri
 	 * @param Closure|string $action
-	 * @return Framework\Routing\Route
+	 * @return Qlake\Routing\Route
 	 */
 	public function post($uri, $action)
 	{
@@ -71,7 +71,7 @@ class Router
 	 *
 	 * @param string $uri
 	 * @param Closure|string $action
-	 * @return Framework\Routing\Route
+	 * @return Qlake\Routing\Route
 	 */
 	public function put($uri, $action)
 	{
@@ -83,7 +83,7 @@ class Router
 	 *
 	 * @param string $uri
 	 * @param Closure|string $action
-	 * @return Framework\Routing\Route
+	 * @return Qlake\Routing\Route
 	 */
 	public function patch($uri, $action)
 	{
@@ -95,7 +95,7 @@ class Router
 	 *
 	 * @param string $uri
 	 * @param Closure|string $action
-	 * @return Framework\Routing\Route
+	 * @return Qlake\Routing\Route
 	 */
 	public function options($uri, $action)
 	{
@@ -107,7 +107,7 @@ class Router
 	 *
 	 * @param string $uri
 	 * @param Closure|string $action
-	 * @return Framework\Routing\Route
+	 * @return Qlake\Routing\Route
 	 */
 	public function every($uri, $action)
 	{
@@ -156,7 +156,7 @@ class Router
 	 * @param array $methods
 	 * @param string $uri
 	 * @param Closure|string $action
-	 * @return Framework\Routing\Route
+	 * @return Qlake\Routing\Route
 	 */
 	public function addRoute($methods, $uri, $action)
 	{
@@ -175,7 +175,7 @@ class Router
 	 * @param array $methods
 	 * @param string $uri
 	 * @param Closure|string $action
-	 * @return Framework\Routing\Route
+	 * @return Qlake\Routing\Route
 	 */
 	public function createRoute($methods, $uri, $action)
 	{
@@ -204,7 +204,7 @@ class Router
 	 * Chack matching requested uri by registered routes.
 	 * 
 	 * @param string $requestUri 
-	 * @return Framework\Routing\Route|null
+	 * @return Qlake\Routing\Route|null
 	 */
 	public function match(Request $request)
 	{

@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\Routing;
+namespace Qlake\Routing;
 
-use Framework\Routing\Route;
+use Qlake\Routing\Route;
 
 class RouteCompiler
 {
@@ -10,14 +10,14 @@ class RouteCompiler
 	/**
 	 * Instans of route that will be compile.
 	 *
-	 * @var Framework\Routing\Route
+	 * @var Qlake\Routing\Route
 	 */
 	protected $route;
 
 	/**
 	 * Compile route URI and create pattern from its URL.
 	 *
-	 * @param Framework\Routing\Route $route
+	 * @param Qlake\Routing\Route $route
 	 * @return void
 	 */
 	public function compile($route)

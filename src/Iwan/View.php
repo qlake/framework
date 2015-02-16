@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\Iwan;
+namespace Qlake\Iwan;
 
-use Framework\Architecture\Iwan;
+use Qlake\Architecture\Iwan;
 
 abstract class View
 {

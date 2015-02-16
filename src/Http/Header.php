@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\Http;
+namespace Qlake\Http;
 
-use Framework\Http\Environment;
+use Qlake\Http\Environment;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
@@ -41,7 +41,7 @@ class Header
 	 * 
 	 * @param string $name 
 	 * @param string $value 
-	 * @return Framework\Http\Header
+	 * @return Qlake\Http\Header
 	 */
 	public function set($name, $value)
 	{
@@ -87,7 +87,7 @@ class Header
 	/**
 	 * Clear all HTTP headers.
 	 * 
-	 * @return Framework\Http\Header
+	 * @return Qlake\Http\Header
 	 */
 	public function clear()
 	{
@@ -100,7 +100,7 @@ class Header
 	 * Remove one HTTP header by name.
 	 * 
 	 * @param string $name 
-	 * @return Framework\Http\Header
+	 * @return Qlake\Http\Header
 	 */
 	public function remove($name)
 	{

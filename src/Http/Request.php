@@ -1,8 +1,8 @@
 <?php
 
-namespace Framework\Http;
+namespace Qlake\Http;
 
-use Framework\Http\Header;
+use Qlake\Http\Header;
 
 class Request
 {
