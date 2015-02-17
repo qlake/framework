@@ -4,7 +4,7 @@ namespace Qlake\Architecture;
 
 use Qlake\Application;
 
-trait Iwan
+class Iwan
 {
 	/**
 	 * Application instans that is running.
@@ -12,6 +12,10 @@ trait Iwan
 	 * @var Qlake\Application
 	 */
 	protected static $app;
+
+
+
+	public static $provider;
 
 	/**
 	 * Get instans of application service by name. The name specified in
