@@ -16,6 +16,7 @@ class Application extends Container
 
 	public static $instance;
 
+
 	public function __construct()
 	{
 		//ServiceProvider::setApplication($this);

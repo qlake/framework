@@ -39,22 +39,43 @@ class Environment implements ArrayAccess
 
 	public function getPathInfo()
 	{
-		$scriptName = $_SERVER['SCRIPT_NAME']; // <-- "/foo/index.php"
-        $requestUri = $_SERVER['REQUEST_URI']; // <-- "/foo/bar?test=abc" or "/foo/index.php/bar?test=abc"
-        $queryString = $_SERVER['QUERY_STRING']; // <-- "test=abc" or ""
-		// Virtual path
+		$pathInfo = '';
 
-        $pathInfo = substr_replace($requestUri, '', 0, strlen($this['SCRIPT_NAME'])); // <-- Remove physical path
-       $pathInfo = str_replace('?' . $queryString, '', $pathInfo); // <-- Remove query string
-         $pathInfo = trim($pathInfo, '/') ; // <-- Ensure leading slash
-//die($_SERVER['PATH_INFO']);
-        return $this['PATH_INFO'] = urldecode($pathInfo);
+		if ($_SERVER['PATH_INFO'])
+		{
+			$pathInfo = $_SERVER['PATH_INFO'];
+		}
+		elseif ($_SERVER['REDIRECT_REDIRECT_STATUS'])
+		{
+			// for request whitout vitual host and path info and query strings
+			if ($_SERVER['REDIRECT_URL'] == $_SERVER['REQUEST_URI'])
+			{
+				$pathInfo = '/';
+			}
+			elseif ($_SERVER['REDIRECT_STATUS'])
+			{
+				$pathInfo = str_replace(dirname($_SERVER['SCRIPT_NAME']), '', $_SERVER['REDIRECT_URL']);
+			}
+		}
+		elseif ($_SERVER['REDIRECT_STATUS'])
+		{
+			$pathInfo = str_replace(dirname($_SERVER['SCRIPT_NAME']), '', $_SERVER['REDIRECT_URL']);
+		}
+		else
+		{
+			// Wow! What is this line?
+		}
+
+
+		$pathInfo = trim($pathInfo, '/');
+
+		return $this['PATH_INFO'] = urldecode($pathInfo);
 	}
 
 
 	public function runMethod($name)
 	{
-		// this line should be replaced by Str methods
+		// this line should be replaced by Str Class methods
 		$method = 'get' . str_replace(' ', '', ucwords(strtolower(str_replace(['-', '_'], ' ', $name))));
 
 		if (method_exists($this, $method))

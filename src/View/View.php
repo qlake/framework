@@ -105,7 +105,7 @@ class View
 
 		};
 
-		//return $f();
+		return $f();
 		//trace($viewFile);
 
 		return $twig->render($viewFile, $data);
