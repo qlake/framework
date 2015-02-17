@@ -59,7 +59,18 @@ class Environment implements ArrayAccess
 		}
 		elseif ($_SERVER['REDIRECT_STATUS'])
 		{
-			$pathInfo = str_replace(dirname($_SERVER['SCRIPT_NAME']), '', $_SERVER['REDIRECT_URL']);
+			if ($_SERVER['REDIRECT_URL'] == $_SERVER['REQUEST_URI'])
+			{
+				$pathInfo = '/';
+			}
+			elseif ($_SERVER['REDIRECT_QUERY_STRING'] && ($_SERVER['REDIRECT_URL'] .'?'. $_SERVER['REDIRECT_QUERY_STRING'] == $_SERVER['REQUEST_URI']))
+			{
+				$pathInfo = '/';
+			}
+			else
+			{
+				$pathInfo = str_replace(dirname($_SERVER['SCRIPT_NAME']), '', $_SERVER['REDIRECT_URL']);
+			}
 		}
 		else
 		{
