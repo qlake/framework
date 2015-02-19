@@ -29,6 +29,11 @@ class Request
 		$this->data   = $this->parseInputs($_POST);
 	}
 
+	public static function capture()
+	{
+		
+	}
+
 	public function parseInputs(array $inputs)
 	{
 		$specials = [
