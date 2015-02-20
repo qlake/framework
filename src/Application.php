@@ -74,6 +74,16 @@ class Application extends Container
 	}
 
 
+	public function terminate()
+	{
+		
+	}
+
+
+	public function setPaths(array $paths)
+	{
+		
+	}
 	
 
 }
