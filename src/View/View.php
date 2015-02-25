@@ -3,116 +3,89 @@
 namespace Qlake\View;
 
 use Qlake\Exception\ClearException;
+use Qlake\View\Finder;
 
 class View
 {
-	public $finder;
+	private $finder;
+
+	private $engine;
+
+	private $theme;
+
+	private $name;
+
+	private $data = [];
 
 	public $paths = [];
 
-	public $theme;
 
-	public $aliases = ['theme' => 'themes\\blue'];
+	private $extensions = [
+		'php'        => 'Qlake\View\Engine\PHP',
+		/*'smarty.php' => 'Qlake\View\Engine\Smarty',
+		'twig.php'   => 'Qlake\View\Engine\Twig',
+		'dwoo.php'   => 'Qlake\View\Engine\Dwoo',*/
+	];
 
-	public static $aliasSeparator = '::';
 
-	public static $directorySeparator = '.';
-
-	public $extensions = ['php', 'twig.php'];
-
-	public function __construct()
+	public function __construct($baseDir)
 	{
-		//$this->finder = new ViewFinder;
+		$this->finder = new Finder($baseDir, $this->extensions);
 	}
 
-	public function setPaths($paths)
-	{
-		$this->paths = $paths;
-	}
-
-	public function detectCompiler($name)
-	{
-
-	}
-
-	public function find($viewPath)
-	{
-		foreach ($this->paths as $path)
-		{
-			foreach ($this->extensions as $extension)
-			{
-				$file = implode(DIRECTORY_SEPARATOR, [trim($path, '/\\'), trim($viewPath, '/\\') . '.' . $extension]);
-
-				if (file_exists($file))
-				{
-					return $file;
-				}
-			}
-		}
-
-		throw new ClearException("View $file not found", 4);
-		
-	}
-
-	public function parsePath($name)
-	{
-		if (strpos($name, static::$aliasSeparator ) !== false)
-		{
-			list($alias, $path) = explode(static::$aliasSeparator, $name);
-
-			$this->parseAlias($alias);
-		}
-		else
-		{
-			$path = $name;
-		}
-
-		$path = str_replace(static::$directorySeparator, DIRECTORY_SEPARATOR, $path);
-
-		return $this->find($path);
-	}
-
-	public function parseAlias($alias)
-	{
-		if (isset($this->aliases[$alias]))
-		{
-			array_unshift($this->paths, $this->aliases[$alias]);
-		}
-	}
 
 	public function make($name, array $data = [])
 	{
-		//return '54454';
-		$viewFile = pathinfo($this->parsePath($name), PATHINFO_BASENAME);
+		$this->name = $name;
 
-		$path = pathinfo($this->parsePath($name), PATHINFO_DIRNAME);
-//trace($path);
-		$loader = new \Twig_Loader_Filesystem($path);
+		$this->data = $data;
 
-		$twig = new \Twig_Environment($loader, [
-			'cache' => 'cache',
-		]);
-
-		$f = function() use ($path, $viewFile, $data)
-		{
-			foreach ($data as $key => $value) {
-				${$key} = $value;
-			}
-
-			ob_start();
-			require $path . '/' . $viewFile;
-			return ob_get_clean();
-
-		};
-
-		return $f();
-		//trace($viewFile);
-
-		return $twig->render($viewFile, $data);
+		return $this;
 	}
+
 
 	public function render($name, array $data = [])
 	{
 		return $this->make($name, $data);
+	}
+
+
+	public function set($name, $value)
+	{
+		$this->data[$name] = $value;
+
+		return $this;
+	}
+
+
+	public function getContent()
+	{
+		$file = $this->finder->find($this->name);
+
+		if (!$file)
+		{
+			throw new ClearException("View [$this->name] Not Found!", 4);
+			
+		}
+
+		$this->engine = $this->createEngine($file);
+
+		return $this->engine->render($file, $this->data);
+	}
+
+
+	public function __tostring()
+	{
+		return $this->getContent();
+	}
+
+
+	private function createEngine($file)
+	{
+		$fileName = pathinfo($file)['basename'];
+
+		$ext = substr($fileName, strpos($fileName, '.')+1);
+
+		return $this->extensions[$ext] ? new $this->extensions[$ext]($this->finder) : new $this->extensions['php']($this->finder);
 	}
 }

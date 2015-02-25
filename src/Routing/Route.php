@@ -172,7 +172,9 @@ class Route
 
 		if (is_callable($callable))
 		{
-			call_user_func_array($callable, $this->params);
+			$view = call_user_func_array($callable, $this->params);
+
+			echo $view->getContent();
 		}
 	}
 }
