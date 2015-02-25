@@ -25,5 +25,10 @@
 		"danielstjules/stringy": "~1.9",
 		"ircmaxell/password-compat": "~1.0",
 		"twig/twig": "~1.0"
-	}
+	},
+	 "extra": {
+		"branch-alias": {
+			"dev-master": "0.1-dev"
+		}
+	},
 }
