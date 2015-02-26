@@ -44,7 +44,7 @@ class Application extends Container
 		$request = $this['request'];
 
 
-		require '../app/routes.php';
+		//require '../app/routes.php';
 		$response = $this['router']->handel($request);
 
 		

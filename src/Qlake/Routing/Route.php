@@ -4,6 +4,7 @@ namespace Qlake\Routing;
 
 use Qlake\Routing\RouteCompiler;
 use Qlake\Http\Request;
+use Qlake\Exception\ClearException;
 
 class Route
 {
@@ -151,30 +152,96 @@ class Route
 
 	public function dispatch(Request $request)
 	{
+		$call_user_func_array = function($callable, array $args = [])
+		{
+			if (!is_callable($callable))
+			{
+				throw new ClearException("A Real Action Not Found", 1);	
+			}
+
+			if (is_string($callable))
+			{
+				if (function_exists($callable))
+				{
+					$function = new \ReflectionFunction($callable);
+				}
+				else
+				{
+					$function = new \ReflectionMethod($callable);
+				}
+			}
+			elseif (is_object($callable) && ($callable instanceof \Closure))
+			{
+				$function = new \ReflectionFunction($callable);
+			}
+			elseif (is_array($callable))
+			{
+				$function = (new \ReflectionClass($callable[0]))->getMethod($callable[1]);
+			}
+
+			$functionParams = $function->getParameters();
+
+			$params = [];
+
+			foreach ($functionParams as $param)
+			{
+				if ($args[$param->name])
+				{
+					$params[$param->name] = $args[$param->name];
+				}
+				else{
+					//$params[$param->name] = null;
+				}
+			}
+
+			return call_user_func_array($callable, $params);
+		};
+
 		$callable = $this->action;
 
 		if (is_string($callable))
 		{
-			$callable = explode('::', $callable);
-
-			$callable[1] = $callable[1] ?: 'indexAction';
-
-			if (class_exists($callable[0]))
+			// if $callable was like App\Controllers\Index or App\Controllers\Index::index
+			if (preg_match("/^\\w+(\\\\\\w*)*(::\\w+)?$/", $callable))
 			{
-				$callable[0] = new $callable[0];
+				$callable = explode('::', $callable);
+
+				$callable[1] = $callable[1] ?: 'index';
+
+				list($class, $method) = $callable;
+
+				if (class_exists($class))
+				{
+					$controller = new $class();
+
+					if (method_exists($controller, $method))
+					{
+						$call_user_func_array([$controller, $method], $this->params);
+					}
+					else
+					{
+						call_user_func([$controller, '__missing'], $this->params);
+					}
+				}
+				else
+				{
+					throw new ClearException("Controller [{$callable[0]}] Not Found", 4);
+				}
 			}
-
+			else
+			{
+				throw new ClearException("Invalid Controller Name [{$callable}]", 4);	
+			}
 		}
-		else if (is_object($callable))
+		elseif (is_object($callable) && ($callable instanceof \Closure))
 		{
-			//$callable = new $callable;
-		}
-
-		if (is_callable($callable))
-		{
-			$view = call_user_func_array($callable, $this->params);
+			$view = $call_user_func_array($callable, $this->params);
 
 			echo $view->getContent();
+		}
+		else
+		{
+			throw new ClearException("Route Handler For URL [{$this->uri}] Not Found", 4);
 		}
 	}
 }
