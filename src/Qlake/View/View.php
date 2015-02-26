@@ -58,6 +58,12 @@ class View
 	}
 
 
+	public function by($name, $value)
+	{
+		return $this->set($name, $value);
+	}
+
+
 	public function getContent()
 	{
 		$file = $this->finder->find($this->name);

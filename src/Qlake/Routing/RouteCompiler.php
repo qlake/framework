@@ -28,7 +28,7 @@ class RouteCompiler
 
 		// match patterns {param:pattern}
 		$regex = preg_replace_callback(
-			'#\{((?:[^{}]++|(?R))*+)\}#',
+			'#(\/\{((?:[^{}]++|(?1))*+)\})#',
 			array($this, 'createRegex'),
 			$this->route->uri
 		);
@@ -46,7 +46,7 @@ class RouteCompiler
 		}
 
 		//$regex = preg_replace('#(?<!\\\\)([{}])#', '\\\\\1', $regex);
-
+//echo $regex ."\n";exit;
 		$this->route->pattern = $regex;
 	}
 
@@ -58,9 +58,21 @@ class RouteCompiler
 	 */
 	protected function createRegex($matched)
 	{
-		$sections = explode(':', $matched[1], 2);
+		$sections = explode(':', $matched[2], 2);
 
-		$param = $sections[0];
+
+		if (mb_substr($sections[0], -1) == '?')
+		{
+			$param = mb_substr($sections[0], 0, mb_strlen($sections[0])-1);
+
+			$optional = true;
+		}
+		else
+		{
+			$param = $sections[0];
+		}
+//print_r($param);
+
 
 		$pattern = $sections[1];
 
@@ -68,7 +80,7 @@ class RouteCompiler
 
 		$this->route->paramNames[] = $param;
 
-		$regex = '(?P<' . $param . '>' . $pattern . ')';
+		$regex = ($optional ? '(/' : '') .'(?P<' . $param . '>' . $pattern . ')'. ($optional ? ')?' : '');
 
 		// for optional params! its hard! no problem,i will do it next time
 		//$regex .= substr($matched[0], -2, 1) === '?' ? '?' : '';

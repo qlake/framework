@@ -189,8 +189,8 @@ class Route
 				{
 					$params[$param->name] = $args[$param->name];
 				}
-				else{
-					//$params[$param->name] = null;
+				elseif($param->isDefaultValueAvailable()){
+					$params[$param->name] = $param->getDefaultValue();
 				}
 			}
 
