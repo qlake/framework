@@ -9,6 +9,7 @@ class Environment implements ArrayAccess
 {
 	protected $data = [];
 
+
 	public function __construct()
 	{
         $this->getScriptName();
@@ -32,13 +33,16 @@ class Environment implements ArrayAccess
         return $this['SCRIPT_NAME'] = rtrim($physicalPath, '/'); // <-- Remove trailing slashes
 	}
 
+
 	public function getRequestUri()
 	{
 		return $this['REQUEST_URI'] = $_SERVER['REQUEST_URI'];
 	}
 
+
 	public function getPathInfo()
 	{
+		// This method not stable and must be edited!
 		$pathInfo = '';
 
 		if ($_SERVER['PATH_INFO'])
@@ -77,7 +81,6 @@ class Environment implements ArrayAccess
 			// Wow! What is this line?
 		}
 
-
 		$pathInfo = trim($pathInfo, '/');
 
 		return $this['PATH_INFO'] = urldecode($pathInfo);
@@ -97,6 +100,7 @@ class Environment implements ArrayAccess
 		return null;
 	}
 
+
 	/**
      * Array Access: Offset Exists
      */
@@ -104,6 +108,7 @@ class Environment implements ArrayAccess
     {
         return isset($this->data[$name]);
     }
+
 
     /**
      * Array Access: Offset Get
@@ -126,6 +131,7 @@ class Environment implements ArrayAccess
         $this->data[$name] = $value;
     }
 
+
     /**
      * Array Access: Offset Unset
      */
@@ -133,6 +139,7 @@ class Environment implements ArrayAccess
     {
         unset($this->data[$name]);
     }
+
 
     public function getIterator()
 	{
