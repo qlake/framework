@@ -27,15 +27,18 @@ class Container implements ArrayAccess
 		$this->providers[$name] = ['provider' => $provider, 'type' => 'singleton'];
 	}
 
+
 	public function bind($name, $provider)
 	{
 		$this->providers[$name] = ['provider' => $provider, 'type' => 'instance'];
 	}
 
+
 	public function offsetSet($name, $provider)
 	{
-		throw new ClearException("Use 'singleton' or 'bind' method for adding a service provider to Application.", 0);
+		throw new ClearException("Use [singleton] or [bind] method for adding a service provider to Application.", 0);
 	}
+
 
 	public function offsetGet($name)
 	{
@@ -45,9 +48,7 @@ class Container implements ArrayAccess
 			{
 				if ($this->providers[$name]['provider'] instanceof Closure)
 				{
-					$this->providers[$name]['provider'] = call_user_func_array($this->providers[$name]['provider'], [$this]);
-
-					return $this->providers[$name]['provider'];
+					return $this->providers[$name]['provider'] = call_user_func_array($this->providers[$name]['provider'], [$this]);
 				}
 				
 				return $this->providers[$name]['provider'];
@@ -58,7 +59,7 @@ class Container implements ArrayAccess
 			}
 		}
 
-		throw new ClearException("Service $name does not exist!", 1);
+		throw new ClearException("Service Provider [$name] Not Found.", 1);
 	}
 
 	public function offsetExists($name)

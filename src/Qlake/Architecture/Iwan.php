@@ -2,7 +2,7 @@
 
 namespace Qlake\Architecture;
 
-use Qlake\Application;
+use Qlake\Architecture\Application;
 
 class Iwan
 {
