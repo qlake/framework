@@ -15,12 +15,14 @@ class RouteCollection implements Countable, IteratorAggregate
 	 */
 	protected $routes = [];
 
+
 	/**
 	 * Set of registered routes.
 	 *
 	 * @var array
 	 */
 	protected $allRoutes = [];
+
 
 	/**
 	 * Add a Route instans to application routes.
@@ -40,6 +42,7 @@ class RouteCollection implements Countable, IteratorAggregate
 		return $route;
 	}
 
+
 	/**
 	 * Get registered routes by special method like GET.
 	 *
@@ -49,6 +52,7 @@ class RouteCollection implements Countable, IteratorAggregate
 	{
 		return $this->routes[$method] ?: [];
 	}
+
 
 	/**
 	 * Get all application registered routes.
@@ -61,6 +65,7 @@ class RouteCollection implements Countable, IteratorAggregate
 		return $this->allRoutes;
 	}
 
+
 	/**
 	 * Provide iterating of registered routes.
 	 *
@@ -70,6 +75,7 @@ class RouteCollection implements Countable, IteratorAggregate
 	{
 		return new ArrayIterator($this->getRoutes());
 	} 
+
 
 	/**
 	 * Get number of registered routes.

@@ -16,7 +16,9 @@ class Router
 	 */
 	protected $routes;
 
+
 	protected $groups;
+
 
 	/**
 	 * Create an instance of Router class
@@ -30,6 +32,7 @@ class Router
 		$this->groups = new \SplStack;
 	}
 
+
 	/**
 	 * Create and register a route by GET method
 	 *
@@ -41,6 +44,7 @@ class Router
 	{
 		return $this->addRoute(['GET'], $uri, $action);
 	}
+
 
 	/**
 	 * Create and register a route by HEAD method
@@ -54,6 +58,7 @@ class Router
 		return $this->addRoute(['HEAD'], $uri, $action);
 	}
 
+
 	/**
 	 * Create and register a route by POST method
 	 *
@@ -65,6 +70,7 @@ class Router
 	{
 		return $this->addRoute(['POST'], $uri, $action);
 	}
+
 
 	/**
 	 * Create and register a route by PUT method
@@ -78,6 +84,7 @@ class Router
 		return $this->addRoute(['PUT'], $uri, $action);
 	}
 
+
 	/**
 	 * Create and register a route by PATCH method
 	 *
@@ -89,6 +96,7 @@ class Router
 	{
 		return $this->addRoute(['PATCH'], $uri, $action);
 	}
+
 
 	/**
 	 * Create and register a route by OPTIONS method
@@ -102,6 +110,7 @@ class Router
 		return $this->addRoute(['OPTIONS'], $uri, $action);
 	}
 
+
 	/**
 	 * Create and register a route by ANY method
 	 *
@@ -109,10 +118,11 @@ class Router
 	 * @param Closure|string $action
 	 * @return Qlake\Routing\Route
 	 */
-	public function every($uri, $action)
+	public function any($uri, $action)
 	{
 		return $this->addRoute(['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'], $uri, $action);
 	}
+
 
 	public function group()
 	{
@@ -138,6 +148,7 @@ class Router
 		$this->groups->pop();
 	}
 
+
 	public function processGroupsUri()
 	{
 		$uri = '';
@@ -149,6 +160,7 @@ class Router
 
 		return trim($uri, '/');
 	}
+
 
 	/**
 	 * Create and register a route
@@ -168,6 +180,7 @@ class Router
 		
 		return $route;
 	}
+
 
 	/**
 	 * Create and return a route instance
@@ -191,6 +204,7 @@ class Router
 		
 	}
 
+
 	/**
 	 * Description
 	 * @return type
@@ -199,6 +213,7 @@ class Router
 	{
 		
 	}
+
 
 	/**
 	 * Chack matching requested uri by registered routes.
@@ -218,6 +233,7 @@ class Router
 
 		return null;
 	}
+
 
 	public function handel(Request $request)
 	{

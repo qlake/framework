@@ -8,8 +8,6 @@ use Qlake\Exception\ClearException;
 
 class Route
 {
-
-
 	public $uri;
 
 	public $pattern;
@@ -37,7 +35,6 @@ class Route
 	public $caseSensitive = true;
 
 
-
 	public function __construct($methods, $uri, $action, $compiler = null)
 	{
 		$this->methods = (array) $methods;
@@ -50,7 +47,6 @@ class Route
 	}
 
 
-
 	public function name($name)
 	{
 		$this->setName($name);
@@ -59,19 +55,16 @@ class Route
 	}
 
 
-
 	public function setName($name)
 	{
-		$this->name = (string) $name;
+		$this->name = (string)$name;
 	}
-
 
 
 	public function getName()
 	{
 		return $this->name;
 	}
-
 
 
 	public function conditions($conditions)
@@ -82,13 +75,10 @@ class Route
 	}
 
 
-
-
 	public function setConditions($conditions)
 	{
 		$this->conditions = array_merge($this->conditions, $conditions);
 	}
-
 
 
 	public function getConditions()
@@ -97,16 +87,14 @@ class Route
 	}
 
 
-
 	public function setPrefixUri($prefix)
 	{
-		$prefix = trim($prefix, '/') . '/';
+		$prefix = trim($prefix, '/') .'/';
 
 		$this->uri = $prefix . $this->uri;
 
 		return $this;
 	}
-
 
 
 	public function compile()
@@ -120,7 +108,6 @@ class Route
 
 		$this->compiled = true;
 	}
-
 
 
 	public function checkMatching($requestUri)
@@ -149,6 +136,7 @@ class Route
 
         return true;
 	}
+
 
 	public function dispatch(Request $request)
 	{
@@ -201,7 +189,7 @@ class Route
 
 		if (is_string($callable))
 		{
-			// if $callable was like App\Controllers\Index or App\Controllers\Index::index
+			// if $callable was like App\Controllers\ControllerClass or App\Controllers\ControllerClass::actionMethod
 			if (preg_match("/^\\w+(\\\\\\w*)*(::\\w+)?$/", $callable))
 			{
 				$callable = explode('::', $callable);

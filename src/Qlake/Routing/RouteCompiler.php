@@ -8,11 +8,12 @@ class RouteCompiler
 {
 
 	/**
-	 * Instans of route that will be compile.
+	 * The instance of route that will be compiled.
 	 *
 	 * @var Qlake\Routing\Route
 	 */
 	protected $route;
+
 
 	/**
 	 * Compile route URI and create pattern from its URL.
@@ -26,7 +27,7 @@ class RouteCompiler
 
 		$this->route->uri = ltrim($this->route->uri, '/');
 
-		// match patterns {param:pattern}
+		// match patterns like /{param?:regex}
 		$regex = preg_replace_callback(
 			'#(\/\{((?:[^{}]++|(?1))*+)\})#',
 			array($this, 'createRegex'),
@@ -45,10 +46,9 @@ class RouteCompiler
 			$regex .= 'i';
 		}
 
-		//$regex = preg_replace('#(?<!\\\\)([{}])#', '\\\\\1', $regex);
-//echo $regex ."\n";exit;
 		$this->route->pattern = $regex;
 	}
+
 
 	/**
 	 * Callback from creating route param names
@@ -60,7 +60,6 @@ class RouteCompiler
 	{
 		$sections = explode(':', $matched[2], 2);
 
-
 		if (mb_substr($sections[0], -1) == '?')
 		{
 			$param = mb_substr($sections[0], 0, mb_strlen($sections[0])-1);
@@ -71,8 +70,6 @@ class RouteCompiler
 		{
 			$param = $sections[0];
 		}
-//print_r($param);
-
 
 		$pattern = $sections[1];
 
@@ -81,11 +78,6 @@ class RouteCompiler
 		$this->route->paramNames[] = $param;
 
 		$regex = ($optional ? '(/' : '') .'(?P<' . $param . '>' . $pattern . ')'. ($optional ? ')?' : '');
-
-		// for optional params! its hard! no problem,i will do it next time
-		//$regex .= substr($matched[0], -2, 1) === '?' ? '?' : '';
-
-		//$regex .= substr($matched[0], -2, 1) === '*' ? '[^/]*' : '';
 
 		return $regex;
 	}
