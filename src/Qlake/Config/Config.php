@@ -13,12 +13,14 @@ class Config
 	 */
 	protected $aliases = [];
 
+
 	/**
 	 * Array of configs
 	 * 
 	 * @var array
 	 */
 	protected $configs = [];
+
 
 	/**
 	 * Determine alias separator string
@@ -27,12 +29,14 @@ class Config
 	 */
 	protected $aliasSeparator = '::';
 
+
 	/**
 	 * Determine name and key separator string
 	 * 
 	 * @var string
 	 */
 	protected $nameSeparator = '.';
+
 
 	/**
 	 * Constructor method
@@ -41,6 +45,7 @@ class Config
 	 */
 	public function __construct()
 	{}
+
 
 	/**
 	 * Set or get config aliases
@@ -59,6 +64,7 @@ class Config
 			$this->aliases = array_merge($this->aliases, $aliases);
 		}
 	}
+
 
 	/**
 	 * Set or get a config alias
@@ -79,6 +85,7 @@ class Config
 		}
 	}
 
+
 	/**
 	 * Set default application config path
 	 * 
@@ -87,8 +94,9 @@ class Config
 	 */
 	public function setDefaultPath($path)
 	{
-		$this->aliases['default'] = rtrim($path, '/') . DIRECTORY_SEPARATOR;
+		$this->aliases['default'] = rtrim($path, '/') . '/';
 	}
+
 
 	/**
 	 * Get default application config path
@@ -99,6 +107,7 @@ class Config
 	{
 		return $this->aliases['default'];
 	}
+
 
 	/**
 	 * Open and load configs from a file
@@ -115,7 +124,7 @@ class Config
 		}
 		else
 		{
-			throw new ClearException("Config alias '$alias' not found", 4);
+			throw new ClearException("Config Alias [$alias] Not Found.", 4);
 		}
 
 		$file = $aliasPath . $configName . '.php';
@@ -125,8 +134,9 @@ class Config
 			return $this->configs[$alias][$configName] = require $file;
 		}
 		
-		throw new ClearException("The config file '$file' not found!", 4);
+		throw new ClearException("The Config File [$file] Not Found.", 4);
 	}
+
 
 	/**
 	 * Get a config
@@ -147,6 +157,7 @@ class Config
 		return $this->configs[$alias][$configName][$key] ?: $this->loadConfig($alias, $configName)[$key] ?: $default;
 	}
 
+
 	/**
 	 * Set a config
 	 * 
@@ -166,6 +177,7 @@ class Config
 		$this->configs[$alias][$configName][$key] = $value;
 	}
 
+
 	/**
 	 * Parse requested mixed-key and split alias, name and key
 	 * 
@@ -176,7 +188,7 @@ class Config
 	{
 		if (preg_match('/^((?P<alias>[\w]+)::)?(?P<name>\w+)(\.(?P<key>\w+))?$/', $mixedKey, $matches) !==1)
 		{
-			throw new ClearException("Invalid format. Config name must be like 'alias::name.key' or 'name.key'.", 4);
+			throw new ClearException("Invalid Config Variable Name. Name Must Be Like [alias::name.key] Or [name.key].", 4);
 		}
 
 		$alias = $matches['alias'];

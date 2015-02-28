@@ -8,11 +8,15 @@ class ClearException extends Exception
 {
 	public $function;
 
+
 	public $class;
+
 
 	public $type;
 
+
 	public $args = [];
+
 
 	public function __construct($message = "", $stackIndex = null)
 	{
