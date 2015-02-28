@@ -47,7 +47,7 @@ class Twig implements EngineInterface
 		$viewFile = pathinfo($this->parseName($this->name), PATHINFO_BASENAME);
 
 		$path = pathinfo($this->parseName($this->name), PATHINFO_DIRNAME);
-//trace($path);
+
 		$loader = new \Twig_Loader_Filesystem($path);
 
 		$twig = new \Twig_Environment($loader, [
@@ -69,7 +69,6 @@ class Twig implements EngineInterface
 		};
 
 		return $f();
-		//trace($viewFile);
 
 		return $twig->render($viewFile, $data);
 	}

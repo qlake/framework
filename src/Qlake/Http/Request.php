@@ -9,17 +9,24 @@ class Request
 
 	protected $header;
 
+
 	protected $method;
+
 
 	protected $query = [];
 
+
 	protected $data = [];
+
 
 	public $env;
 
+
 	protected $cookie;
 
+
 	protected $files;
+
 
 	public function __construct($queryString = null, $postData = null, $server = null, $cookies = null, $files = null, $content = null)
 	{
@@ -29,10 +36,12 @@ class Request
 		$this->data   = $this->parseInputs($_POST);
 	}
 
+
 	public static function capture()
 	{
 		
 	}
+
 
 	public function parseInputs(array $inputs)
 	{
@@ -53,6 +62,7 @@ class Request
 		return $parsedInputs;
 	}
 
+
 	protected function detectMethod()
 	{
 		$method = $this->env['REQUEST_METHOD'];
@@ -60,39 +70,45 @@ class Request
 		return strtoupper($this->getData('_method', $method));
 	}
 
+
 	protected function getMethod()
 	{
 		return $this->method = $this->method ?: $this->detectMethod();
 	}
+
 
 	public function method()
 	{
 		return $this->getMethod();
 	}
 
+
 	protected function getHeader()
 	{
 		return $this->header;
 	}
+
 
 	public function header()
 	{
 		return $this->getHeader();
 	}
 
+
 	public function getQuery($name, $default = null)
 	{
 		return $this->query[$name] ?: $default;
 	}
+
 
 	public function getData($name, $default = null)
 	{
 		return $this->data[$name] ?: $default;
 	}
 
+
 	public function input($name, $default = null)
 	{
 		return $this->query[$name] ?: $this->data[$name] ?: $default;
 	}
-
 }

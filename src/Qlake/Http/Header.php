@@ -16,6 +16,7 @@ class Header
 	 */
 	protected $data = [];
 
+
 	/**
 	 * Create new instance Header.
 	 * 
@@ -26,6 +27,7 @@ class Header
 		$this->data = $this->getAllHeaders();
 	}
 
+
 	/**
 	 * Get all headers.
 	 * 
@@ -35,6 +37,7 @@ class Header
 	{
 		return getallheaders();
 	}
+
 
 	/**
 	 * Set a HTTP header.
@@ -50,6 +53,7 @@ class Header
 		return $this;
 	}
 
+
 	/**
 	 * Get a HTTP header by name.
 	 * 
@@ -63,6 +67,7 @@ class Header
 		return $this->data[$this->normalizeKey($name)] ?: (string)$default;
 	}
 
+
 	/**
 	 * Check exist a header by name.
 	 * 
@@ -74,6 +79,7 @@ class Header
 		return array_key_exists($this->normalizeKey($name), $this->data);
 	}
 
+
 	/**
 	 * Get all HTTP headers.
 	 * 
@@ -83,6 +89,7 @@ class Header
 	{
 		return $this->data;
 	}
+
 
 	/**
 	 * Clear all HTTP headers.
@@ -95,6 +102,7 @@ class Header
 
 		return $this;
 	}
+
 
 	/**
 	 * Remove one HTTP header by name.
@@ -109,6 +117,7 @@ class Header
 		return $this;
 	}
 
+
 	/**
 	 * Get all HTTP header names.
 	 * 
@@ -118,6 +127,7 @@ class Header
 	{
 		return array_keys($this->data);
 	}
+
 
 	/**
 	 * Normalize HTTP header name.

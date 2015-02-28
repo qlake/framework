@@ -8,7 +8,9 @@ class Finder
 {
 	private static $aliasSeparator = '::';
 
+
 	private static $directorySeparator = '.';
+
 
 	private $aliases = [/*'theme' => 'themes\\blue'*/];
 

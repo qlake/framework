@@ -9,13 +9,17 @@ class View
 {
 	private $finder;
 
+
 	private $engine;
 
+
 	private $theme;
+
 
 	private $name;
 
 	private $data = [];
+
 
 	public $paths = [];
 

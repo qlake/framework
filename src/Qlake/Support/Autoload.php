@@ -14,6 +14,8 @@ class Autoload
         'DB' => 'Qlake\Iwan\DB',
         'Html' => 'Qlake\Iwan\HtmlBuilder',
     ];
+
+
     /**
      * Array of directories for searching classes.
      * 
@@ -21,12 +23,14 @@ class Autoload
      */
     protected static $directories = [];
 
+
     /**
      * Indicates if autoload function has registered.
      * 
      * @var bool
      */
     protected static $registered = false;
+
 
     /**
      * Search and Include a Class by class name like Qlake\Router\Route. 
@@ -65,6 +69,7 @@ class Autoload
         return false;
     }
 
+
     /**
      * Normalize Class name
      * 
@@ -76,8 +81,10 @@ class Autoload
         if ($class[0] == '\\') $class = substr($class, 1);
 
         return str_replace(['\\', '_'], DIRECTORY_SEPARATOR, $class).'.php';
+
         return $class . '.php';
     }
+
 
     /**
      * Register a SPL autoload function.
@@ -92,6 +99,7 @@ class Autoload
         }
     }
 
+
     /**
      * Add some directory to search scope for loading classes.
      * 
@@ -104,6 +112,7 @@ class Autoload
 
         static::$directories = array_unique(static::$directories);
     }
+
 
     /**
      * Remove directory from directory list. If $directories parameter be null, 
@@ -129,6 +138,7 @@ class Autoload
         }
     }
 
+
     /**
      * Get array of all directories.
      * 
@@ -138,5 +148,4 @@ class Autoload
     {
         return static::$directories;
     }
-
 }
