@@ -99,6 +99,19 @@ class Router
 
 
 	/**
+	 * Create and register a route by DELETE method
+	 *
+	 * @param string $uri
+	 * @param Closure|string $action
+	 * @return Qlake\Routing\Route
+	 */
+	public function delete($uri, $action)
+	{
+		return $this->addRoute(['DELETE'], $uri, $action);
+	}
+
+
+	/**
 	 * Create and register a route by OPTIONS method
 	 *
 	 * @param string $uri
@@ -223,7 +236,7 @@ class Router
 	 */
 	public function match(Request $request)
 	{
-		foreach ($this->routes->filterByMethod($request->method()) as $route)
+		foreach ($this->routes->filterByMethod($request->getMethod()) as $route)
 		{
 			if ($route->checkMatching($request->env['PATH_INFO']))
 			{

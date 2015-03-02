@@ -5,6 +5,7 @@ namespace Qlake\Routing;
 use Qlake\Routing\RouteCompiler;
 use Qlake\Http\Request;
 use Qlake\Exception\ClearException;
+use Qlake\View\View;
 
 class Route
 {
@@ -223,9 +224,16 @@ class Route
 		}
 		elseif (is_object($callable) && ($callable instanceof \Closure))
 		{
-			$view = $call_user_func_array($callable, $this->params);
+			$res = $call_user_func_array($callable, $this->params);
 
-			echo $view->getContent();
+			if ($res instanceof View)
+			{
+				echo $res->getContent();
+			}
+			elseif (is_string($res))
+			{
+				echo $res;
+			}
 		}
 		else
 		{

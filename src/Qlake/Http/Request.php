@@ -19,6 +19,14 @@ class Request
 	protected $data = [];
 
 
+	protected $specialInputs =
+	[
+		'__method' => 'GET',
+		'__csrf'   => '',
+		'__url'    => '/',
+	];
+
+
 	public $env;
 
 
@@ -28,35 +36,35 @@ class Request
 	protected $files;
 
 
-	public function __construct($queryString = null, $postData = null, $server = null, $cookies = null, $files = null, $content = null)
+	public function __construct(array $query = [], array $data = [], $server = null, $cookies = [], $files = null, $content = null)
 	{
 		$this->header = new Header;
-		$this->env = new Environment;;
-		$this->query  = $this->parseInputs($_GET);
-		$this->data   = $this->parseInputs($_POST);
+		$this->env    = new Environment;
+		$this->query  = $this->parseInputs($query);
+		$this->data   = $this->parseInputs($data);
 	}
 
 
 	public static function capture()
 	{
-		
+		return new static($_GET, $_POST);
 	}
 
 
-	public function parseInputs(array $inputs)
+	protected function parseInputs(array $inputs)
 	{
-		$specials = [
-			'_method',
-			'_csrf',
-		];
-
 		$parsedInputs = [];
 
 		foreach ($inputs as $key => $value)
 		{
-			$newKey = array_key_exists(strtolower($key), $specials) ? strtolower($key) : $key;
+			if (array_key_exists($key = strtolower($key), $this->specialInputs))
+			{
+				$this->specialInputs[$key] = $value;
 
-			$parsedInputs[$newKey] = $value;
+				continue;
+			}
+
+			$parsedInputs[$key] = $value;
 		}
 
 		return $parsedInputs;
@@ -67,31 +75,19 @@ class Request
 	{
 		$method = $this->env['REQUEST_METHOD'];
 		
-		return strtoupper($this->getData('_method', $method));
+		return strtoupper($this->getSpecialInput('__method', $method));
 	}
 
 
-	protected function getMethod()
+	public function getMethod()
 	{
 		return $this->method = $this->method ?: $this->detectMethod();
 	}
 
 
-	public function method()
-	{
-		return $this->getMethod();
-	}
-
-
-	protected function getHeader()
+	public function getHeader()
 	{
 		return $this->header;
-	}
-
-
-	public function header()
-	{
-		return $this->getHeader();
 	}
 
 
@@ -101,14 +97,32 @@ class Request
 	}
 
 
+	public function getAllQuery()
+	{
+		return $this->query;
+	}
+
+
 	public function getData($name, $default = null)
 	{
 		return $this->data[$name] ?: $default;
 	}
 
 
-	public function input($name, $default = null)
+	public function getAllData()
+	{
+		return $this->data;
+	}
+
+
+	public function getInput($name, $default = null)
 	{
 		return $this->query[$name] ?: $this->data[$name] ?: $default;
+	}
+
+
+	public function getSpecialInput($name)
+	{
+		return $this->specialInputs[$name] ?: null;
 	}
 }
