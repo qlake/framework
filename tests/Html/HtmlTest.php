@@ -59,6 +59,6 @@ class HtmlTest extends PHPUnit_Framework_TestCase
 
 	public function getHtmlBuilder()
 	{
-		return new Framework\Html\HtmlBuilder();
+		return new Qlake\Html\HtmlBuilder();
 	}
 }

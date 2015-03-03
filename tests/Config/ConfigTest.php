@@ -88,9 +88,9 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
 	public function getConfigInstance()
 	{
-		$defaultPath = __DIR__ . '/../../app/config';
+		$defaultPath = __DIR__ . '';
 
-		$config = new Framework\Config\Config();
+		$config = new Qlake\Config\Config();
 
 		$config->setDefaultPath($defaultPath);
 

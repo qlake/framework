@@ -268,12 +268,12 @@ class DatabaseQueryBuilderTest extends PHPUnit_Framework_TestCase
 			],
 		];
 
-		$cf = new Framework\Database\Connection\ConnectionFactory($config);
+		$cf = new Qlake\Database\Connection\ConnectionFactory($config);
 
 		$connector = $cf->createConnector();
 
 		$connection = $connector->createConnection();
 
-		return new Framework\Database\Query($connection, new Framework\Database\Grammar\MysqlGrammar);
+		return new Qlake\Database\Query($connection, new Qlake\Database\Grammar\MysqlGrammar);
 	}
 }
