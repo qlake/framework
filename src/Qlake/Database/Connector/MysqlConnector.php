@@ -21,7 +21,7 @@ class MysqlConnector extends Connector
 		$charset = $config['charset'];
 		$collation = $config['collation'];
 
-		$names = "SET NAMES '$charset'" . $collation ? " collate '$collation'" : '';
+		$names = "SET NAMES '$charset'" . ($collation ? " collate '$collation'" : '');
 
 		$pdo->prepare($names)->execute();
 

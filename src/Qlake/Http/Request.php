@@ -20,6 +20,9 @@ class Request
 	protected $data = [];
 
 
+	protected $body;
+
+
 	protected $specialInputs =
 	[
 		'__method' => 'GET',
@@ -144,87 +147,91 @@ class Request
 
 
 
-	public function hasData()
+	public function hasData($name)
 	{
-		# code...
+		return array_key_exists($name, $this->data) ? true : false;
 	}
 
 
 
 	public function hasQuery()
 	{
-		# code...
+		return array_key_exists($name, $this->query) ? true : false;
 	}
 
 
 
-	public function  isSoap()
+	public function isSoap()
 	{
-		//ContentType
-		//application/soap+xml; charset=utf-8
-		//(request.Headers["SOAPAction"] != null || request.ContentType.StartsWith("application/soap+xml"))
+		if (isset($_SERVER['HTTP_SOAPACTION']) || strrpos($_SERVER['CONTENT_TYPE'], 'application/soap+xml') !== false)
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 
 
-	public function  isJson()
+	public function isJson()
 	{
-
+		return (json_decode($request) != null) ? true : false;
 	}
+
 
 
 	public function isAjax()
-	{
-		# code...
-	}
-
-
-
-	public function isPost()
-	{
-		# code...
+	{// must be edited
+		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) AND strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
 	}
 
 
 
 	public function isPut()
 	{
-		# code...
+		return $this->getMethod() == 'PUT';
 	}
 
 
 
 	public function isPatch()
 	{
-		# code...
+		return $this->getMethod() == 'PATCH';
 	}
 
 
 
 	public function isGet()
 	{
-		# code...
+		return $this->getMethod() == 'GET';
 	}
 
 
 
 	public function isOptions()
 	{
-		# code...
+		return $this->getMethod() == 'OPTIONS';
+	}
+
+
+
+	public function isHead()
+	{
+		return $this->getMethod() == 'HEAD';
 	}
 
 
 
 	public function isDelete()
 	{
-		# code...
+		return $this->getMethod() == 'DELETE';
 	}
 
 
 
 	public function isPost()
 	{
-		# code...
+		return $this->getMethod() == 'POST';
 	}
 
 
@@ -236,14 +243,14 @@ class Request
 
 
 
-	public function hasFile()
+	public function hasFile($name)
 	{
 		# code...
 	}
 
 
 
-	public function getFile()
+	public function getFile($name)
 	{
 		# code...
 	}
@@ -259,7 +266,14 @@ class Request
 
 	public function isSecureRequest()
 	{
-		# code...
+		return (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? true : false;
+	}
+
+
+
+	public function isSecure()
+	{
+		return $this->isSecureRequest();
 	}
 
 
@@ -290,9 +304,9 @@ class Request
 	}
 
 
-	public function  getURI ($value='')
+	public function getURI()
 	{
-		# code...
+		return $_SERVER['REQUEST_URI'];
 	}
 
 
