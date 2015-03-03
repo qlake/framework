@@ -6,8 +6,9 @@ use Qlake\Http\Header;
 
 class Request
 {
+	protected $content;
 
-	
+
 	protected $header;
 
 	
@@ -31,13 +32,10 @@ class Request
 	];
 
 
-	
 	public $env;
 
 
-	
 	protected $cookie;
-
 
 	
 	protected $files;
@@ -266,7 +264,7 @@ class Request
 
 	public function isSecureRequest()
 	{
-		return (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? true : false;
+		return (isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS'])) ? true : false;
 	}
 
 
@@ -278,27 +276,27 @@ class Request
 
 
 
-	public function  getServerAddress($value='')
+	public function getServerAddress($value='')
 	{
 		# code...
 	}
 
 
-	public function  getServerName ($value='')
-	{
-		# code...
-	}
-
-
-
-	public function  getHttpHost ($value='')
+	public function getServerName($value='')
 	{
 		# code...
 	}
 
 
 
-	public function getClientAddress ($trustForwardedHeader)
+	public function getHttpHost($value='')
+	{
+		# code...
+	}
+
+
+
+	public function getClientAddress($trustForwardedHeader)
 	{
 		//Gets most possible client IPv4 Address. This method search in $_SERVER[‘REMOTE_ADDR’] and optionally in $_SERVER[‘HTTP_X_FORWARDED_FOR’]
 	}
@@ -311,23 +309,28 @@ class Request
 
 
 
-	public function  getUserAgent ($value='')
+	public function getUserAgent()
 	{
-		# code...
+		return $_SERVER['HTTP_USER_AGENT'];
 	}
 
 
 
-	public function  isMethod ($value='')
+	public function getHTTPReferer($value='')
 	{
-		# code...
+		return $_SERVER['HTTP_REFERER'];
 	}
 
 
 
-	public function  getHTTPReferer ($value='')
+	public function getContent()
 	{
-		# code...
+		if ($this->content === null)
+		{
+			$this->content = file_get_contents('php://input');
+		}
+
+		return $this->content;
 	}
 }
 
