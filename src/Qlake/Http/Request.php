@@ -7,43 +7,19 @@ use Qlake\Http\Header;
 class Request
 {
 
-	/**
-	 * An instance of Qlake\Http\Header.
-	 * 
-	 * @var Qlake\Http\Header
-	 */
+	
 	protected $header;
 
-
-	/**
-	 * Current request method.
-	 * 
-	 * @var srting
-	 */
+	
 	protected $method;
 
-
-	/**
-	 * Array of GET params.
-	 * 
-	 * @var array
-	 */
+	
 	protected $query = [];
 
-
-	/**
-	 * Array of POST params.
-	 * 
-	 * @var array
-	 */
+	
 	protected $data = [];
 
 
-	/**
-	 * Array of special params that use in framework core services.
-	 * 
-	 * @var array
-	 */
 	protected $specialInputs =
 	[
 		'__method' => 'GET',
@@ -52,40 +28,19 @@ class Request
 	];
 
 
-	/**
-	 * An instance of Qlake\Http\Environment.
-	 * 
-	 * @var Qlake\Http\Environment
-	 */
+	
 	public $env;
 
 
-	/**
-	 * An instance of Qlake\Http\Cookie.
-	 * 
-	 * @var Qlake\Http\Cookie
-	 */
+	
 	protected $cookie;
 
 
-	/**
-	 * An array of instances of Qlake\Http\File.
-	 * 
-	 * @var array
-	 */
+	
 	protected $files;
 
 
-	/**
-	 * Constructor of Qlake\Http\Request class.
-	 * 
-	 * @param array $query 
-	 * @param array $data 
-	 * @param $server 
-	 * @param $cookies 
-	 * @param $files 
-	 * @param $content 
-	 */
+	
 	public function __construct(array $query = [], array $data = [], $server = null, $cookies = [], $files = null, $content = null)
 	{
 		$this->header = new Header;
@@ -95,23 +50,14 @@ class Request
 	}
 
 
-	/**
-	 * Capture current request by current environment variables and return a new instance from Qlake\Http\Request class.
-	 * 
-	 * @return Qlake\Http\Request
-	 */
+	
 	public static function capture()
 	{
 		return new static($_GET, $_POST);
 	}
 
 
-	/**
-	 * Parse and filter GET and POST params from special params.
-	 * 
-	 * @param array $inputs 
-	 * @return array
-	 */
+	
 	protected function parseInputs(array $inputs)
 	{
 		$parsedInputs = [];
@@ -132,11 +78,7 @@ class Request
 	}
 
 
-	/**
-	 * Detect and return current request method.
-	 * 
-	 * @return string
-	 */
+	
 	protected function detectMethod()
 	{
 		$method = $this->env['REQUEST_METHOD'];
@@ -144,98 +86,235 @@ class Request
 		return strtoupper($this->getSpecialInput('__method', $method));
 	}
 
+	
 
-	/**
-	 * Return current request method.
-	 * 
-	 * @return string
-	 */
 	public function getMethod()
 	{
 		return $this->method = $this->method ?: $this->detectMethod();
 	}
 
 
-	/**
-	 * Return Header object from current request.
-	 * 
-	 * @return Qlake\Http\Header
-	 */
+	
 	public function getHeader()
 	{
 		return $this->header;
 	}
 
 
-	/**
-	 * Return GET param by given name.
-	 * 
-	 * @param string $name
-	 * @param mixed $default
-	 * @return mixed
-	 */
+	
 	public function getQuery($name, $default = null)
 	{
 		return $this->query[$name] ?: $default;
 	}
 
 
-	/**
-	 * Return all GET params as array.
-	 * 
-	 * @return array
-	 */
+	
 	public function getAllQuery()
 	{
 		return $this->query;
 	}
 
 
-	/**
-	 * Return POST param by given name.
-	 * 
-	 * @param string $name 
-	 * @param mixed $default 
-	 * @return mixed
-	 */
+	
 	public function getData($name, $default = null)
 	{
 		return $this->data[$name] ?: $default;
 	}
 
 
-	/**
-	 * Return all POST params as array.
-	 * 
-	 * @return array
-	 */
+	
 	public function getAllData()
 	{
 		return $this->data;
 	}
 
 
-	/**
-	 * Return GET or POST param by given name.
-	 * 
-	 * @param string $name
-	 * @param mixed $default
-	 * @return mixed|null
-	 */
+	
 	public function getInput($name, $default = null)
 	{
 		return $this->query[$name] ?: $this->data[$name] ?: $default;
 	}
 
 
-	/**
-	 * Return spacial input value like __method and __csrf.
-	 * 
-	 * @param string $name 
-	 * @return string|null
-	 */
+	
 	public function getSpecialInput($name)
 	{
 		return $this->specialInputs[$name] ?: null;
 	}
+
+
+
+	public function hasData()
+	{
+		# code...
+	}
+
+
+
+	public function hasQuery()
+	{
+		# code...
+	}
+
+
+
+	public function  isSoap()
+	{
+		//ContentType
+		//application/soap+xml; charset=utf-8
+		//(request.Headers["SOAPAction"] != null || request.ContentType.StartsWith("application/soap+xml"))
+	}
+
+
+
+	public function  isJson()
+	{
+
+	}
+
+
+	public function isAjax()
+	{
+		# code...
+	}
+
+
+
+	public function isPost()
+	{
+		# code...
+	}
+
+
+
+	public function isPut()
+	{
+		# code...
+	}
+
+
+
+	public function isPatch()
+	{
+		# code...
+	}
+
+
+
+	public function isGet()
+	{
+		# code...
+	}
+
+
+
+	public function isOptions()
+	{
+		# code...
+	}
+
+
+
+	public function isDelete()
+	{
+		# code...
+	}
+
+
+
+	public function isPost()
+	{
+		# code...
+	}
+
+
+
+	public function hasFiles()
+	{
+		# code...
+	}
+
+
+
+	public function hasFile()
+	{
+		# code...
+	}
+
+
+
+	public function getFile()
+	{
+		# code...
+	}
+
+
+
+	public function getFiles()
+	{
+		# code...
+	}
+
+
+
+	public function isSecureRequest()
+	{
+		# code...
+	}
+
+
+
+	public function  getServerAddress($value='')
+	{
+		# code...
+	}
+
+
+	public function  getServerName ($value='')
+	{
+		# code...
+	}
+
+
+
+	public function  getHttpHost ($value='')
+	{
+		# code...
+	}
+
+
+
+	public function getClientAddress ($trustForwardedHeader)
+	{
+		//Gets most possible client IPv4 Address. This method search in $_SERVER[‘REMOTE_ADDR’] and optionally in $_SERVER[‘HTTP_X_FORWARDED_FOR’]
+	}
+
+
+	public function  getURI ($value='')
+	{
+		# code...
+	}
+
+
+
+	public function  getUserAgent ($value='')
+	{
+		# code...
+	}
+
+
+
+	public function  isMethod ($value='')
+	{
+		# code...
+	}
+
+
+
+	public function  getHTTPReferer ($value='')
+	{
+		# code...
+	}
 }
+
+//http://docs.phalconphp.com/en/latest/api/Phalcon_Http_Request.html

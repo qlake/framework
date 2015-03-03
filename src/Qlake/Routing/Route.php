@@ -209,7 +209,7 @@ class Route
 					}
 					else
 					{
-						call_user_func([$controller, '__missing'], $this->params);
+						call_user_func([$controller, '__missing'], [$method, $this->params]);
 					}
 				}
 				else
