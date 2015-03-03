@@ -60,13 +60,15 @@ class DatabaseQueryBuilderTest extends PHPUnit_Framework_TestCase
 	{
 		$query = $this->getQuery();
 
-		$sql = $query->select('*')->from(function($subQuery){
-			$subQuery->select('id')->from(function($subQuery2){
+		$sql = $query->select('*')->from(function($subQuery)
+		{
+			$subQuery->select('id')->from(function($subQuery2)
+			{
 				$subQuery2->select('id')->from('table');
 			});
 		})->toSql();
 
-		//$this->assertEquals('SELECT * FROM (SELECT `id` FROM (SELECT `id` FROM `table`))', $sql);
+		$this->assertEquals('SELECT * FROM (SELECT `id` FROM (SELECT `id` FROM `table`))', $sql);
 	}
 
 	public function testLimitByOnParameter()
