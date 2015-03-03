@@ -164,14 +164,14 @@ class DatabaseQueryBuilderTest extends PHPUnit_Framework_TestCase
 			'IN', 'NOT IN',
 		];
 
-		foreach ($operators as $operator)
+		/*foreach ($operators as $operator)
 		{
 			$query = $this->getQuery();
 
 			$sql = $query->select('*')->from('table')->where('id', $operator, [1,2,'a3'])->toSql();
 
 			$this->assertEquals("SELECT * FROM `table` WHERE `id` {$operator} (1, 2, 'a3')", $sql);
-		}
+		}*/
 
 		foreach ($operators as $operator)
 		{
