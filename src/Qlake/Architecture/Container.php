@@ -40,11 +40,10 @@ class Container implements ArrayAccess
 
 
 
-
-	public function prettify($className)
+	public function staticAlias($className)
 	{
 		end($this->providers);
-		
+
 		$providerName = key($this->providers); 
 
 		eval("class $className extends Qlake\Architecture\Iwan
@@ -53,6 +52,7 @@ class Container implements ArrayAccess
 		}");
 
 		return $this;
+		//http://gonzalo123.com/2012/03/12/how-to-use-eval-without-using-eval-in-php/
 	}
 
 

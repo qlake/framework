@@ -53,6 +53,12 @@ class Application extends Container
 		//$this->terminate();
 
 		restore_exception_handler();
+
+		register_shutdown_function(function()
+		{
+			trace('===' . memory_get_usage()/1024/1024  . '===');
+			//print_r(get_included_files());
+		});
 	}
 
 

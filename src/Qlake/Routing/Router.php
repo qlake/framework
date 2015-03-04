@@ -238,7 +238,7 @@ class Router
 	{
 		foreach ($this->routes->filterByMethod($request->getMethod()) as $route)
 		{
-			if ($route->checkMatching($request->env['PATH_INFO']))
+			if ($route->checkMatching($request->getPathInfo()))
 			{
 				return $route;
 			}

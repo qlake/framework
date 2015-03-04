@@ -87,6 +87,7 @@ class Environment implements ArrayAccess
 	}
 
 
+
 	public function runMethod($name)
 	{
 		// this line should be replaced by Str Class methods
@@ -101,18 +102,14 @@ class Environment implements ArrayAccess
 	}
 
 
-	/**
-     * Array Access: Offset Exists
-     */
+
     public function offsetExists($name)
     {
         return isset($this->data[$name]);
     }
 
 
-    /**
-     * Array Access: Offset Get
-     */
+
     public function offsetGet($name)
     {
         if (isset($this->data[$name]))
@@ -123,22 +120,20 @@ class Environment implements ArrayAccess
         return $this->data[$name] = $this->runMethod($name) ?: $_SERVER[$name];
     }
 
-    /**
-     * Array Access: Offset Set
-     */
+
+
     public function offsetSet($name, $value)
     {
         $this->data[$name] = $value;
     }
 
 
-    /**
-     * Array Access: Offset Unset
-     */
+
     public function offsetUnset($name)
     {
         unset($this->data[$name]);
     }
+
 
 
     public function getIterator()

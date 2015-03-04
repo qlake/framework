@@ -24,9 +24,9 @@ class Request
 
 	protected $specialInputs =
 	[
-		'__method' => 'GET',
-		'__csrf'   => '',
-		'__url'    => '/',
+		'_method' => 'GET',
+		'_csrf'   => '',
+		'_url'    => '/',
 	];
 
 
@@ -92,7 +92,7 @@ class Request
 	{
 		$method = $this->env['REQUEST_METHOD'];
 		
-		return strtoupper($this->getSpecialInput('__method', $method));
+		return strtoupper($this->getSpecialInput('_method', $method));
 	}
 
 	
@@ -100,6 +100,13 @@ class Request
 	public function getMethod()
 	{
 		return $this->method = $this->method ?: $this->detectMethod();
+	}
+
+
+
+	public function getPathInfo()
+	{
+		return trim($this->getSpecialInput('_url'), '/');
 	}
 
 
