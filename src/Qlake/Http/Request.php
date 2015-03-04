@@ -2,8 +2,6 @@
 
 namespace Qlake\Http;
 
-use Qlake\Http\Header;
-
 class Request
 {
 	protected $content;
@@ -38,23 +36,33 @@ class Request
 	protected $cookie;
 
 	
-	protected $files;
+	protected $orginalFiles = [];
+
+
+	protected $files = [];
 
 
 	
-	public function __construct(array $query = [], array $data = [], $server = null, $cookies = [], $files = null, $content = null)
+	public function __construct(array $query = [], array $data = [], $server = null, $cookies = [], $files = [], $content = null)
 	{
 		$this->header = new Header;
 		$this->env    = new Environment;
 		$this->query  = $this->parseInputs($query);
 		$this->data   = $this->parseInputs($data);
+
+		$this->orginalFiles = $files;
+
+		foreach ($this->orginalFiles as $name => $file)
+		{
+			$this->files[$name] = new File($file);
+		}
 	}
 
 
 	
 	public static function capture()
 	{
-		return new static($_GET, $_POST);
+		return new static($_GET, $_POST, null, null, $_FILES);
 	}
 
 
@@ -187,77 +195,77 @@ class Request
 
 	public function isPut()
 	{
-		return $this->getMethod() == 'PUT';
+		return $this->getMethod() === 'PUT';
 	}
 
 
 
 	public function isPatch()
 	{
-		return $this->getMethod() == 'PATCH';
+		return $this->getMethod() === 'PATCH';
 	}
 
 
 
 	public function isGet()
 	{
-		return $this->getMethod() == 'GET';
+		return $this->getMethod() === 'GET';
 	}
 
 
 
 	public function isOptions()
 	{
-		return $this->getMethod() == 'OPTIONS';
+		return $this->getMethod() === 'OPTIONS';
 	}
 
 
 
 	public function isHead()
 	{
-		return $this->getMethod() == 'HEAD';
+		return $this->getMethod() === 'HEAD';
 	}
 
 
 
 	public function isDelete()
 	{
-		return $this->getMethod() == 'DELETE';
+		return $this->getMethod() === 'DELETE';
 	}
 
 
 
 	public function isPost()
 	{
-		return $this->getMethod() == 'POST';
+		return $this->getMethod() === 'POST';
 	}
 
 
 
 	public function hasFiles()
 	{
-		# code...
+		return count($this->files) > 0 ? true : false;
 	}
 
 
 
 	public function hasFile($name)
 	{
-		# code...
+		return isset($this->files[$name]) ? true : false;
 	}
 
 
 
 	public function getFile($name)
 	{
-		# code...
+		return $this->files[$name];
 	}
 
 
 
 	public function getFiles()
 	{
-		# code...
+		return $this->files;
 	}
 
 
@@ -280,6 +288,7 @@ class Request
 	{
 		# code...
 	}
+
 
 
 	public function getServerName($value='')
@@ -316,7 +325,7 @@ class Request
 
 
 
-	public function getHTTPReferer($value='')
+	public function getHTTPReferer($value = '')
 	{
 		return $_SERVER['HTTP_REFERER'];
 	}
