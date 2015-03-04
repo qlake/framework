@@ -25,12 +25,16 @@ class Container implements ArrayAccess
 	public function singleton($name, $provider)
 	{
 		$this->providers[$name] = ['provider' => $provider, 'type' => 'singleton'];
+
+		return $this;
 	}
 
 
 	public function bind($name, $provider)
 	{
 		$this->providers[$name] = ['provider' => $provider, 'type' => 'instance'];
+
+		return $this;
 	}
 
 
