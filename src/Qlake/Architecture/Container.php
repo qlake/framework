@@ -30,6 +30,7 @@ class Container implements ArrayAccess
 	}
 
 
+
 	public function bind($name, $provider)
 	{
 		$this->providers[$name] = ['provider' => $provider, 'type' => 'instance'];
@@ -38,10 +39,29 @@ class Container implements ArrayAccess
 	}
 
 
+
+
+	public function prettify($className)
+	{
+		end($this->providers);
+		
+		$providerName = key($this->providers); 
+
+		eval("class $className extends Qlake\Architecture\Iwan
+		{
+			public static \$provider = '$providerName';
+		}");
+
+		return $this;
+	}
+
+
+
 	public function offsetSet($name, $provider)
 	{
 		throw new ClearException("Use [singleton] or [bind] method for adding a service provider to Application.", 0);
 	}
+
 
 
 	public function offsetGet($name)
