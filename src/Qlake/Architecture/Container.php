@@ -40,7 +40,7 @@ class Container implements ArrayAccess
 
 
 
-	public function staticAlias($className)
+	/*public function staticAlias($className)
 	{
 		end($this->providers);
 
@@ -53,7 +53,7 @@ class Container implements ArrayAccess
 
 		return $this;
 		//http://gonzalo123.com/2012/03/12/how-to-use-eval-without-using-eval-in-php/
-	}
+	}*/
 
 
 
