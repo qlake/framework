@@ -129,7 +129,7 @@ class File
 
 
 	/**/
-	public function getPath()
+	/*public function getPath()
 	{
 		
 	}
@@ -143,7 +143,7 @@ class File
 
 
 
-	public function getBasename ($suffi)
+	public function getBasename($suffi)
 	{
 		
 	}
@@ -262,43 +262,43 @@ class File
 
 
 
-	public function getFileInfo ($class_nam)
+	public function getFileInfo($class_nam)
 	{
 		
 	}
 
 
 
-	public function getPathInfo ($class_nam)
+	public function getPathInfo($class_nam)
 	{
 		
 	}
 
 
 
-	public function openFile ($open_mode, $use_include_path, $contex)
+	public function openFile($open_mode, $use_include_path, $contex)
 	{
 		
 	}
 
 
 
-	public function setFileClass ($class_nam)
+	public function setFileClass($class_nam)
 	{
 		
 	}
 
 
 
-	public function setInfoClass ($class_nam)
+	public function setInfoClass($class_nam)
 	{
 		
 	}
 
 
 
-	public function __toString ()
+	public function __toString()
 	{
 
-	}
+	}*/
 }
