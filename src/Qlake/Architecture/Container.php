@@ -11,17 +11,12 @@ class Container implements ArrayAccess
 	/**
      * Set of application providers.
      *
-     * @var Qlake\Application
+     * @var array
      */
 	protected $providers = [];
 	
-	/**
-	 * Description
-	 * 
-	 * @param string $name 
-	 * @param Closure $provider 
-	 * @return null
-	 */
+
+
 	public function singleton($name, $provider)
 	{
 		$this->providers[$name] = ['provider' => $provider, 'type' => 'singleton'];
@@ -86,10 +81,14 @@ class Container implements ArrayAccess
 		throw new ClearException("Service Provider [$name] Not Found.", 1);
 	}
 
+
+
 	public function offsetExists($name)
 	{
 		return isset($this->providers[$name]);
 	}
+
+
 
 	public function offsetUnset($name)
 	{

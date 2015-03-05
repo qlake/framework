@@ -15,7 +15,9 @@ class Application extends Container
 	const VERSION = '0.1-dev';
 
 
+
 	public static $instance;
+
 
 
 	public function __construct()
@@ -30,6 +32,7 @@ class Application extends Container
 			return $self;
 		});
 	}
+
 
 
 	public function handle(Request $request = null)
@@ -62,10 +65,12 @@ class Application extends Container
 	}
 
 
+
 	public function getRequest()
 	{
 		//return $this['request'] ?: $this['request'] = $this->createRequest();
 	}
+
 
 
 	public function createRequest()
@@ -74,22 +79,21 @@ class Application extends Container
 	}
 
 
+
 	public static function instance()
 	{
 		return static::$instance;
 	}
 
 
+
 	public function terminate()
 	{
-		
 	}
+
 
 
 	public function setPaths(array $paths)
 	{
-		
 	}
-	
-
 }
