@@ -111,11 +111,13 @@ class Route
 	}
 
 
-	public function checkMatching($requestUri)
+	public function checkMatching($pathInfo)
 	{
 		$this->compile();
 
-		if (!preg_match($this->pattern, $requestUri, $paramValues))
+		$pathInfo = trim($pathInfo, '/');
+
+		if (!preg_match($this->pattern, $pathInfo, $paramValues))
 		{
             return false;
         }

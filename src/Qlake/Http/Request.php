@@ -106,6 +106,9 @@ class Request
 
 	public function getPathInfo()
 	{
+		//print_r($_SERVER);
+
+		//echo $this->env['SCRIPT_NAME'];exit;
 		return $this->env['PATH_INFO'];
 	}
 

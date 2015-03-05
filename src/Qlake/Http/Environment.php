@@ -13,14 +13,16 @@ class Environment implements ArrayAccess
 
 	public function __construct()
 	{
-        $this->getScriptName();
-        $this->getRequestUri();
-		$this->getPathInfo();
+        //$this->getScriptName();
+
+        //$this->getRequestUri();
+
+		//$this->getPathInfo();
 	}
 
 
 
-	protected function getScriptName()
+	/*protected function getScriptName()
 	{
         $scriptName = $_SERVER['SCRIPT_NAME']; // <-- "/foo/index.php"
         $requestUri = $_SERVER['REQUEST_URI']; // <-- "/foo/bar?test=abc" or "/foo/index.php/bar?test=abc"
@@ -30,10 +32,10 @@ class Environment implements ArrayAccess
         if (strpos($requestUri, $scriptName) !== false) {
             $physicalPath = $scriptName; // <-- Without rewriting
         } else {
-            $physicalPath = str_replace('\\', '', dirname($scriptName)); // <-- With rewriting
+            $physicalPath = str_replace('\\', '', ($scriptName)); // <-- With rewriting
         }
         return $this['SCRIPT_NAME'] = rtrim($physicalPath, '/'); // <-- Remove trailing slashes
-	}
+	}*/
 
 
 
@@ -48,8 +50,6 @@ class Environment implements ArrayAccess
 	{
 		$pathInfo = $_GET['_url'];
 
-		$pathInfo = trim($pathInfo, '/');
-
 		return $this['PATH_INFO'] = urldecode($pathInfo);
 	}
 
@@ -57,7 +57,6 @@ class Environment implements ArrayAccess
 
 	protected function runMethod($name)
 	{
-		// this line should be replaced by Str Class methods
 		$method = 'get' . str_replace(' ', '', ucwords(strtolower(str_replace(['-', '_'], ' ', $name))));
 
 		if (method_exists($this, $method))
