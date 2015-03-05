@@ -4,7 +4,7 @@ class HtmlTest extends PHPUnit_Framework_TestCase
 {
 	public function testStyleTag()
 	{
-		$html = $this->getHtmlBuilder();
+		$html = $this->html();
 
 		$actual = $html->style('path/file.css', ['attr1' => 'value1', 'attr2' => 'value2']);
 
@@ -15,7 +15,7 @@ class HtmlTest extends PHPUnit_Framework_TestCase
 
 	public function testScriptTag()
 	{
-		$html = $this->getHtmlBuilder();
+		$html = $this->html();
 
 		$actual = $html->script('path/file.css', ['attr1' => 'value1', 'attr2' => 'value2']);
 
@@ -26,7 +26,7 @@ class HtmlTest extends PHPUnit_Framework_TestCase
 
 	public function testFaviconTag()
 	{
-		$html = $this->getHtmlBuilder();
+		$html = $this->html();
 
 		$actual = $html->favicon('path/file.ico');
 
@@ -37,7 +37,7 @@ class HtmlTest extends PHPUnit_Framework_TestCase
 
 	public function testMetaTag()
 	{
-		$html = $this->getHtmlBuilder();
+		$html = $this->html();
 
 		$actual = $html->meta(['charset' => 'utf-8']);
 
@@ -48,7 +48,7 @@ class HtmlTest extends PHPUnit_Framework_TestCase
 
 	public function testLabelTag()
 	{
-		$html = $this->getHtmlBuilder();
+		$html = $this->html();
 
 		$actual = $html->label('label text', ['attr1' => 'value1', 'attr2' => 'value2']);
 
@@ -57,7 +57,7 @@ class HtmlTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($actual, $expected);
 	}
 
-	public function getHtmlBuilder()
+	public function html()
 	{
 		return new Qlake\Html\HtmlBuilder();
 	}
