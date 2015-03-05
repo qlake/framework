@@ -5,7 +5,7 @@ View
 Config
 	get
 	has
-	set?
+	set
 
 Route
 	get
@@ -22,7 +22,7 @@ Route
 	controller
 	restful
 	controllers
-	as
+	as/setName/byName
 	beSecure
 	notFound
 	getParam
@@ -36,9 +36,18 @@ Route
 
 
 Cache
-	
+	add/store/push/put/keep/hold
+	get
+	has/exist
+	leave/remove/forget
+	pull
+	flush 
+	refresh
+	for
+	Cache::hold('users')->by(function(){
+		return 453154;
+	})->for(500)->get()
 
-	
 Url
 
 Html

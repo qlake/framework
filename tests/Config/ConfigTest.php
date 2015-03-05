@@ -4,7 +4,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 {
 	public function testSetNameKeyConfig()
 	{
-		$config = $this->getConfigInstance();
+		$config = $this->config();
 
 		$config->set('name.key','value');
 
@@ -15,7 +15,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
 	public function testGetNameKeyConfig()
 	{
-		$config = $this->getConfigInstance();
+		$config = $this->config();
 
 		$value = $config->get('database.default');
 
@@ -24,7 +24,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
 	public function testSetAllConfig()
 	{
-		$config = $this->getConfigInstance();
+		$config = $this->config();
 
 		$config->set('name', ['key' => 'value']);
 
@@ -35,7 +35,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
 	public function testGetAllConfig()
 	{
-		$config = $this->getConfigInstance();
+		$config = $this->config();
 
 		$value = $config->get('database');
 
@@ -44,7 +44,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
 	public function testSetAndGetAliases()
 	{
-		$config = $this->getConfigInstance();
+		$config = $this->config();
 
 		$value = $config->aliases(['alias' => 'c:/']);
 
@@ -55,7 +55,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
 	public function testAddAlias()
 	{
-		$config = $this->getConfigInstance();
+		$config = $this->config();
 
 		$value = $config->alias('alias', 'c:/');
 
@@ -66,7 +66,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
 	public function testSetAliasNameKeyConfig()
 	{
-		$config = $this->getConfigInstance();
+		$config = $this->config();
 
 		$config->set('alias::name.key', 'value');
 
@@ -77,7 +77,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 
 	public function testGetAliasNameKeyConfig()
 	{
-		$config = $this->getConfigInstance();
+		$config = $this->config();
 
 		$config->alias('alias', $config->getDefaultPath());
 
@@ -86,7 +86,7 @@ class ConfigTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('mysql', $value);
 	}
 
-	public function getConfigInstance()
+	public function config()
 	{
 		$defaultPath = __DIR__ . '';
 
