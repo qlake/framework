@@ -24,6 +24,16 @@ Route
 	controllers
 	as
 	beSecure
+	notFound
+	getParam
+	getParams
+	getRouteByName
+	getRouteByUrl
+	getRoutes
+	getRoute
+	getMatches
+	isMatch
+
 
 Cache
 	
