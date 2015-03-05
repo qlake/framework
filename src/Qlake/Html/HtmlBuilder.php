@@ -2,20 +2,98 @@
 
 namespace Qlake\Html;
 
-class HtmlBuilder{
+class HtmlBuilder
+{
 
 	protected $charset = 'UTF-8';
+
 
 	public function __construct()
 	{
 	}
+
+
 
 	public function getCharSet()
 	{
 		return $this->charset;
 	}
 
-	public function style($url, $attributes = [])
+
+
+	public function createElement($tag, array $attributs = [], $content = null, $closeTag = false)
+	{
+		$html = '<' . $tag . (empty($attributs) ? '' : ' ' . $this->createAttributeStrings($attributs));
+
+		if($content === null)
+		{
+			return (!$closeTag ? $html . ' />' : $html . '>' . '</' . $tag . '>') . PHP_EOL;
+		}
+		else
+		{
+			return ($html . '>' . $content . '</' . $tag . '>') . PHP_EOL;
+		}
+	}
+
+
+
+	public function createAttributeStrings(array $attributs)
+	{
+		$html = [];
+
+		foreach ($attributs as $key => $value)
+		{
+			$html[] = $key . '=' . '"' . htmlentities($value, ENT_QUOTES, $this->charset, false) . '"';
+		}
+
+		return implode($html, ' ');
+	}
+
+
+
+	public function decode($text)
+	{
+		return htmlspecialchars_decode($text, ENT_QUOTES);
+	}
+
+
+
+	public function encode($text)
+	{
+		return htmlspecialchars($text, ENT_QUOTES, $this->getCharSet());
+	}
+
+
+
+	public function encodeArray(array $array)
+	{
+		$encodedArray = [];
+
+		foreach($array as $key => $value)
+		{
+			if(is_string($key))
+			{
+				$key = htmlspecialchars($key, ENT_QUOTES, $this->getCharSet());
+			}
+
+			if(is_string($value))
+			{
+				$value = htmlspecialchars($value, ENT_QUOTES, $this->getCharSet());
+			}
+			elseif(is_array($value))
+			{
+				$value = self::encodeArray($value);
+			}
+
+			$encodedArray[$key] = $value;
+		}
+
+		return $encodedArray;
+	}
+
+
+
+	public function style($url, array $attributes = [])
 	{
 		$defaults = ['href' => $url, 'rel' => 'stylesheet', 'type' => 'text/css', 'media' => 'all'];
 
@@ -24,7 +102,9 @@ class HtmlBuilder{
 		return $this->createElement('link', $attrs);
 	}
 
-	public function script($url, $attributes = [])
+
+
+	public function script($url, array $attributes = [])
 	{
 		$defaults = ['src' => $url, 'type' => 'text/javascript'];
 
@@ -33,24 +113,32 @@ class HtmlBuilder{
 		return $this->createElement('script', $attrs, null, true);
 	}
 
+
+
 	public function favicon($url)
 	{
  		return $this->createElement('link', ['href' => $url, 'rel' => 'shortcut icon']);
 	}
 
-	public function meta($attributs)
+
+
+	public function meta(array $attributs)
 	{
 		return $this->createElement('meta', $attributs);
 	}
 
-	public function label($label, $attributs = [])
+
+
+	public function label($label, array $attributs = [])
 	{
 		return $this->createElement('label', $attributs, $label);
 	}
 
-	public function input($type, $name = '', $value = '', $attributs = [])
+
+
+	public function text($type, $name = '', $value = '', array $attributs = [])
 	{
-		!empty($type) ? $attributs['type'] = $type : $attributs['type'] = 'text';
+		$attributs['type'] = 'text';
 
 		$attributs['name'] = $name;
 
@@ -60,25 +148,30 @@ class HtmlBuilder{
 	}
 
 
-	public function password($name = '', $label = '', $attributs = [])
+
+	public function password($name = '', $label = '', array $attributs = [])
 	{
-		!empty($type) ? $attributs['type'] = $type : $attributs['type'] = 'password';
+		$attributs['type'] = 'password';
 
 		$attributs['name'] = $name;
 
 		return $this->createElement('input', $attributs);
 	}
 
-	public function hidden($name = '', $value = '', $attributs = [])
+
+
+	public function hidden($name = '', $value = '', array $attributs = [])
 	{
-		!empty($type) ? $attributs['type'] = $type : $attributs['type'] = 'hidden';
+		$attributs['type'] = 'hidden';
 
 		$attributs['value'] = $value;
 
 		return $this->createElement('input', $attributs);
 	}
 
-	public function image($src, $alt = '', $attributs = [])
+
+
+	public function image($src, $alt = '', array $attributs = [])
 	{
 		$attributs['src'] = $src;
 
@@ -87,7 +180,9 @@ class HtmlBuilder{
 		return $this->createElement('img', $attributs);
 	}
 
-	public function imageLink($url, $src, $alt = '', $attributs = [])
+
+
+	public function imageLink($url, $src, $alt = '', array $attributs = [])
 	{
 		$attributs['src'] = $src;
 
@@ -100,82 +195,112 @@ class HtmlBuilder{
 		return $this->createElement('a', $linkAttributs, $imgTag);
 	}
 
-	public function link($url, $label, $target = '_self', $attributs = [])
+
+
+	public function link($url, $label, $target = null, array $attributs = [])
 	{
 		$attributs['href'] = $url;
+
+		$attributs['target'] = $target ?: '_self';
 
 		return $this->createElement('a', $attributs, $label);
 	}
 
-	public function ul($values, $attributs = [])
+
+
+	public function ul(array $values, array $attributs = [])
 	{
 		$html = [];
 
 		foreach ($values as $key => $value)
 		{
-			$html[] = '<li>' . $value . '</li>' ;
+			$html[] = '<li>' . $value . '</li>' . PHP_EOL;
 		}
 
 		return $this->createElement('ul', $attributs, implode($html, ''));
 	}
 
-	public function ol($values, $attributs = [])
+
+
+	public function ol(array $values, array $attributs = [])
 	{
 		$html = [];
 
 		foreach ($values as $key => $value) 
 		{
-			$html[] = '<li>' . $value . '</li>' ;
+			$html[] = '<li>' . $value . '</li>' . PHP_EOL;
 		}
 
 		return $this->createElement('ol', $attributs, implode($html, ''));
 	}
 
-	public function radio($name, $value, $label = null, $attributs = []){
 
-		if (isset($label))
+
+	public function radio($name, $value, $checked = false, $label = null, array $attributs = [])
+	{
+		$labelTag = isset($label) ? $this->label($name, $label, ['for', $name]) : '';
+
+		$attributs['type'] = 'radio';
+
+		$attributs['name'] = $name;
+
+		$attributs['value'] = $value;
+
+		if ($checked)
 		{
-			$labelAttributs['for'] = $name;
-
-			$label = $this->label($name, $label, $labelAttributs);
+			$attributs['checked'] = 'checked';
 		}
-		else
-		{
-			$label = '';
-		}
+		
+		return $labelTag . $this->createElement('input', $attributs);
+	}
 
-		if (is_array($value))
-		{
-			$html = [];
 
-			$stop = count($value) - 1;
 
-			foreach (range(0, $stop) as $i)
-			{
-				$attributs['type'] = 'radio';
+	/*public function radioGroup($name, array $values, $label = null, $attributs = [])
+	{
+		$labelTag = isset($label) ? $this->label($name, $label, ['for', $name]) : '';
 
-				$attributs['name'] = $name;
+		$html = [];
 
-				$attributs['value'] = $value[$i];
+		$stop = count($value) - 1;
 
-				$html[] = $this->createElement('input', $attributs);
-			}
-
-			return $label . implode($html, '');
-		}
-		else
+		foreach (range(0, $stop) as $i)
 		{
 			$attributs['type'] = 'radio';
 
 			$attributs['name'] = $name;
 
-			$attributs['value'] = $value;
+			$attributs['value'] = $value[$i];
 
-			return $label . $this->createElement('input', $attributs);
+			$html[] = $this->createElement('input', $attributs);
 		}
+
+		return $label . implode($html, '');
+	}*/
+
+
+
+	public function checkbox($name, $value, $checked = false, $label = null, array $attributs = [])
+	{
+		$labelTag = isset($label) ? $this->label($name, $label, ['for', $name]) : '';
+
+		$attributs['type'] = 'checkbox';
+
+		$attributs['name'] = $name;
+
+		$attributs['value'] = $value;
+
+		if ($checked)
+		{
+			$attributs['checked'] = 'checked';
+		}
+
+		return $labelTag . $this->createElement('input', $attributs);
 	}
 
-	public function checkbox($name, $value, $label = null, $attributs = [])
+
+
+	/*public function checkboxGroup($name, $value, $label = null, $attributs = [])
 	{
 		if (isset($label))
 		{
@@ -217,7 +342,9 @@ class HtmlBuilder{
 
 			return $label . $this->createElement('input', $attributs);
 		}
-	}
+	}*/
+
+
 
 	public function select($name, $values, $default = '0', $attributs = [])
 	{
@@ -268,6 +395,8 @@ class HtmlBuilder{
 		return $this->createElement('select', $attributs, implode($html, ''));
 	}
 
+
+
 	public function formTable($rows, $singleRow = false, $attributs = [])
 	{
 		$html = [];
@@ -313,6 +442,8 @@ class HtmlBuilder{
 		return implode($html, '');
 	}
 
+
+
 	public function selectRange($name, $range, $values = [], $default = '0', $attributs = [])
 	{
 		$html = [];
@@ -354,6 +485,8 @@ class HtmlBuilder{
 		return $this->createElement('select', $attributs, implode($html, ''));
 	}
 
+
+
 	public function is_multi($array) 
 	{
 		$rv = array_filter($array, 'is_array');
@@ -365,6 +498,8 @@ class HtmlBuilder{
 
 		return false;
 	}
+
+
 
 	public function head($tags = [])
 	{
@@ -421,69 +556,8 @@ class HtmlBuilder{
 		return implode($tagsArray, ' ');
 	}
 
-	public function createElement($tag, $attributs = [], $content = null, $closeTag = false)
-	{
-		$html = '<' . $tag . (empty($attributs) ? '' : ' ' . $this->createAttributeStrings($attributs));
-
-		if($content === null)
-		{
-			return (!$closeTag ? $html . ' />' : $html . '>' . '</' . $tag . '>') . PHP_EOL;
-		}
-		else
-		{
-			return ($html . '>' . $content . '</' . $tag . '>') . PHP_EOL;
-		}
-	}
-
-	public function createAttributeStrings($attributs)
-	{
-		$html = [];
-
-		foreach ((array)$attributs as $key => $value)
-		{
-			$html[] = $key . '=' . '"' . htmlentities($value, ENT_QUOTES, 'UTF-8', false) . '"';
-		}
-
-		return implode($html, ' ');
-	}
-
-	public function decode($text)
-	{
-		return htmlspecialchars_decode($text, ENT_QUOTES);
-	}
 
 
-	public function encode($text)
-	{
-		return htmlspecialchars($text, ENT_QUOTES, $this->getCharSet());
-	}
-
-
-	public function encodeArray($data)
-	{
-		$d = [];
-
-		foreach($data as $key => $value)
-		{
-			if(is_string($key))
-			{
-				$key = htmlspecialchars($key, ENT_QUOTES, $this->getCharSet());
-			}
-
-			if(is_string($value))
-			{
-				$value = htmlspecialchars($value, ENT_QUOTES, $this->getCharSet());
-			}
-			elseif(is_array($value))
-			{
-				$value = self::encodeArray($value);
-			}
-
-			$d[$key] = $value;
-		}
-
-		return $d;
-	}
 }
 
 
