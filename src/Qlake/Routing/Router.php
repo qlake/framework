@@ -20,6 +20,7 @@ class Router
 	protected $groups;
 
 
+
 	/**
 	 * Create an instance of Router class
 	 *
@@ -31,6 +32,7 @@ class Router
 
 		$this->groups = new \SplStack;
 	}
+
 
 
 	/**
@@ -46,6 +48,7 @@ class Router
 	}
 
 
+
 	/**
 	 * Create and register a route by HEAD method
 	 *
@@ -57,6 +60,7 @@ class Router
 	{
 		return $this->addRoute(['HEAD'], $uri, $action);
 	}
+
 
 
 	/**
@@ -72,6 +76,7 @@ class Router
 	}
 
 
+
 	/**
 	 * Create and register a route by PUT method
 	 *
@@ -83,6 +88,7 @@ class Router
 	{
 		return $this->addRoute(['PUT'], $uri, $action);
 	}
+
 
 
 	/**
@@ -98,6 +104,7 @@ class Router
 	}
 
 
+
 	/**
 	 * Create and register a route by DELETE method
 	 *
@@ -109,6 +116,7 @@ class Router
 	{
 		return $this->addRoute(['DELETE'], $uri, $action);
 	}
+
 
 
 	/**
@@ -124,6 +132,7 @@ class Router
 	}
 
 
+
 	/**
 	 * Create and register a route by ANY method
 	 *
@@ -135,6 +144,7 @@ class Router
 	{
 		return $this->addRoute(['GET', 'HEAD', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'], $uri, $action);
 	}
+
 
 
 	public function group()
@@ -162,6 +172,7 @@ class Router
 	}
 
 
+
 	public function processGroupsUri()
 	{
 		$uri = '';
@@ -173,6 +184,7 @@ class Router
 
 		return trim($uri, '/');
 	}
+
 
 
 	/**
@@ -195,6 +207,7 @@ class Router
 	}
 
 
+
 	/**
 	 * Create and return a route instance
 	 *
@@ -208,6 +221,8 @@ class Router
 		return new Route($methods, $uri, $action);
 	}
 
+
+
 	/**
 	 * Description
 	 * @return type
@@ -218,6 +233,7 @@ class Router
 	}
 
 
+
 	/**
 	 * Description
 	 * @return type
@@ -226,6 +242,7 @@ class Router
 	{
 		
 	}
+
 
 
 	/**
@@ -246,6 +263,7 @@ class Router
 
 		return null;
 	}
+
 
 
 	public function handel(Request $request)

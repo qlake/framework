@@ -106,7 +106,7 @@ class Request
 
 	public function getPathInfo()
 	{
-		return trim($this->getSpecialInput('_url'), '/');
+		return $this->env['PATH_INFO'];
 	}
 
 
