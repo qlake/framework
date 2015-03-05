@@ -2,6 +2,8 @@
 
 namespace Qlake\Payment\Gateway;
 
+use SoapClient;
+
 class Saman implements GatewayInterface
 {
 	protected $wsdlUrl = 'https://sep.shaparak.ir/Payments/InitPayment.asmx?wsdl';
@@ -10,16 +12,19 @@ class Saman implements GatewayInterface
 	protected $paymentUrl = 'https://sep.shaparak.ir/Payment.aspx';
 
 
-	protected $username = 10151012;
+	protected $terminalId;
 
 
 	protected $client;
 
 
+	protected $requestError;
+
+
 
 	public function __construct(array $config)
 	{
-		$this->client = new \SoapClient($config['requestUrl']);
+		$this->client = new SoapClient($config['requestUrl']);
 		$this->terminalId = $config['terminalId'];
 		//$this->orderId = $payment->id;
 		//$this->callbackUrl = '$callbackUrl';
@@ -29,33 +34,45 @@ class Saman implements GatewayInterface
 
 	public function request($amount, $receiptId)
 	{
-		$this->amount = (int)$amount;
+		$this->amount    = (int)$amount;
 		$this->receiptId = $receiptId;
 
 		$params = [
-			'TermID' => $this->terminalId,
-			'ResNum' => $this->receiptId,
-			'TotalAmount' => $this->amount, // this is our PIN NUMBER
-			/*'SegAmount1' => null,
-			'SegAmount2' => null,
-			'SegAmount3' => null,
-			'SegAmount4' => null,
-			'SegAmount5' => null,
-			'SegAmount6' => null,
+			'TermID'          => $this->terminalId,
+			'ResNum'          => $this->receiptId,
+			'TotalAmount'     => $this->amount,
+			/*
+			'SegAmount1'      => null,
+			'SegAmount2'      => null,
+			'SegAmount3'      => null,
+			'SegAmount4'      => null,
+			'SegAmount5'      => null,
+			'SegAmount6'      => null,
 			'AdditionalData1' => null,
 			'AdditionalData1' => null,
-			'wage' => null,*/
+			'wage'            => null,
+			*/
 		];
 
-		$res = $this->client->__soapCall('RequestToken', $params);
+		$result = $this->client->__soapCall('RequestToken', $params);
 
-		if (is_numeric($res) and $res <= 0)
+		if (is_numeric($result) and $result <= 0)
 		{
-			echo "Error: $res";
-			exit;
+			$this->requestError = $result;
+
+			return false;
 		}
 
-		echo $this->token = $res;
+		$this->token = $result;
+
+		return true;
+	}
+
+
+
+	public function isReady()
+	{
+		return $this->requestError === null;
 	}
 
 
@@ -63,16 +80,15 @@ class Saman implements GatewayInterface
 	public function redirect()
 	{
 		$html = <<<html
-		<!DOCTYPE html>
+		<!doctype html>
 		<html>
 		<head>
 			<title></title>
 		</head>
 		<body>
 			<form action="{$this->paymentUrl}" method="post">
-				<input value="{$this->token}" name="Token" />
-				<input value="{$this->callbackUrl}" name="RedirectURL" />
-				<input type="submit" value="go"/>
+				<input type="hidden" value="{$this->token}" name="Token" />
+				<input type="hidden" value="{$this->callbackUrl}" name="RedirectURL" />
 			</form>
 			<script type="text/javascript">
 				document.getElementsByTagName('form')[0].submit();

@@ -20,4 +20,18 @@ class Payment
 	{
 		return $this->gateway->request($amount, $receiptId);
 	}
+
+
+
+	public function isReady()
+	{
+		return $this->gateway->isReady();
+	}
+
+
+
+	public function redirect()
+	{
+		return $this->gateway->redirect();
+	}
 }
