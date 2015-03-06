@@ -50,7 +50,13 @@ class Route
 	protected $caseSensitive = true;
 
 
-
+	/**
+	 * Description
+	 * @param type array $methods 
+	 * @param type $uri 
+	 * @param type $handler 
+	 * @return type
+	 */
 	public function __construct(array $methods, $uri, $handler)
 	{
 		$this->methods = (array)$methods;
@@ -62,6 +68,10 @@ class Route
 
 
 
+	/**
+	 * Description
+	 * @return type
+	 */
 	public function getMethods()
 	{
 		return $this->methods;
@@ -69,15 +79,20 @@ class Route
 
 
 
-	public function setMethods(array $methods)
+	/*public function setMethods(array $methods)
 	{
 		$this->methods = array_merge($this->methods, $methods);
 
 		return $this;
-	}
+	}*/
 
 
 
+	/**
+	 * Description
+	 * @param type $method 
+	 * @return type
+	 */
 	public function isMethod($method)
 	{
 		return in_array(strtoupper($method), $this->methods);
@@ -85,6 +100,10 @@ class Route
 
 
 
+	/**
+	 * Description
+	 * @return type
+	 */
 	public function getUri()
 	{
 		return $this->uri;
@@ -92,6 +111,11 @@ class Route
 
 
 
+	/**
+	 * Description
+	 * @param type $uri 
+	 * @return type
+	 */
 	public function setUri($uri)
 	{
 		$this->uri = $uri;
@@ -101,18 +125,25 @@ class Route
 
 
 
-	public function setParam($param, $value)
+	/*public function addParam($param, $value)
 	{
 		$this->params[$param] = $value;
 
 		return $this;
-	}
+	}*/
 
 
 
 	public function hasParam($param)
 	{
-		return array_search($param, $this->params);
+		return in_array($param, $this->params);
+	}
+
+
+
+	public function getParam($param)
+	{
+		return $this->params[$param] ?: null;
 	}
 
 
@@ -124,31 +155,24 @@ class Route
 
 
 
-	public function setParams($params)
+	/*public function setParams($params)
 	{
 		$this->params = array_merge($this->params, $params);
 
 		return $this;
-	}
+	}*/
 
 
 
-	public function addParamName($param)
+	/*public function addParamName($param)
 	{
-		if (array_search($param, $this->paramNames) === false)
+		if (in_array($param, $this->paramNames) === false)
 		{
 			$this->paramNames[] = $param;
 		}
 
 		return $this;
-	}
-
-
-
-	public function getPattern()
-	{
-		return $this->pattern;
-	}
+	}*/
 
 
 
@@ -161,6 +185,12 @@ class Route
 
 
 
+	public function getPattern()
+	{
+		return $this->pattern;
+	}
+
+
 	public function setCondition($param, $pattern)
 	{
 		$this->conditions[$param] = $pattern;
@@ -170,17 +200,17 @@ class Route
 
 
 
-	public function getCondition($param)
+	/*public function getCondition($param)
 	{
 		return $this->conditions[$param] ?: null;
-	}
+	}*/
 
 
 
-	public function isCaseSensitive()
+	/*public function isCaseSensitive()
 	{
 		return $this->caseSensitive;
-	}
+	}*/
 
 
 
@@ -219,19 +249,19 @@ class Route
 
 
 
-	public function setConditions($conditions)
+	/*public function setConditions($conditions)
 	{
 		$this->conditions = array_merge($this->conditions, $conditions);
 
 		return $this;
-	}
+	}*/
 
 
 
-	public function getConditions()
+	/*public function getConditions()
 	{
 		return $this->conditions;
-	}
+	}*/
 
 
 
@@ -257,7 +287,6 @@ class Route
 	{
 		return $this->prefixUri;
 	}
-
 
 
 
@@ -423,12 +452,12 @@ class Route
 
 		$regex = '#^' . $regex . '$#';
 
-		if ($this->isCaseSensitive() === false)
+		if ($this->caseSensitive === false)
 		{
 			$regex .= 'i';
 		}
 
-		$this->setPattern($regex);
+		$this->pattern = $regex;
 	}
 
 
@@ -447,9 +476,9 @@ class Route
 		$optional   = $matched[3] ? true : false;
 		$pattern    = $matched[4] ?: null;
 
-		$pattern = $this->getCondition($param) ?: $pattern ?: '[^/]+';
+		$pattern = $this->conditions[$param] ?: $pattern ?: '[^/]+';
 
-		$this->addParamName($param);
+		$this->paramNames[] = $param;
 
 		if ($startSlash)
 		{

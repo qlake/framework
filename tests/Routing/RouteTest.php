@@ -7,24 +7,18 @@ class RouteTest extends PHPUnit_Framework_TestCase
 	public function testGetRouteMethods()
 	{
 		$route = new Route(['GET'], '/', null);
-
 		$this->assertEquals(['GET'], $route->getMethods());
 
-
 		$route = new Route(['GET', 'POST'], '/', null);
-
 		$this->assertEquals(['GET', 'POST'], $route->getMethods());
 
-
 		$route = new Route(['POST', 'GET'], '/', null);
-
 		$this->assertEquals(['POST', 'GET'], $route->getMethods());
 
-
 		$route = new Route(['GET', 'POST', 'PUT', 'PATCH', 'HEAD', 'DELETE', 'OPTIONS'], '/', null);
-
 		$this->assertEquals(['GET', 'POST', 'PUT', 'PATCH', 'HEAD', 'DELETE', 'OPTIONS'], $route->getMethods());
 	}
+
 
 
 	public function testIsRouteMethod()
@@ -43,6 +37,33 @@ class RouteTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($route->isMethod('HEADD'));
 		$this->assertFalse($route->isMethod('POST'));
 		$this->assertFalse($route->isMethod('PUT'));
-		//assertNotEquals()
+	}
+
+
+
+	public function testSetAndGetRouteUri()
+	{
+		$route = new Route(['GET'], '', null);
+		$this->assertEquals('', $route->getUri());
+
+		$route->setUri('/');
+		$this->assertEquals('/', $route->getUri());
+
+		$route = new Route(['GET'], '/path/to/{var1}/{var2?}/{var3?:\d{2}}', null);
+		$this->assertEquals('/path/to/{var1}/{var2?}/{var3?:\d{2}}', $route->getUri());
+	}
+
+
+
+	public function testGetCompiledRouteUri()
+	{
+		/*$route = new Route(['GET'], '', null);
+		$this->assertEquals('', $route->getUri());
+
+		$route = new Route(['GET'], '/', null);
+		$this->assertEquals('/', $route->getUri());
+
+		$route = new Route(['GET'], '/path/to/{var1}/{var2?}/{var3?:\d{2}}', null);
+		$this->assertEquals('/path/to/{var1}/{var2?}/{var3?:\d{2}}', $route->getUri());*/
 	}
 }
