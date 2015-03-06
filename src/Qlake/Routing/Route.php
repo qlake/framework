@@ -2,7 +2,6 @@
 
 namespace Qlake\Routing;
 
-use Qlake\Routing\Compiler;
 use Qlake\Http\Request;
 use Qlake\Exception\ClearException;
 use Qlake\View\View;
@@ -39,7 +38,7 @@ class Route
 	protected $params = [];
 
 
-	public $paramNames = [];
+	protected $paramNames = [];
 
 
 	protected $compiler;
