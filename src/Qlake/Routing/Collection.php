@@ -6,7 +6,7 @@ use Countable;
 use ArrayIterator;
 use IteratorAggregate;
 
-class RouteCollection implements Countable, IteratorAggregate
+class Collection implements Countable, IteratorAggregate
 {
 	/**
 	 * Set of registered routes classified by methods, like GET or POST.

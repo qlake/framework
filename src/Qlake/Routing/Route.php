@@ -2,7 +2,7 @@
 
 namespace Qlake\Routing;
 
-use Qlake\Routing\RouteCompiler;
+use Qlake\Routing\Compiler;
 use Qlake\Http\Request;
 use Qlake\Exception\ClearException;
 use Qlake\View\View;
@@ -60,7 +60,7 @@ class Route
 
 		$this->action = $action;
 
-		$this->compiler = $compiler ?: new RouteCompiler;
+		$this->compiler = $compiler ?: new Compiler;
 	}
 
 

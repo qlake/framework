@@ -4,7 +4,7 @@ namespace Qlake\Routing;
 
 use Qlake\Routing\Route;
 
-class RouteCompiler
+class Compiler
 {
 
 	/**

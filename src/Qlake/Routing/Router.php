@@ -3,7 +3,7 @@
 namespace Qlake\Routing;
 
 use Qlake\Routing\Route;
-use Qlake\Routing\RouteCollection;
+use Qlake\Routing\Collection;
 use Qlake\Http\Request;
 use Qlake\Support\Queue;
 
@@ -28,7 +28,7 @@ class Router
 	 */
 	public function __construct()
 	{
-		$this->routes = new RouteCollection;
+		$this->routes = new Collection;
 
 		$this->groups = new \SplStack;
 	}
