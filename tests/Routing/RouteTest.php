@@ -67,14 +67,14 @@ class RouteTest extends PHPUnit_Framework_TestCase
 	}
 
 
-	public function testSetAndGetRouteName()
+	/*public function testSetAndGetRouteName()
 	{
 		$route = new Route(['GET'], '', null);
 
 		$this->assertEquals(null, $route->getName());
 
 		$route->setName('routeName');
-		
+
 		$this->assertEquals('routeName', $route->getName());
-	}
+	}*/
 }
