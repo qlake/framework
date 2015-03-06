@@ -39,7 +39,7 @@ class Route
 	protected $params = [];
 
 
-	protected $paramNames = [];
+	public $paramNames = [];
 
 
 	protected $compiler;
@@ -97,12 +97,9 @@ class Route
 
 
 
-	public function setParam($param)
+	public function setParam($param, $value)
 	{
-		if (!$this->hasParam($param))
-		{
-			$this->params[] = $param;
-		}
+		$this->params[$param] = $value;
 
 		return $this;
 	}
@@ -166,7 +163,7 @@ class Route
 
 	public function isCaseSensitive()
 	{
-		$this->caseSensitive === true;
+		return $this->caseSensitive;
 	}
 
 

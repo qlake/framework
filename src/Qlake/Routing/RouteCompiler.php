@@ -29,11 +29,13 @@ class RouteCompiler
 		$uri = $this->normalizeUri($this->route->getUri()) .'/';
 
 		// match patterns like /{param?:regex}
+		// tested in https://regex101.com/r/gP6yH7
 		$regex = preg_replace_callback(
-			'#(\/\{((?:[^{}]++|(?1))*+)\})#',
+			'#(?:(\\/)?\\{(\\w+)(\\?)?(?::((?:\\\\\\{|\\\\\\}|[^{}]|\\{\\d(?:\\,(?:\\d)?)?\\})+))?\\})#',
 			array($this, 'createRegex'),
 			$uri
 		);
+
 
 		if (substr($uri, -1) === '/')
 		{
@@ -60,26 +62,24 @@ class RouteCompiler
 	 */
 	protected function createRegex($matched)
 	{
-		$sections = explode(':', $matched[2], 2);
-
-		if (mb_substr($sections[0], -1) == '?')
-		{
-			$param = mb_substr($sections[0], 0, mb_strlen($sections[0])-1);
-
-			$optional = true;
-		}
-		else
-		{
-			$param = $sections[0];
-		}
-
-		$pattern = $sections[1];
+		//
+		$startSlash = $matched[1] ? true : false;
+		$param      = $matched[2];
+		$optional   = $matched[3] ? true : false;
+		$pattern    = $matched[4] ?: null;
 
 		$pattern = $this->route->getCondition($param) ?: $pattern ?: '[^/]+';
 
-		$this->route->setParam($param);
+		$this->route->paramNames[] = $param;
 
-		$regex = ($optional ? '(/' : '') .'(?P<' . $param . '>' . $pattern . ')'. ($optional ? ')?' : '');
+		if ($startSlash)
+		{
+			$regex = ($optional ? '(/' : '') .'(?P<' . $param . '>' . $pattern . ')'. ($optional ? ')?' : '');
+		}
+		else
+		{
+			$regex = '(?P<' . $param . '>' . $pattern . ')'. ($optional ? '?' : '');
+		}
 
 		return $regex;
 	}
