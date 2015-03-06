@@ -70,7 +70,7 @@ class RouteCompiler
 
 		$pattern = $this->route->getCondition($param) ?: $pattern ?: '[^/]+';
 
-		$this->route->paramNames[] = $param;
+		$this->route->addParamName($param);
 
 		if ($startSlash)
 		{

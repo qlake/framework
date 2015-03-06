@@ -129,6 +129,18 @@ class Route
 
 
 
+	public function addParamName($param)
+	{
+		if (array_search($param, $this->paramNames) === false)
+		{
+			$this->paramNames[] = $param;
+		}
+
+		return $this;
+	}
+
+
+
 	public function getPattern()
 	{
 		return $this->pattern;
