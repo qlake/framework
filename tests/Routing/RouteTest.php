@@ -27,7 +27,22 @@ class RouteTest extends PHPUnit_Framework_TestCase
 	}
 
 
-	/*public function testGetRouteMethods()
+	public function testIsRouteMethod()
 	{
-	}*/
+		$route = new Route(['GET', 'HEAD'], '/', null);
+
+		$this->assertTrue($route->isMethod('GET'));
+		$this->assertTrue($route->isMethod('Get'));
+		$this->assertTrue($route->isMethod('get'));
+		$this->assertTrue($route->isMethod('HEAD'));
+		$this->assertTrue($route->isMethod('Head'));
+		$this->assertTrue($route->isMethod('head'));
+
+		$this->assertFalse($route->isMethod('some'));
+		$this->assertFalse($route->isMethod('post'));
+		$this->assertFalse($route->isMethod('HEADD'));
+		$this->assertFalse($route->isMethod('POST'));
+		$this->assertFalse($route->isMethod('PUT'));
+		//assertNotEquals()
+	}
 }

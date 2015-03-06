@@ -78,6 +78,13 @@ class Route
 
 
 
+	public function isMethod($method)
+	{
+		return in_array(strtoupper($method), $this->methods);
+	}
+
+
+
 	public function getUri()
 	{
 		return $this->uri;
