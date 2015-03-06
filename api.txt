@@ -1,3 +1,4 @@
+<?php
 View
 	render
 	by
@@ -33,6 +34,18 @@ Route
 	getRoute
 	getMatches
 	isMatch
+
+	Route::get('/')->as('route')->do(function()
+	{
+		return View::render('index')->by('id', 12)
+	});
+
+	Route::get('/', ['as' => 'route', function()
+	{
+		return View::render('index')->by('id', 12)
+	}]);
+
+	Route::get('login')->as('login')->goto('');
 
 
 Cache
@@ -76,3 +89,4 @@ Validation
 
 
 
+http://cheats.jesse-obrien.ca/

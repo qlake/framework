@@ -342,7 +342,7 @@ class HtmlBuilder
 
 			return $label . $this->createElement('input', $attributs);
 		}
-	}*/
+	}
 
 
 
@@ -519,13 +519,13 @@ class HtmlBuilder
 
 				case  'style':
 
-				$tagsArray[] = $this->addStyle($valuetag) . PHP_EOL;
+				$tagsArray[] = $this->style($valuetag) . PHP_EOL;
 
 				break;
 
 				case  'script':
 
-				$tagsArray[] = $this->addScript($valuetag) . PHP_EOL;
+				$tagsArray[] = $this->script($valuetag) . PHP_EOL;
 
 				break;
 
@@ -554,10 +554,7 @@ class HtmlBuilder
 		}
 
 		return implode($tagsArray, ' ');
-	}
-
-
-
+	}*/
 }
 
 
