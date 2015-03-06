@@ -9,34 +9,35 @@ use Qlake\View\View;
 
 class Route
 {
-	public $uri;
+	protected $uri;
 
-	public $pattern;
+	protected $pattern;
 
-	public $action;
+	protected $action;
 
-	public $actionType;
+	protected $actionType;
 
-	public $methods = [];
+	protected $methods = [];
 
-	public $name;
+	protected $name;
 
-	public $filters = [];
+	protected $filters = [];
 
-	public $conditions = [];
+	protected $conditions = [];
 
-	public $params = [];
+	protected $params = [];
 	
-	public $paramNames = [];
+	protected $paramNames = [];
 
-	public $compiler;
+	protected $compiler;
 
-	public $compiled = false;
+	protected $compiled = false;
 
-	public $caseSensitive = true;
+	protected $caseSensitive = true;
 
 
-	public function __construct($methods, $uri, $action, $compiler = null)
+
+	public function __construct(array $methods, $uri, $action, $compiler = null)
 	{
 		$this->methods = (array) $methods;
 
@@ -48,12 +49,113 @@ class Route
 	}
 
 
-	public function name($name)
+
+	public function getMethods()
+	{
+		return $this->methods;
+	}
+
+
+
+	public function setMethods(array $methods)
+	{
+		$this->methods = array_merge($this->methods, $methods);
+	}
+
+
+
+	public function getUri()
+	{
+		return $this->uri;
+	}
+
+
+
+	public function setUri($uri)
+	{
+		$this->uri = $uri;
+	}
+
+
+
+	public function setParam($param)
+	{
+		if (!$this->hasParam($param))
+		{
+			$this->params[] = $param;
+		}
+	}
+
+
+
+	public function hasParam($param)
+	{
+		return array_search($param, $this->params);
+	}
+
+
+
+	public function getParams()
+	{
+		return $this->params;
+	}
+
+
+
+	public function setParams($params)
+	{
+		$this->params = array_merge($this->params, $params);
+	}
+
+
+
+	public function getPattern()
+	{
+		return $this->pattern;
+	}
+
+
+
+	public function setPattern($pattern)
+	{
+		$this->pattern = $pattern;
+	}	
+
+
+
+	public function setCondition($param, $pattern)
+	{
+		$this->conditions[$param] = $pattern;
+	}	
+
+
+
+	public function getCondition($param)
+	{
+		return $this->conditions[$param] ?: null;
+	}
+
+
+
+
+
+
+
+	public function isCaseSensitive()
+	{
+		$this->caseSensitive === true;
+	}
+
+
+
+
+	/*public function name($name)
 	{
 		$this->setName($name);
 
 		return $this;
-	}
+	}*/
+
 
 
 	public function setName($name)
@@ -62,18 +164,21 @@ class Route
 	}
 
 
+
 	public function getName()
 	{
 		return $this->name;
 	}
 
 
-	public function conditions($conditions)
+
+	/*public function conditions($conditions)
 	{
 		$this->setConditions($conditions);
 
 		return $this;
-	}
+	}*/
+
 
 
 	public function setConditions($conditions)
@@ -82,10 +187,12 @@ class Route
 	}
 
 
+
 	public function getConditions()
 	{
 		return $this->conditions;
 	}
+
 
 
 	public function setPrefixUri($prefix)
@@ -96,6 +203,7 @@ class Route
 
 		return $this;
 	}
+
 
 
 	public function compile()
@@ -109,6 +217,7 @@ class Route
 
 		$this->compiled = true;
 	}
+
 
 
 	public function checkMatching($pathInfo)
@@ -139,6 +248,7 @@ class Route
 
         return true;
 	}
+
 
 
 	public function dispatch(Request $request)

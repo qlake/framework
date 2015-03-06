@@ -25,28 +25,28 @@ class RouteCompiler
 	{
 		$this->route = $route;
 
-		$this->route->uri = ltrim($this->route->uri, '/');
+		$uri = ltrim($this->route->getUri(), '/');
 
 		// match patterns like /{param?:regex}
 		$regex = preg_replace_callback(
 			'#(\/\{((?:[^{}]++|(?1))*+)\})#',
 			array($this, 'createRegex'),
-			$this->route->uri
+			$uri
 		);
 
-		if (substr($this->route->uri, -1) === '/')
+		if (substr($uri, -1) === '/')
 		{
 			$regex .= '?';
 		}
 
 		$regex = '#^' . $regex . '$#';
 
-		if ($this->route->caseSensitive === false)
+		if ($this->route->isCaseSensitive() === false)
 		{
 			$regex .= 'i';
 		}
 
-		$this->route->pattern = $regex;
+		$this->route->setPattern($regex);
 	}
 
 
@@ -73,9 +73,9 @@ class RouteCompiler
 
 		$pattern = $sections[1];
 
-		$pattern = $this->route->conditions[$param] ?: $pattern ?: '[^/]+';
+		$pattern = $this->route->getCondition($param) ?: $pattern ?: '[^/]+';
 
-		$this->route->paramNames[] = $param;
+		$this->route->setParam($param);
 
 		$regex = ($optional ? '(/' : '') .'(?P<' . $param . '>' . $pattern . ')'. ($optional ? ')?' : '');
 
