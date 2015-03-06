@@ -211,7 +211,14 @@ class Route
 
 	public function setPrefixUri($prefix)
 	{
-		$this->prefixUri = trim($prefix, '/') .'/';
+		$prefix =  trim($prefix, '/');
+
+		if (empty($prefix))
+		{
+			return $this;
+		}
+
+		$this->prefixUri = $prefix . '/';
 
 		$this->uri = $this->prefixUri . $this->uri;
 
