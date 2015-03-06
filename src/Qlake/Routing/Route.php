@@ -11,29 +11,42 @@ class Route
 {
 	protected $uri;
 
+
 	protected $prefixUri;
+
 
 	protected $pattern;
 
+
 	protected $action;
+
 
 	protected $actionType;
 
+
 	protected $methods = [];
+
 
 	protected $name;
 
+
 	protected $filters = [];
+
 
 	protected $conditions = [];
 
+
 	protected $params = [];
-	
+
+
 	protected $paramNames = [];
+
 
 	protected $compiler;
 
+
 	protected $compiled = false;
+
 
 	protected $caseSensitive = true;
 
@@ -43,7 +56,7 @@ class Route
 	{
 		$this->methods = (array) $methods;
 
-		$this->uri = trim($uri, '/');
+		$this->uri = $uri;
 
 		$this->action = $action;
 

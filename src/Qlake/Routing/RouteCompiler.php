@@ -15,6 +15,7 @@ class RouteCompiler
 	protected $route;
 
 
+
 	/**
 	 * Compile route URI and create pattern from its URL.
 	 *
@@ -25,7 +26,7 @@ class RouteCompiler
 	{
 		$this->route = $route;
 
-		$uri = ltrim($this->route->getUri(), '/');
+		$uri = $this->normalizeUri($this->route->getUri()) .'/';
 
 		// match patterns like /{param?:regex}
 		$regex = preg_replace_callback(
@@ -48,6 +49,7 @@ class RouteCompiler
 
 		$this->route->setPattern($regex);
 	}
+
 
 
 	/**
@@ -80,5 +82,14 @@ class RouteCompiler
 		$regex = ($optional ? '(/' : '') .'(?P<' . $param . '>' . $pattern . ')'. ($optional ? ')?' : '');
 
 		return $regex;
+	}
+
+
+
+	protected function normalizeUri($uri)
+	{
+		$uri = preg_replace('#([\/\\\\]{2,}|\\\\+)#', '/', $uri);
+
+		return trim($uri, '/');
 	}
 }
