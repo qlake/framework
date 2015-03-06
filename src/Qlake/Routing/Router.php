@@ -255,7 +255,7 @@ class Router
 	{
 		foreach ($this->routes->filterByMethod($request->getMethod()) as $route)
 		{
-			if ($route->checkMatching($request->getPathInfo()))
+			if ($route->isMatch($request->getPathInfo()))
 			{
 				return $route;
 			}

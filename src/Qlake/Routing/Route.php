@@ -191,6 +191,7 @@ class Route
 	}
 
 
+
 	public function setCondition($param, $pattern)
 	{
 		$this->conditions[$param] = $pattern;
@@ -223,7 +224,11 @@ class Route
 	}*/
 
 
-
+	/**
+	 * Description
+	 * @param type $name 
+	 * @return type
+	 */
 	public function setName($name)
 	{
 		$this->name = (string)$name;
@@ -232,7 +237,10 @@ class Route
 	}
 
 
-
+	/**
+	 * Description
+	 * @return type
+	 */
 	public function getName()
 	{
 		return $this->name;
@@ -290,7 +298,21 @@ class Route
 
 
 
-	public function checkMatching($pathInfo)
+	/*public function getHandlerType()
+	{
+		if (is_string($this->handlre))
+		{
+			return 'Controller';
+		}
+		elseif (is_object($this->handlre) && $this->handlre instanceof Closure)
+		{
+			return 'Closure';
+		}
+	}*/
+
+
+
+	public function isMatch($pathInfo)
 	{
 		$this->compile();
 
@@ -305,14 +327,14 @@ class Route
         {
             if (isset($paramValues[$name]))
             {
-                if (isset($this->paramNamesPath[$name]))
-                {
-                    $this->params[$name] = explode('/', urldecode($paramValues[$name]));
-                }
-                else
-                {
+                //if (isset($this->paramNamesPath[$name]))
+                //{
+                //    $this->params[$name] = explode('/', urldecode($paramValues[$name]));
+                //}
+                //else
+                //{
                     $this->params[$name] = urldecode($paramValues[$name]);
-                }
+                //}
             }
         }
 
@@ -440,7 +462,7 @@ class Route
 		// tested in https://regex101.com/r/gP6yH7
 		$regex = preg_replace_callback(
 			'#(?:(\\/)?\\{(\\w+)(\\?)?(?::((?:\\\\\\{|\\\\\\}|[^{}]|\\{\\d(?:\\,(?:\\d)?)?\\})+))?\\})#',
-			array($this, 'createRegex'),
+			[$this, 'createRegex'],
 			$uri
 		);
 
@@ -470,7 +492,6 @@ class Route
 	 */
 	protected function createRegex($matched)
 	{
-		//
 		$startSlash = $matched[1] ? true : false;
 		$param      = $matched[2];
 		$optional   = $matched[3] ? true : false;

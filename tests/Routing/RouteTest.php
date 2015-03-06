@@ -55,15 +55,26 @@ class RouteTest extends PHPUnit_Framework_TestCase
 
 
 
-	public function testGetCompiledRouteUri()
+	public function testSetAndGetRouteName()
 	{
-		/*$route = new Route(['GET'], '', null);
-		$this->assertEquals('', $route->getUri());
+		$route = new Route(['GET'], '', null);
 
-		$route = new Route(['GET'], '/', null);
-		$this->assertEquals('/', $route->getUri());
+		$this->assertEquals(null, $route->getName());
 
-		$route = new Route(['GET'], '/path/to/{var1}/{var2?}/{var3?:\d{2}}', null);
-		$this->assertEquals('/path/to/{var1}/{var2?}/{var3?:\d{2}}', $route->getUri());*/
+		$route->setName('routeName');
+		
+		$this->assertEquals('routeName', $route->getName());
+	}
+
+
+	public function testSetAndGetRouteName()
+	{
+		$route = new Route(['GET'], '', null);
+
+		$this->assertEquals(null, $route->getName());
+
+		$route->setName('routeName');
+		
+		$this->assertEquals('routeName', $route->getName());
 	}
 }
