@@ -11,6 +11,8 @@ class Route
 {
 	protected $uri;
 
+	protected $prefixUri;
+
 	protected $pattern;
 
 	protected $action;
@@ -60,6 +62,8 @@ class Route
 	public function setMethods(array $methods)
 	{
 		$this->methods = array_merge($this->methods, $methods);
+
+		return $this;
 	}
 
 
@@ -74,6 +78,8 @@ class Route
 	public function setUri($uri)
 	{
 		$this->uri = $uri;
+
+		return $this;
 	}
 
 
@@ -84,6 +90,8 @@ class Route
 		{
 			$this->params[] = $param;
 		}
+
+		return $this;
 	}
 
 
@@ -105,6 +113,8 @@ class Route
 	public function setParams($params)
 	{
 		$this->params = array_merge($this->params, $params);
+
+		return $this;
 	}
 
 
@@ -119,6 +129,8 @@ class Route
 	public function setPattern($pattern)
 	{
 		$this->pattern = $pattern;
+
+		return $this;
 	}	
 
 
@@ -126,6 +138,8 @@ class Route
 	public function setCondition($param, $pattern)
 	{
 		$this->conditions[$param] = $pattern;
+
+		return $this;
 	}	
 
 
@@ -134,10 +148,6 @@ class Route
 	{
 		return $this->conditions[$param] ?: null;
 	}
-
-
-
-
 
 
 
@@ -161,6 +171,8 @@ class Route
 	public function setName($name)
 	{
 		$this->name = (string)$name;
+
+		return $this;
 	}
 
 
@@ -184,6 +196,8 @@ class Route
 	public function setConditions($conditions)
 	{
 		$this->conditions = array_merge($this->conditions, $conditions);
+
+		return $this;
 	}
 
 
@@ -197,11 +211,18 @@ class Route
 
 	public function setPrefixUri($prefix)
 	{
-		$prefix = trim($prefix, '/') .'/';
+		$this->prefixUri = trim($prefix, '/') .'/';
 
-		$this->uri = $prefix . $this->uri;
+		$this->uri = $this->prefixUri . $this->uri;
 
 		return $this;
+	}
+
+
+
+	public function getPrefixUri()
+	{
+		return $this->prefixUri;
 	}
 
 
