@@ -11,9 +11,6 @@ class Route
 	protected $uri;
 
 
-	protected $prefixUri;
-
-
 	protected $pattern;
 
 
@@ -275,26 +272,24 @@ class Route
 
 	public function setPrefixUri($prefix)
 	{
-		$prefix =  trim($prefix, '/');
+		$prefix =  $this->normalizeUri($prefix);
 
 		if (empty($prefix))
 		{
 			return $this;
 		}
 
-		$this->prefixUri = $prefix . '/';
-
-		$this->uri = $this->prefixUri . $this->uri;
+		$this->uri = $prefix .'/'. $this->uri;
 
 		return $this;
 	}
 
 
 
-	public function getPrefixUri()
+	/*public function getPrefixUri()
 	{
 		return $this->prefixUri;
-	}
+	}*/
 
 
 
@@ -449,14 +444,14 @@ class Route
 
 	public function compile()
 	{
-		if ($this->compiled)
-		{
-			return;
-		}
+		//if ($this->compiled)
+		//{
+		//	return;
+		//}
 
 		$this->compiled = true;
 
-		$uri = $this->normalizeUri($this->getUri()) .'/';
+		$uri = $this->normalizeUri($this->getUri());
 
 		// match patterns like /{param?:regex}
 		// tested in https://regex101.com/r/gP6yH7
@@ -466,11 +461,7 @@ class Route
 			$uri
 		);
 
-
-		if (substr($uri, -1) === '/')
-		{
-			$regex .= '?';
-		}
+		$regex .= "\\/?";
 
 		$regex = '#^' . $regex . '$#';
 
@@ -503,7 +494,7 @@ class Route
 
 		if ($startSlash)
 		{
-			$regex = ($optional ? '(/' : '') .'(?P<' . $param . '>' . $pattern . ')'. ($optional ? ')?' : '');
+			$regex = ($optional ? "(\\/" : '') .'(?P<' . $param . '>' . $pattern . ')'. ($optional ? ')?' : '');
 		}
 		else
 		{
@@ -517,7 +508,7 @@ class Route
 
 	protected function normalizeUri($uri)
 	{
-		$uri = preg_replace('#([\/\\\\]{2,}|\\\\+)#', '/', $uri);
+		$uri = preg_replace("#([\\/]{2,})#", '/', $uri);
 
 		return trim($uri, '/');
 	}
