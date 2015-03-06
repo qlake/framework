@@ -17,10 +17,10 @@ class Route
 	protected $pattern;
 
 
-	protected $action;
+	protected $handler;
 
 
-	protected $actionType;
+	protected $handlerType;
 
 
 	protected $methods = [];
@@ -51,13 +51,13 @@ class Route
 
 
 
-	public function __construct(array $methods, $uri, $action, $compiler = null)
+	public function __construct(array $methods, $uri, $handler)
 	{
-		$this->methods = (array) $methods;
+		$this->methods = (array)$methods;
 
 		$this->uri = $uri;
 
-		$this->action = $action;
+		$this->handler = $handler;
 	}
 
 
@@ -332,7 +332,7 @@ class Route
 			return call_user_func_array($callable, $params);
 		};
 
-		$callable = $this->action;
+		$callable = $this->handler;
 
 		if (is_string($callable))
 		{
