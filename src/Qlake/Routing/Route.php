@@ -59,8 +59,6 @@ class Route
 		$this->uri = $uri;
 
 		$this->action = $action;
-
-		$this->compiler = $compiler ?: new Compiler;
 	}
 
 
@@ -256,19 +254,6 @@ class Route
 
 
 
-	public function compile()
-	{
-		if ($this->compiled)
-		{
-			return;
-		}
-
-		$this->compiler->compile($this);
-
-		$this->compiled = true;
-	}
-
-
 
 	public function checkMatching($pathInfo)
 	{
@@ -401,5 +386,83 @@ class Route
 		{
 			throw new ClearException("Route Handler For URL [{$this->uri}] Not Found", 4);
 		}
+	}
+
+
+
+	public function compile()
+	{
+		if ($this->compiled)
+		{
+			return;
+		}
+
+		$this->compiled = true;
+
+		$uri = $this->normalizeUri($this->getUri()) .'/';
+
+		// match patterns like /{param?:regex}
+		// tested in https://regex101.com/r/gP6yH7
+		$regex = preg_replace_callback(
+			'#(?:(\\/)?\\{(\\w+)(\\?)?(?::((?:\\\\\\{|\\\\\\}|[^{}]|\\{\\d(?:\\,(?:\\d)?)?\\})+))?\\})#',
+			array($this, 'createRegex'),
+			$uri
+		);
+
+
+		if (substr($uri, -1) === '/')
+		{
+			$regex .= '?';
+		}
+
+		$regex = '#^' . $regex . '$#';
+
+		if ($this->isCaseSensitive() === false)
+		{
+			$regex .= 'i';
+		}
+
+		$this->setPattern($regex);
+	}
+
+
+
+	/**
+	 * Callback from creating route param names
+	 *
+	 * @param array $matched
+	 * @return string
+	 */
+	protected function createRegex($matched)
+	{
+		//
+		$startSlash = $matched[1] ? true : false;
+		$param      = $matched[2];
+		$optional   = $matched[3] ? true : false;
+		$pattern    = $matched[4] ?: null;
+
+		$pattern = $this->getCondition($param) ?: $pattern ?: '[^/]+';
+
+		$this->addParamName($param);
+
+		if ($startSlash)
+		{
+			$regex = ($optional ? '(/' : '') .'(?P<' . $param . '>' . $pattern . ')'. ($optional ? ')?' : '');
+		}
+		else
+		{
+			$regex = '(?P<' . $param . '>' . $pattern . ')'. ($optional ? '?' : '');
+		}
+
+		return $regex;
+	}
+
+
+
+	protected function normalizeUri($uri)
+	{
+		$uri = preg_replace('#([\/\\\\]{2,}|\\\\+)#', '/', $uri);
+
+		return trim($uri, '/');
 	}
 }
