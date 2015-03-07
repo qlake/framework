@@ -281,4 +281,40 @@ class RouteTest extends PHPUnit_Framework_TestCase
 		$route->isMatch('path/to');
 		$this->assertEquals(['id' => null, 'name' => null], $route->getParams());
 	}
+
+
+
+	public function testRouteHasAndGetParam()
+	{
+		$route = new Route(['GET'], 'path/to/{id}/{name}', null);
+
+		$route->isMatch('path/to/12/rezakho');
+		$this->assertEquals(true, $route->hasParam('id'));
+		$this->assertEquals(true, $route->hasParam('name'));
+		$this->assertEquals(false, $route->hasParam('var'));
+
+		$this->assertEquals('12', $route->getParam('id'));
+		$this->assertEquals('rezakho', $route->getParam('name'));
+		$this->assertEquals(null, $route->getParam('var'));
+
+
+		$route->setUri('path/to/{id?:\d+}/{name}');
+		$route->isMatch('path/to/rezakho');
+		$this->assertEquals(false, $route->hasParam('id'));
+		$this->assertEquals(true, $route->hasParam('name'));
+
+		$this->assertEquals(null, $route->getParam('id'));
+		$this->assertEquals('rezakho', $route->getParam('name'));
+		$this->assertEquals(null, $route->getParam('var'));
+
+
+		$route->setUri('path/to/{id?}/{name?}');
+		$route->isMatch('path/to');
+		$this->assertEquals(false, $route->hasParam('id'));
+		$this->assertEquals(false, $route->hasParam('name'));
+
+		$this->assertEquals(null, $route->getParam('id'));
+		$this->assertEquals(null, $route->getParam('name'));
+		$this->assertEquals(null, $route->getParam('var'));
+	}
 }
