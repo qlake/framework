@@ -162,7 +162,7 @@ class RouteTest extends PHPUnit_Framework_TestCase
 		$route->compile();
 		$this->assertEquals('#^path/(?P<id>\})/?$#', $route->getPattern());
 
-		$route->setUri('path/{id:\}\{}}');
+		$route->setUri('path/{id:\}\{}');
 		$route->compile();
 		$this->assertEquals('#^path/(?P<id>\}\{)/?$#', $route->getPattern());
 
