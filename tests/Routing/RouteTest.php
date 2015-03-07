@@ -85,7 +85,7 @@ class RouteTest extends PHPUnit_Framework_TestCase
 
 		$route->setUri('/path/to/{param}/');
 		$route->setPrefixUri('/path4/');
-		$this->assertEquals('/path4//path/to/{param}/', $route->getUri());
+		$this->assertEquals('/path4///path/to/{param}/', $route->getUri());
 
 		$route->setUri('/path/to/{param}/');
 		$route->setPrefixUri('');
@@ -99,7 +99,7 @@ class RouteTest extends PHPUnit_Framework_TestCase
 
 		$route->setUri('path');
 		$route->compile();
-		$this->assertEquals('#^path$#', $route->getPattern());
+		$this->assertEquals('#^path/?$#', $route->getPattern());
 
 		$route->setUri('path/to');
 		$route->compile();
