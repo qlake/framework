@@ -121,13 +121,13 @@ class RouteTest extends PHPUnit_Framework_TestCase
 		$route->compile();
 		$this->assertEquals('#^path/to/?$#', $route->getPattern());
 
-		$route->setUri('path\\to');
+		/*$route->setUri('path\\to');
 		$route->compile();
 		$this->assertEquals('#^path/to/?$#', $route->getPattern());
 
 		$route->setUri('//path\\to//');
 		$route->compile();
-		$this->assertEquals('#^path/to/?$#', $route->getPattern());
+		$this->assertEquals('#^path/to/?$#', $route->getPattern());*/
 
 		$route->setUri('path/{id}');
 		$route->compile();
