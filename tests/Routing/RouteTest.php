@@ -179,6 +179,22 @@ class RouteTest extends PHPUnit_Framework_TestCase
 		$route->compile();
 		$this->assertEquals('#^path(/(?P<id>[^/]+))?/?$#', $route->getPattern());
 
+		$route->setUri('path/{id?}/{name}');
+		$route->compile();
+		$this->assertEquals('#^path(/(?P<id>[^/]+))?/(?P<name>[^/]+)/?$#', $route->getPattern());
+
+		$route->setUri('path/{id}/{name?}');
+		$route->compile();
+		$this->assertEquals('#^path/(?P<id>[^/]+)(/(?P<name>[^/]+))?/?$#', $route->getPattern());
+
+		$route->setUri('path/{id?}/{name?}');
+		$route->compile();
+		$this->assertEquals('#^path(/(?P<id>[^/]+))?(/(?P<name>[^/]+))?/?$#', $route->getPattern());
+
+		$route->setUri('path/{id:\d{2}}/{name?:\w+}');
+		$route->compile();
+		$this->assertEquals('#^path/(?P<id>\d{2})(/(?P<name>\w+))?/?$#', $route->getPattern());
+
 
 
 	}
