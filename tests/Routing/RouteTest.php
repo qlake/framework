@@ -142,5 +142,44 @@ class RouteTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals('#^path/(?P<id>[^/]+)/(?P<name>[^/]+)/?$#', $route->getPattern());
 
 
+		$route->setUri('path/{id:\d}');
+		$route->compile();
+		$this->assertEquals('#^path/(?P<id>\d)/?$#', $route->getPattern());
+
+		$route->setUri('path/{id:\d{2}}');
+		$route->compile();
+		$this->assertEquals('#^path/(?P<id>\d{2})/?$#', $route->getPattern());
+
+		$route->setUri('path/{id:\d{2,}}');
+		$route->compile();
+		$this->assertEquals('#^path/(?P<id>\d{2,})/?$#', $route->getPattern());
+
+		$route->setUri('path/{id:\d{2,3}}');
+		$route->compile();
+		$this->assertEquals('#^path/(?P<id>\d{2,3})/?$#', $route->getPattern());
+
+		$route->setUri('path/{id:\}}');
+		$route->compile();
+		$this->assertEquals('#^path/(?P<id>\})/?$#', $route->getPattern());
+
+		$route->setUri('path/{id:\}\{}}');
+		$route->compile();
+		$this->assertEquals('#^path/(?P<id>\}\{)/?$#', $route->getPattern());
+
+		$route->setUri('path/{id:\d}/{name}');
+		$route->compile();
+		$this->assertEquals('#^path/(?P<id>\d)/(?P<name>[^/]+)/?$#', $route->getPattern());
+
+		$route->setUri('path/{id}/{name:\w+}');
+		$route->compile();
+		$this->assertEquals('#^path/(?P<id>[^/]+)/(?P<name>\w+)/?$#', $route->getPattern());
+
+
+		$route->setUri('path/{id?}');
+		$route->compile();
+		$this->assertEquals('#^path(/(?P<id>[^/]+))?/?$#', $route->getPattern());
+
+
+
 	}
 }
