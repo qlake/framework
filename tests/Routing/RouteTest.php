@@ -198,7 +198,7 @@ class RouteTest extends PHPUnit_Framework_TestCase
 
 
 
-	public function testCompileRoute()
+	public function testIsMatchRoute()
 	{
 		$route = new Route(['GET'], '', null);
 
