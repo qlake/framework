@@ -43,9 +43,18 @@ class Application extends Container
 		//trace($this['config']->get('module::app.title'));
 
 		//set_exception_handler(array($this, 'handleExceptions'));
-		$whoops = new \Whoops\Run;
-		$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-		$whoops->register();
+		
+
+		$this->singleton('log', function()
+		{
+			$whoops = new \Whoops\Run;
+			
+
+			return $whoops;
+		});
+
+		$this['log']->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+		$this['log']->register();
 
 		$request = $this['request'];
 
