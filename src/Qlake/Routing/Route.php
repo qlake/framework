@@ -173,28 +173,28 @@ class Route
 
 
 
-	public function setPattern($pattern)
+	/*public function setPattern($pattern)
 	{
 		$this->pattern = $pattern;
 
 		return $this;
-	}	
+	}*/
 
 
 
-	public function getPattern()
+	/*public function getPattern()
 	{
 		return $this->pattern;
-	}
+	}*/
 
 
 
-	public function setCondition($param, $pattern)
+	/*public function setCondition($param, $pattern)
 	{
 		$this->conditions[$param] = $pattern;
 
 		return $this;
-	}	
+	}*/
 
 
 
@@ -272,7 +272,7 @@ class Route
 
 	public function setPrefixUri($prefix)
 	{
-		$prefix =  $this->normalizeUri($prefix);
+		//$prefix =  $this->normalizeUri($prefix);
 
 		if (empty($prefix))
 		{

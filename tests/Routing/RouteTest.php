@@ -49,7 +49,7 @@ class RouteTest extends PHPUnit_Framework_TestCase
 		$route->setUri('/');
 		$this->assertEquals('/', $route->getUri());
 
-		$route = new Route(['GET'], '/path/to/{var1}/{var2?}/{var3?:\d{2}}', null);
+		$route->setUri('/path/to/{var1}/{var2?}/{var3?:\d{2}}');
 		$this->assertEquals('/path/to/{var1}/{var2?}/{var3?:\d{2}}', $route->getUri());
 	}
 
@@ -67,14 +67,28 @@ class RouteTest extends PHPUnit_Framework_TestCase
 	}
 
 
-	/*public function testSetAndGetRouteName()
+	public function testSetPrefixUriRoute()
 	{
-		$route = new Route(['GET'], '', null);
+		$route = new Route(['GET'], 'to/{param}', null);
 
-		$this->assertEquals(null, $route->getName());
+		$route->setPrefixUri('path');
 
-		$route->setName('routeName');
+		$this->assertEquals('path/to/{param}', $route->getUri());
 
-		$this->assertEquals('routeName', $route->getName());
-	}*/
+		$route->setPrefixUri('path2');
+
+		$this->assertEquals('path2/path/to/{param}', $route->getUri());
+
+		$route->setUri('/path/to/{param}/');
+
+		$route->setPrefixUri('/path2');
+
+		$this->assertEquals('/path2/path/to/{param}/', $route->getUri());
+
+		$route->setUri('/path/to/{param}/');
+
+		$route->setPrefixUri('/path2/');
+
+		$this->assertEquals('/path2//path/to/{param}/', $route->getUri());
+	}
 }
