@@ -6,13 +6,14 @@ use Qlake\Routing\Route;
 use Qlake\Routing\Collection;
 use Qlake\Http\Request;
 use Qlake\Support\Queue;
+use Qlake\Exception\ClearException;
 
 class Router
 {
 	/**
 	 * Instance of RouteCollection
 	 *
-	 * @var Qlake\Routing\RouteCollection
+	 * @var Qlake\Routing\Collection
 	 */
 	protected $routes;
 
@@ -22,7 +23,7 @@ class Router
 
 
 	/**
-	 * Create an instance of Router class
+	 * Create an instance of Router class.
 	 *
 	 * @return void
 	 */
@@ -36,7 +37,7 @@ class Router
 
 
 	/**
-	 * Create and register a route by GET method
+	 * Create and register a route by GET method.
 	 *
 	 * @param string $uri
 	 * @param Closure|string $action
@@ -50,7 +51,7 @@ class Router
 
 
 	/**
-	 * Create and register a route by HEAD method
+	 * Create and register a route by HEAD method.
 	 *
 	 * @param string $uri
 	 * @param Closure|string $action
@@ -276,7 +277,7 @@ class Router
 		}
 		else
 		{
-			die('<b style="color:red;">Route not found!</b>');
+			throw new ClearException("Not Found Any Route For [". $request->getUri() ."] Uri.", 1);
 		}
 	}
 }
