@@ -277,7 +277,7 @@ class Router
 		}
 		else
 		{
-			throw new ClearException("Not Found Any Route For [". $request->getUri() ."] Uri.", 1);
+			throw new ClearException("Not Found Any Route For [". urldecode($request->getUri()) ."] Uri.");
 		}
 	}
 }
