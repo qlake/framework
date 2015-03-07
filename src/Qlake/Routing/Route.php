@@ -8,51 +8,85 @@ use Qlake\View\View;
 
 class Route
 {
+	/**
+	 * Route uri.
+	 * 
+	 * @var string
+	 */
 	protected $uri;
 
 
+	/**
+	 * Route uri compiled pattren.
+	 * 
+	 * @var string
+	 */
 	protected $pattern;
 
 
+	/**
+	 * Route handler.
+	 * 
+	 * @var string|Closure
+	 */
 	protected $handler;
 
 
-	protected $handlerType;
-
-
+	/**
+	 * Route methods like POST and GET.
+	 * 
+	 * @var array
+	 */
 	protected $methods = [];
 
 
+	/**
+	 * Route name.
+	 * 
+	 * @var string
+	 */
 	protected $name;
 
 
-	protected $filters = [];
-
-
-	protected $conditions = [];
-
-
+	/**
+	 * Route uri params by there values.
+	 * 
+	 * @var array
+	 */
 	protected $params = [];
 
 
+	/**
+	 * Route uri param names only.
+	 * 
+	 * @var array
+	 */
 	protected $paramNames = [];
 
 
-	protected $compiler;
-
-
+	/**
+	 * Route uri compile status.
+	 * 
+	 * @var bool
+	 */
 	protected $compiled = false;
 
 
+	/**
+	 * Route uri case sensitive status.
+	 * 
+	 * @var bool
+	 */
 	protected $caseSensitive = true;
 
 
+
 	/**
-	 * Description
-	 * @param type array $methods 
-	 * @param type $uri 
-	 * @param type $handler 
-	 * @return type
+	 * Create a route instance.
+	 * 
+	 * @param array $methods
+	 * @param string $uri
+	 * @param string|closure $handler
 	 */
 	public function __construct(array $methods, $uri, $handler)
 	{
@@ -66,8 +100,9 @@ class Route
 
 
 	/**
-	 * Description
-	 * @return type
+	 * Get all route's methods as array.
+	 * 
+	 * @return array
 	 */
 	public function getMethods()
 	{
@@ -76,19 +111,11 @@ class Route
 
 
 
-	/*public function setMethods(array $methods)
-	{
-		$this->methods = array_merge($this->methods, $methods);
-
-		return $this;
-	}*/
-
-
-
 	/**
-	 * Description
-	 * @param type $method 
-	 * @return type
+	 * Determine that route's method is it.
+	 * 
+	 * @param string $method
+	 * @return bool
 	 */
 	public function isMethod($method)
 	{
@@ -98,8 +125,9 @@ class Route
 
 
 	/**
-	 * Description
-	 * @return type
+	 * Get the route uri.
+	 * 
+	 * @return string
 	 */
 	public function getUri()
 	{
@@ -109,9 +137,10 @@ class Route
 
 
 	/**
-	 * Description
-	 * @param type $uri 
-	 * @return type
+	 * Set the route uri.
+	 * 
+	 * @param string $uri
+	 * @return Qlake\Routing\Route
 	 */
 	public function setUri($uri)
 	{
@@ -122,15 +151,12 @@ class Route
 
 
 
-	/*public function addParam($param, $value)
-	{
-		$this->params[$param] = $value;
-
-		return $this;
-	}*/
-
-
-
+	/**
+	 * Determine that route param exists.
+	 * 
+	 * @param string $param
+	 * @return bool
+	 */
 	public function hasParam($param)
 	{
 		$param = (string)$this->params[$param];
@@ -140,15 +166,23 @@ class Route
 
 
 
+	/**
+	 * Get a param value by given name's or null if it's not be sets;
+	 * 
+	 * @param string $param
+	 * @return string|null
+	 */
 	public function getParam($param)
 	{
 		return $this->params[$param] ?: null;
 	}
 
 
+
 	/**
-	 * Description
-	 * @return type
+	 * Get all route's named parameters as array.
+	 * 
+	 * @return array
 	 */
 	public function getParams()
 	{
@@ -157,36 +191,11 @@ class Route
 
 
 
-	/*public function setParams($params)
-	{
-		$this->params = array_merge($this->params, $params);
-
-		return $this;
-	}*/
-
-
-
-	/*public function addParamName($param)
-	{
-		if (in_array($param, $this->paramNames) === false)
-		{
-			$this->paramNames[] = $param;
-		}
-
-		return $this;
-	}*/
-
-
-
-	/*public function setPattern($pattern)
-	{
-		$this->pattern = $pattern;
-
-		return $this;
-	}*/
-
-
-
+	/**
+	 * Get compiled route's uri pattren.
+	 * 
+	 * @return string
+	 */
 	public function getPattern()
 	{
 		return $this->pattern;
@@ -194,42 +203,11 @@ class Route
 
 
 
-	/*public function setCondition($param, $pattern)
-	{
-		$this->conditions[$param] = $pattern;
-
-		return $this;
-	}*/
-
-
-
-	/*public function getCondition($param)
-	{
-		return $this->conditions[$param] ?: null;
-	}*/
-
-
-
-	/*public function isCaseSensitive()
-	{
-		return $this->caseSensitive;
-	}*/
-
-
-
-
-	/*public function name($name)
-	{
-		$this->setName($name);
-
-		return $this;
-	}*/
-
-
 	/**
-	 * Description
-	 * @param type $name 
-	 * @return type
+	 * Set route's name.
+	 * 
+	 * @param string $name
+	 * @return Qlake\Routing\Route
 	 */
 	public function setName($name)
 	{
@@ -239,9 +217,11 @@ class Route
 	}
 
 
+
 	/**
-	 * Description
-	 * @return type
+	 * Get route's name.
+	 * 
+	 * @return string
 	 */
 	public function getName()
 	{
@@ -250,34 +230,11 @@ class Route
 
 
 
-	/*public function conditions($conditions)
-	{
-		$this->setConditions($conditions);
-
-		return $this;
-	}*/
-
-
-
-	/*public function setConditions($conditions)
-	{
-		$this->conditions = array_merge($this->conditions, $conditions);
-
-		return $this;
-	}*/
-
-
-
-	/*public function getConditions()
-	{
-		return $this->conditions;
-	}*/
-
-
 	/**
-	 * Description
-	 * @param type $prefix 
-	 * @return type
+	 * Set prefix to current route's uri. use by Route::group method.
+	 * 
+	 * @param string $prefix
+	 * @return Qlake\Routing\Route
 	 */
 	public function setPrefixUri($prefix)
 	{
@@ -295,30 +252,11 @@ class Route
 
 
 
-	/*public function getPrefixUri()
-	{
-		return $this->prefixUri;
-	}*/
-
-
-
-	/*public function getHandlerType()
-	{
-		if (is_string($this->handlre))
-		{
-			return 'Controller';
-		}
-		elseif (is_object($this->handlre) && $this->handlre instanceof Closure)
-		{
-			return 'Closure';
-		}
-	}*/
-
-
 	/**
-	 * Description
-	 * @param type $pathInfo 
-	 * @return type
+	 * Determine matching route by given uri.
+	 * 
+	 * @param string $pathInfo
+	 * @return bool
 	 */
 	public function isMatch($pathInfo)
 	{
@@ -457,17 +395,14 @@ class Route
 	}
 
 
+
 	/**
-	 * Description
-	 * @return type
+	 * Compile route uri pattern regex
+	 * 
+	 * @return Qlake\Routing\Route
 	 */
 	public function compile()
 	{
-		//if ($this->compiled)
-		//{
-		//	return;
-		//}
-
 		//reset arrays
 		$this->params     = [];
 		$this->paramNames = [];
@@ -495,12 +430,14 @@ class Route
 		}
 
 		$this->pattern = $regex;
+
+		return $this;
 	}
 
 
 
 	/**
-	 * Callback from creating route param names
+	 * Callback for creating route param names regex
 	 *
 	 * @param array $matched
 	 * @return string
@@ -529,7 +466,12 @@ class Route
 	}
 
 
-
+	/**
+	 * Convert multiple slashes to single.
+	 * 
+	 * @param string $uri 
+	 * @return string
+	 */
 	protected function normalizeUri($uri)
 	{
 		$uri = preg_replace("#([\\/]{2,})#", '/', $uri);
