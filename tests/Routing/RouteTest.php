@@ -250,7 +250,7 @@ class RouteTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($route->isMatch('path/to/22/'));
 		$this->assertTrue($route->isMatch('path/to/333/'));
 
-		$route->setUri('path/to/{id?:\d+}/{name[a-z]+}');
+		$route->setUri('path/to/{id?:\d+}/{name:[a-z]+}');
 		$this->assertFalse($route->isMatch('path/to/1'));
 		$this->assertFalse($route->isMatch('path/to/1/1'));
 		$this->assertFalse($route->isMatch('path/to/az/1'));
