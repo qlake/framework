@@ -75,7 +75,6 @@ class RouteTest extends PHPUnit_Framework_TestCase
 		$route->setPrefixUri('path');
 		$this->assertEquals('path/to/{param}', $route->getUri());
 
-		//$route->setUri('to/{param}');
 		$route->setPrefixUri('path2');
 		$this->assertEquals('path2/path/to/{param}', $route->getUri());
 
@@ -240,8 +239,8 @@ class RouteTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse($route->isMatch('path/to/to'));
 		$this->assertTrue($route->isMatch('path/to'));
 		$this->assertTrue($route->isMatch('path/to/'));
-		$this->assertTrue($route->isMatch('path/to/1212'));
-		$this->assertTrue($route->isMatch('path/to/1212/'));
+		$this->assertTrue($route->isMatch('path/to/1'));
+		$this->assertTrue($route->isMatch('path/to/1/'));
 
 		$route->setUri('path/to/{id?:\d{2,3}}');
 		$this->assertFalse($route->isMatch('path/to/1'));
