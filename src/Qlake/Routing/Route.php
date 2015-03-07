@@ -271,20 +271,7 @@ class Route
 
 		foreach ($this->paramNames as $name)
 		{
-			if (isset($paramValues[$name]))
-			{
-				//if (isset($this->paramNamesPath[$name]))
-				//{
-				//    $this->params[$name] = explode('/', urldecode($paramValues[$name]));
-				//}
-				//else
-				//{
-					$this->params[$name] = urldecode($paramValues[$name]);
-				//}
-			}
-			else{
-				$this->params[$name] = null;
-			}
+			$this->params[$name] = isset($paramValues[$name]) ? urldecode($paramValues[$name]) : null;
 		}
 
         return true;
