@@ -209,5 +209,56 @@ class RouteTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($route->isMatch('path/'));
 		$this->assertTrue($route->isMatch('/path'));
 		$this->assertTrue($route->isMatch('/path/'));
+
+		$route->setUri('path/to');
+		$this->assertFalse($route->isMatch(''));
+		$this->assertFalse($route->isMatch('/'));
+		$this->assertFalse($route->isMatch('pathto'));
+		$this->assertTrue($route->isMatch('path/to'));
+		$this->assertTrue($route->isMatch('path/to/'));
+		$this->assertTrue($route->isMatch('/path/to'));
+		$this->assertTrue($route->isMatch('/path/to/'));
+
+		$route->setUri('path/to/{id}');
+		$this->assertFalse($route->isMatch('path/to'));
+		$this->assertTrue($route->isMatch('path/to/id'));
+		$this->assertTrue($route->isMatch('path/to/id/'));
+
+		$route->setUri('path/to/{id}/{name}');
+		$this->assertFalse($route->isMatch('path/to'));
+		$this->assertFalse($route->isMatch('path/to/id'));
+		$this->assertTrue($route->isMatch('path/to/id/name'));
+		$this->assertTrue($route->isMatch('path/to/id/name/'));
+
+		$route->setUri('path/to/{id?}');
+		$this->assertTrue($route->isMatch('path/to'));
+		$this->assertTrue($route->isMatch('path/to/'));
+		$this->assertTrue($route->isMatch('path/to/id'));
+		$this->assertTrue($route->isMatch('path/to/id/'));
+
+		$route->setUri('path/to/{id?:\d}');
+		$this->assertFalse($route->isMatch('path/to/to'));
+		$this->assertTrue($route->isMatch('path/to'));
+		$this->assertTrue($route->isMatch('path/to/'));
+		$this->assertTrue($route->isMatch('path/to/1212'));
+		$this->assertTrue($route->isMatch('path/to/1212/'));
+
+		$route->setUri('path/to/{id?:\d{2,3}}');
+		$this->assertFalse($route->isMatch('path/to/1'));
+		$this->assertFalse($route->isMatch('path/to/2233'));
+		$this->assertTrue($route->isMatch('path/to/22'));
+		$this->assertTrue($route->isMatch('path/to/333'));
+		$this->assertTrue($route->isMatch('path/to/22/'));
+		$this->assertTrue($route->isMatch('path/to/333/'));
+
+		$route->setUri('path/to/{id?:\d+}/{name[a-z]+}');
+		$this->assertFalse($route->isMatch('path/to/1'));
+		$this->assertFalse($route->isMatch('path/to/1/1'));
+		$this->assertFalse($route->isMatch('path/to/az/1'));
+		$this->assertFalse($route->isMatch('path/to/az/az'));
+		$this->assertTrue($route->isMatch('path/to/az'));
+		$this->assertTrue($route->isMatch('path/to/333/az'));
+		$this->assertTrue($route->isMatch('path/to/az/'));
+		$this->assertTrue($route->isMatch('path/to/333/az/'));
 	}
 }
