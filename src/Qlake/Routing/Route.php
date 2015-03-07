@@ -182,10 +182,10 @@ class Route
 
 
 
-	/*public function getPattern()
+	public function getPattern()
 	{
 		return $this->pattern;
-	}*/
+	}
 
 
 
@@ -465,7 +465,7 @@ class Route
 			$uri
 		);
 
-		$regex .= "\\/?";
+		$regex .= "/?";
 
 		$regex = '#^' . $regex . '$#';
 
@@ -498,7 +498,7 @@ class Route
 
 		if ($startSlash)
 		{
-			$regex = ($optional ? "(\\/" : '') .'(?P<' . $param . '>' . $pattern . ')'. ($optional ? ')?' : '');
+			$regex = ($optional ? "(/" : '/') .'(?P<' . $param . '>' . $pattern . ')'. ($optional ? ')?' : '');
 		}
 		else
 		{

@@ -75,7 +75,7 @@ class RouteTest extends PHPUnit_Framework_TestCase
 		$route->setPrefixUri('path');
 		$this->assertEquals('path/to/{param}', $route->getUri());
 
-		$route->setUri('to/{param}');
+		//$route->setUri('to/{param}');
 		$route->setPrefixUri('path2');
 		$this->assertEquals('path2/path/to/{param}', $route->getUri());
 
@@ -90,5 +90,57 @@ class RouteTest extends PHPUnit_Framework_TestCase
 		$route->setUri('/path/to/{param}/');
 		$route->setPrefixUri('');
 		$this->assertEquals('/path/to/{param}/', $route->getUri());
+	}
+
+
+	public function testCompileRoute()
+	{
+		$route = new Route(['GET'], '', null);
+
+		$route->setUri('path');
+		$route->compile();
+		$this->assertEquals('#^path$#', $route->getPattern());
+
+		$route->setUri('path/to');
+		$route->compile();
+		$this->assertEquals('#^path/to/?$#', $route->getPattern());
+
+		$route->setUri('path/to/');
+		$route->compile();
+		$this->assertEquals('#^path/to/?$#', $route->getPattern());
+
+		$route->setUri('/path/to');
+		$route->compile();
+		$this->assertEquals('#^path/to/?$#', $route->getPattern());
+
+		$route->setUri('/path/to/');
+		$route->compile();
+		$this->assertEquals('#^path/to/?$#', $route->getPattern());
+
+		$route->setUri('//path///to//');
+		$route->compile();
+		$this->assertEquals('#^path/to/?$#', $route->getPattern());
+
+		$route->setUri('path\\to');
+		$route->compile();
+		$this->assertEquals('#^path/to/?$#', $route->getPattern());
+
+		$route->setUri('//path\\to//');
+		$route->compile();
+		$this->assertEquals('#^path/to/?$#', $route->getPattern());
+
+		$route->setUri('path/{id}');
+		$route->compile();
+		$this->assertEquals('#^path/(?P<id>[^/]+)/?$#', $route->getPattern());
+
+		$route->setUri('path/to{id}');
+		$route->compile();
+		$this->assertEquals('#^path/to(?P<id>[^/]+)/?$#', $route->getPattern());
+
+		$route->setUri('path/{id}/{name}');
+		$route->compile();
+		$this->assertEquals('#^path/(?P<id>[^/]+)/(?P<name>[^/]+)/?$#', $route->getPattern());
+
+
 	}
 }
