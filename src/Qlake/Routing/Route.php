@@ -445,7 +445,10 @@ class Route
 	}
 
 
-
+	/**
+	 * Description
+	 * @return type
+	 */
 	public function compile()
 	{
 		//if ($this->compiled)
