@@ -260,4 +260,25 @@ class RouteTest extends PHPUnit_Framework_TestCase
 		$this->assertTrue($route->isMatch('path/to/az/'));
 		$this->assertTrue($route->isMatch('path/to/333/az/'));
 	}
+
+
+	public function testRouteGetParams()
+	{
+		$route = new Route(['GET'], 'path/to/{id}/{name}', null);
+
+		$route->isMatch('path/to/12/rezakho');
+		$this->assertEquals(['id' => '12', 'name' => 'rezakho'], $route->getParams());
+
+		$route->setUri('path/to/{id}/{name?}');
+		$route->isMatch('path/to/12');
+		$this->assertEquals(['id' => '12'], $route->getParams());
+
+		$route->setUri('path/to/{id?:\d+}/{name}');
+		$route->isMatch('path/to/rezakho');
+		$this->assertEquals(['name' => 'rezakho'], $route->getParams());
+
+		$route->setUri('path/to/{id?}/{name?}');
+		$route->isMatch('path/to');
+		$this->assertEquals([], $route->getParams());
+	}
 }
