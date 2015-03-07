@@ -310,7 +310,11 @@ class Route
 	}*/
 
 
-
+	/**
+	 * Description
+	 * @param type $pathInfo 
+	 * @return type
+	 */
 	public function isMatch($pathInfo)
 	{
 		$this->compile();
