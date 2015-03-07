@@ -133,7 +133,7 @@ class Route
 
 	public function hasParam($param)
 	{
-		return in_array($param, $this->params);
+		return in_array($param, $this->params) && $this->params[$param] !== null;
 	}
 
 
@@ -144,7 +144,10 @@ class Route
 	}
 
 
-
+	/**
+	 * Description
+	 * @return type
+	 */
 	public function getParams()
 	{
 		return $this->params;
