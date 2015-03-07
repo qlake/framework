@@ -459,6 +459,11 @@ class Route
 		//{
 		//	return;
 		//}
+		
+		//reset arrays
+		$this->params     = [];
+		$this->paramNames = [];
+		$this->conditions = [];
 
 		$this->compiled = true;
 
