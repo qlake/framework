@@ -279,6 +279,6 @@ class RouteTest extends PHPUnit_Framework_TestCase
 
 		$route->setUri('path/to/{id?}/{name?}');
 		$route->isMatch('path/to');
-		$this->assertEquals(['id' => null, 'name' => 'rezakho'], $route->getParams());
+		$this->assertEquals(['id' => null, 'name' => null], $route->getParams());
 	}
 }
