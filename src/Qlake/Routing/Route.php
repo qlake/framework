@@ -266,8 +266,8 @@ class Route
 
 		if (!preg_match($this->pattern, $pathInfo, $paramValues))
 		{
-            return false;
-        }
+			return false;
+		}
 
         foreach ($this->paramNames as $name)
 		{
