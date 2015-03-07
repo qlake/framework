@@ -133,7 +133,9 @@ class Route
 
 	public function hasParam($param)
 	{
-		return isset($this->params[$param]) && $this->params[$param] !== null;
+		$param = (string)$this->params[$param];
+		
+		return strlen($param) > 0 ? true : false;
 	}
 
 
