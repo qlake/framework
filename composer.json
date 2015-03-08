@@ -25,7 +25,8 @@
 		"danielstjules/stringy": "~1.9",
 		"ircmaxell/password-compat": "~1.0",
 		"twig/twig": "~1.0",
-		"filp/whoops": "~1.1"
+		"filp/whoops": "~1.1",
+		"swiftmailer/swiftmailer": "~5.3"
 	},
 	"extra": {
 		"branch-alias": {
