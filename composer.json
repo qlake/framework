@@ -22,6 +22,7 @@
 	"require": {
 		"php": ">=5.4.0",
 		"ext-mbstring": "*",
+		"rezakho/khayyam": "0.1.*@dev",
 		"danielstjules/stringy": "~1.9",
 		"ircmaxell/password-compat": "~1.0",
 		"twig/twig": "~1.0",
