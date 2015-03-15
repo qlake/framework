@@ -9,25 +9,82 @@ class RouteCollectionTest extends PHPUnit_Framework_TestCase
 	{
 		$c = $this->getCollection();
 
-		$this->assertEquals([], $route->getRoutes());
+		$this->assertEquals([], $c->getRoutes());
 	}
+
+
 
 	public function testAddRouteBySingleMethod()
 	{
 		$route = new Route(['GET'], '/', null);
+
 		$c = $this->getCollection();
+
 		$c->addRoute($route);
 
-		$this->assertEquals(['GET'], $route->getMethods());
+		$this->assertEquals([$route], $c->getRoutes());
+	}
 
+
+
+	public function testAddRouteByMultipleMethod()
+	{
 		$route = new Route(['GET', 'POST'], '/', null);
-		$this->assertEquals(['GET', 'POST'], $route->getMethods());
 
-		$route = new Route(['POST', 'GET'], '/', null);
-		$this->assertEquals(['POST', 'GET'], $route->getMethods());
+		$c = $this->getCollection();
 
-		$route = new Route(['GET', 'POST', 'PUT', 'PATCH', 'HEAD', 'DELETE', 'OPTIONS'], '/', null);
-		$this->assertEquals(['GET', 'POST', 'PUT', 'PATCH', 'HEAD', 'DELETE', 'OPTIONS'], $route->getMethods());
+		$c->addRoute($route);
+
+		$this->assertEquals([$route], $c->getRoutes());
+	}
+
+
+
+	public function testGetRoutesBySeveralRoute()
+	{
+		$route1 = new Route(['GET'], '/', null);
+		$route2 = new Route(['GET'], '/', null);
+
+		$c = $this->getCollection();
+
+		$c->addRoute($route1);
+		$c->addRoute($route2);
+
+		$this->assertEquals([$route1, $route2], $c->getRoutes());
+	}
+
+
+
+	public function testfilterByMethod()
+	{
+		$route = new Route(['GET'], '/', null);
+
+		$c = $this->getCollection();
+
+		$c->addRoute($route);
+
+		$this->assertEquals([$route], $c->filterByMethod('GET'));
+		$this->assertNotEquals([$route], $c->filterByMethod('POST'));
+		$this->assertEquals([], $c->filterByMethod('POST'));
+	}
+
+
+
+	public function testfilterByMethodBySeverlRoute()
+	{
+		$route1 = new Route(['GET'], '/', null);
+		$route2 = new Route(['GET', 'POST', 'HEAD'], '/', null);
+		$route3 = new Route(['POST'], '/', null);
+
+		$c = $this->getCollection();
+
+		$c->addRoute($route1);
+		$c->addRoute($route2);
+		$c->addRoute($route3);
+
+		$this->assertEquals([$route1, $route2], $c->filterByMethod('GET'));
+		$this->assertEquals([$route2], $c->filterByMethod('HEAD'));
+		$this->assertEquals([$route2, $route3], $c->filterByMethod('POST'));
 	}
 
 
