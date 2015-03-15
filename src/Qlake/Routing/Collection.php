@@ -30,7 +30,7 @@ class Collection implements Countable, IteratorAggregate
 	 * @param Qlake\Routing\Route
 	 * @return Qlake\Routing\Route
 	 */
-	public function addRoute($route)
+	public function addRoute(Route $route)
 	{
 		foreach ($route->getMethods() as $method)
 		{
@@ -39,8 +39,9 @@ class Collection implements Countable, IteratorAggregate
 		
 		$this->allRoutes[] = $route;
 
-		return $route;
+		return $this;
 	}
+
 
 
 	/**
@@ -52,6 +53,7 @@ class Collection implements Countable, IteratorAggregate
 	{
 		return $this->routes[$method] ?: [];
 	}
+
 
 
 	/**
@@ -66,6 +68,7 @@ class Collection implements Countable, IteratorAggregate
 	}
 
 
+
 	/**
 	 * Provide iterating of registered routes.
 	 *
@@ -73,8 +76,9 @@ class Collection implements Countable, IteratorAggregate
 	 */
 	public function getIterator()
 	{
-		return new ArrayIterator($this->getRoutes());
+		return new ArrayIterator($this->allRoutes);
 	} 
+
 
 
 	/**
@@ -84,6 +88,6 @@ class Collection implements Countable, IteratorAggregate
 	 */
 	public function count()
 	{
-		return count($this->getRoutes());
+		return count($this->allRoutes);
 	}
 }
