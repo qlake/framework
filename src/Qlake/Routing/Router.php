@@ -174,7 +174,7 @@ class Router
 
 
 
-	public function processGroupsUri()
+	protected function processGroupsUri()
 	{
 		$uri = '';
 
@@ -196,7 +196,7 @@ class Router
 	 * @param Closure|string $action
 	 * @return Qlake\Routing\Route
 	 */
-	public function addRoute($methods, $uri, $action)
+	protected function addRoute($methods, $uri, $action)
 	{
 		$route = $this->createRoute($methods, $uri, $action);
 		
@@ -217,7 +217,7 @@ class Router
 	 * @param Closure|string $action
 	 * @return Qlake\Routing\Route
 	 */
-	public function createRoute($methods, $uri, $action)
+	protected function createRoute($methods, $uri, $action)
 	{
 		return new Route($methods, $uri, $action);
 	}
