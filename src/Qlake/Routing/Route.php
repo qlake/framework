@@ -90,7 +90,7 @@ class Route
 	 */
 	public function __construct(array $methods, $uri, $handler)
 	{
-		$this->methods = (array)$methods;
+		$this->methods = $methods;
 
 		$this->uri = $uri;
 
