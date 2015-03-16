@@ -135,14 +135,14 @@ class RouterTest extends PHPUnit_Framework_TestCase
 	{
 		$router = $this->getRouter();
 
-		$var = false;
+		$route;
 
-		$router->group(function()use(&$var)
+		$router->group(function()use($router, &$route)
 		{
-			$var = true;
+			$route = $router->get('uri', null);
 		});
 
-		$this->assertEquals(true, $var);
+		$this->assertEquals('uri', $route->getUri());
 	}
 
 
@@ -153,9 +153,44 @@ class RouterTest extends PHPUnit_Framework_TestCase
 
 		$route;
 
+		$router->group('foo', function()use($router, &$route)
+		{
+			$route = $router->get('uri', null);
+		});
+
+		$this->assertEquals('foo/uri', $route->getUri());
+	}
+
+
+
+	public function testCreateGroupWithLongUriAndClosure()
+	{
+		$router = $this->getRouter();
+
+		$route;
+
 		$router->group('foo/bar', function()use($router, &$route)
 		{
 			$route = $router->get('uri', null);
+		});
+
+		$this->assertEquals('foo/bar/uri', $route->getUri());
+	}
+
+
+
+	public function testCreateNestedGroup()
+	{
+		$router = $this->getRouter();
+
+		$route;
+
+		$router->group('foo', function()use($router, &$route)
+		{
+			$router->group('bar', function()use($router, &$route)
+			{
+				$route = $router->get('uri', null);
+			});
 		});
 
 		$this->assertEquals('foo/bar/uri', $route->getUri());
