@@ -70,7 +70,7 @@ class RouteCollectionTest extends PHPUnit_Framework_TestCase
 
 
 
-	public function testfilterByMethodBySeverlRoute()
+	public function testfilterByMethodBySeveralRoute()
 	{
 		$route1 = new Route(['GET'], '/', null);
 		$route2 = new Route(['GET', 'POST', 'HEAD'], '/', null);
