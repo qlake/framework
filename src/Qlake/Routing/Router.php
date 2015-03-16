@@ -211,7 +211,7 @@ class Router
 
 		foreach ($this->groups as $group)
 		{
-			$uri .= trim($group['uri'], '/') . '/';
+			$uri = trim($group['uri'], '/') . '/' . $uri;
 		}
 
 		return trim($uri, '/');
