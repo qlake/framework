@@ -280,4 +280,30 @@ class Router
 			throw new ClearException("Not Found Any Route For [". urldecode($request->getUri()) ."] Uri.");
 		}
 	}
+	/*
+	public string getRewriteUri ()
+	public Router removeExtraSlashes (boolean $remove)
+	public string getDefaultController ()
+	public Router setDefaultAction (string $actionName)
+	public string getDefaultAction ()
+	public handle ([string $uri])
+	public Router notFound (array|string $paths)
+
+
+	public string getControllerName ()
+	public string getActionName ()
+
+
+	public Route getMatchedRoute ()
+	public array getMatches ()
+	public bool wasMatched ()
+	public Route [] getRoutes ()
+	public Route | false getRouteById (string $id)
+	public Route getRouteByName (string $name)
+	*/
+
+	public function getRoutes()
+	{
+		return $this->routes->getRoutes();
+	}
 }
