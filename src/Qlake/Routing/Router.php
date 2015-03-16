@@ -17,7 +17,11 @@ class Router
 	 */
 	protected $routes;
 
-
+	/**
+	 * Instance of SplStack for manage route groups
+	 *
+	 * @var \SplStack
+	 */
 	protected $groups;
 
 
@@ -152,15 +156,40 @@ class Router
 	{
 		$args = func_get_args();
 
-		$uri = array_shift($args);
+		$argc = count($args);
 
-		$closure = array_pop($args);
+		if ($argc >= 3)
+		{
+			$uri = array_shift($args);
 
-		$options = array_shift($args);
+			$closure = array_pop($args);
+
+			$options = array_shift($args);
+		}
+		elseif ($argc == 2)
+		{
+			$uri = array_shift($args);
+
+			$closure = array_pop($args);
+
+			$options = [];
+		}
+		elseif ($argc == 1)
+		{
+			$uri = '';
+
+			$closure = array_pop($args);
+
+			$options = [];
+		}
+		elseif ($argc == 0)
+		{
+			throw new ClearException("Calling Whitout Argument", 1);
+		}
+		
 
 		$this->groups->push([
 			'uri'     => $uri,
-			//'closure' => $closure,
 			'options' => $options,
 		]);
 
@@ -170,6 +199,8 @@ class Router
 		}
 
 		$this->groups->pop();
+
+		return $this;
 	}
 
 
@@ -199,11 +230,11 @@ class Router
 	protected function addRoute($methods, $uri, $action)
 	{
 		$route = $this->createRoute($methods, $uri, $action);
-		
+
 		$route->setPrefixUri($this->processGroupsUri());
 
 		$this->routes->addRoute($route);
-		
+
 		return $route;
 	}
 
@@ -280,6 +311,7 @@ class Router
 			throw new ClearException("Not Found Any Route For [". urldecode($request->getUri()) ."] Uri.");
 		}
 	}
+	
 	/*
 	public string getRewriteUri ()
 	public Router removeExtraSlashes (boolean $remove)
