@@ -131,6 +131,39 @@ class RouterTest extends PHPUnit_Framework_TestCase
 
 
 
+	public function testCreateGroupWithOnlyClosure()
+	{
+		$router = $this->getRouter();
+
+		$var = false;
+
+		$router->group(function()use(&$var)
+		{
+			$var = true;
+		});
+
+		$this->assertEquals(true, $var);
+	}
+
+
+
+	public function testCreateGroupWithUriAndClosure()
+	{
+		$router = $this->getRouter();
+
+		$route;
+
+		$router->group('foo/bar', function()use($router, &$route)
+		{
+			$route = $router->get('uri', null);
+		});
+
+		$this->assertEquals('foo/bar/uri', $route->getUri());
+	}
+
+
+
+
 	public function getRouter()
 	{
 		return new Router;
