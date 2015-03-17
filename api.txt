@@ -34,6 +34,7 @@ Route
 	getRoute
 	getMatches
 	isMatch
+	attach
 
 	Route::get('/')->as('route')->do(function()
 	{
