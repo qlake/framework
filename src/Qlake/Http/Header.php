@@ -146,3 +146,10 @@ class Header
 		return $name;
 	}
 }
+
+/*
+TE
+DNT
+X-ATT-DeviceId
+X-UIDH
+*/
