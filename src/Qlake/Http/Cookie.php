@@ -73,7 +73,7 @@ class Cookie
 
 
 
-	public function getExpiresTime()
+	public function getLifeTime()
 	{
 		return $this->expire;
 	}
@@ -97,5 +97,12 @@ class Cookie
 	public function isHttpOnly()
 	{
 		return $this->httpOnly;
+	}
+
+
+
+	public function isSession()
+	{
+		return $this->expire === 0;
 	}
 }
