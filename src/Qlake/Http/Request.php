@@ -45,10 +45,12 @@ class Request
 	
 	public function __construct(array $query = [], array $data = [], $env = null, $cookies = [], $files = [], $content = null)
 	{
-		$this->header = new Header;
-		$this->env    = $env;
-		$this->query  = $this->parseInputs($query);
-		$this->data   = $this->parseInputs($data);
+		$this->header  = new Header;
+		$this->query   = $this->parseInputs($query);
+		$this->data    = $this->parseInputs($data);
+		$this->env     = $env;
+		$this->cookies = $cookies;
+		$this->content = $content;
 
 		$this->orginalFiles = $files;
 
@@ -153,9 +155,9 @@ class Request
 
 
 	
-	public function getSpecialInput($name)
+	public function getSpecialInput($name, $default = null)
 	{
-		return $this->specialInputs[$name] ?: null;
+		return $this->specialInputs[$name] ?: $default;
 	}
 
 
@@ -167,7 +169,7 @@ class Request
 
 
 
-	public function hasQuery()
+	public function hasQuery($name)
 	{
 		return array_key_exists($name, $this->query) ? true : false;
 	}
@@ -188,14 +190,14 @@ class Request
 
 	public function isJson()
 	{
-		return (json_decode($request) != null) ? true : false;
+		return (json_decode($this->content) != null) ? true : false;
 	}
 
 
 
 	public function isAjax()
 	{// must be edited. using $_SERVER instand of $this->env
-		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) AND strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
+		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
 	}
 
 
@@ -301,28 +303,28 @@ class Request
 
 
 
-	public function getServerAddress($value='')
+	public function getServerAddress()
 	{
 		# code...
 	}
 
 
 
-	public function getServerName($value='')
+	public function getServerName()
 	{
 		# code...
 	}
 
 
 
-	public function getHttpHost($value='')
+	public function getHttpHost()
 	{
 		# code...
 	}
 
 
 
-	public function getClientAddress($trustForwardedHeader)
+	public function getClientAddress($trustForwardedHeader = true)
 	{
 		//Gets most possible client IPv4 Address. This method search in $_SERVER[‘REMOTE_ADDR’] and optionally in $_SERVER[‘HTTP_X_FORWARDED_FOR’]
 	}

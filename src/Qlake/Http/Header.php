@@ -20,7 +20,6 @@ class Header
 	/**
 	 * Create new instance Header.
 	 * 
-	 * @return void
 	 */
 	public function __construct()
 	{

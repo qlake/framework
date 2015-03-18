@@ -17,22 +17,6 @@ class Environment implements ArrayAccess
 
 
 
-	/*protected function getScriptName()
-	{
-        $scriptName = $_SERVER['SCRIPT_NAME']; // <-- "/foo/index.php"
-        $requestUri = $_SERVER['REQUEST_URI']; // <-- "/foo/bar?test=abc" or "/foo/index.php/bar?test=abc"
-        $queryString = $_SERVER['QUERY_STRING'] ?: ''; // <-- "test=abc" or ""
-
-        // Physical path
-        if (strpos($requestUri, $scriptName) !== false) {
-            $physicalPath = $scriptName; // <-- Without rewriting
-        } else {
-            $physicalPath = str_replace('\\', '', ($scriptName)); // <-- With rewriting
-        }
-        return $this['SCRIPT_NAME'] = rtrim($physicalPath, '/'); // <-- Remove trailing slashes
-	}*/
-
-
 
 	protected function getRequestUri()
 	{

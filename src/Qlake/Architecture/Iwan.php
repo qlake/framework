@@ -2,14 +2,12 @@
 
 namespace Qlake\Architecture;
 
-use Qlake\Architecture\Application;
-
 class Iwan
 {
 	/**
 	 * Application instans that is running.
 	 *
-	 * @var Qlake\Application
+	 * @var Qlake\Architecture\Application
 	 */
 	protected static $app;
 
@@ -23,7 +21,7 @@ class Iwan
 	 *
 	 * @return mixed Application service that is Object
 	 */
-	public final static function getInstans()
+	final public static function getInstans()
 	{
 		$app = static::$app;
 
@@ -33,7 +31,7 @@ class Iwan
 	/**
 	 * Get application instans.
 	 *
-	 * @return Qlake\Application
+	 * @return Qlake\Architecture\Application
 	 */
 	public static function getApplication()
 	{
@@ -43,7 +41,7 @@ class Iwan
 	/**
 	 * Set application instans.
 	 * 
-	 * @param Qlake\Application $app
+	 * @param Qlake\Architecture\Application $app
 	 * @return void
 	 */
 	public static function setApplication(Application $app)
@@ -57,7 +55,7 @@ class Iwan
 	 * This method provides static method interface for objective method of
 	 * applicatin services. This is heart of Iwans;
 	 */
-	public final static function __callStatic($name, $arguments)
+	final public static function __callStatic($name, $arguments)
 	{
 		$instans = static::getInstans();
 

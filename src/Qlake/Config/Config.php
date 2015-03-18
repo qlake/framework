@@ -38,14 +38,6 @@ class Config
 	protected $nameSeparator = '.';
 
 
-	/**
-	 * Constructor method
-	 * 
-	 * @return null
-	 */
-	public function __construct()
-	{}
-
 
 	/**
 	 * Set or get config aliases
