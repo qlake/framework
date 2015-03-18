@@ -116,9 +116,27 @@ class CookieTest extends PHPUnit_Framework_TestCase
 
 	public function testCreateWithGivenDomain()
 	{
-		$cookie = new Cookie('name', 'value', 0, '/path', 'domain.com');
+		$cookie = new Cookie('name', 'value', 0, null, 'domain.com');
 
 		$this->assertEquals('domain.com', $cookie->getDomain());
+	}
+
+
+
+	public function testCreateWithDefaultSecureType()
+	{
+		$cookie = new Cookie('name', 'value', 0, null, null);
+
+		$this->assertEquals(false, $cookie->isSecure());
+	}
+
+
+
+	public function testCreateWithGivenSecureType()
+	{
+		$cookie = new Cookie('name', 'value', 0, null, null, true);
+
+		$this->assertEquals(true, $cookie->isSecure());
 	}
 
 
