@@ -38,12 +38,6 @@ class Application extends Container
 	public function handle(Request $request = null)
 	{
 
-		//$this['config']->set('module::app.a', 'reza');
-
-		//trace($this['config']->get('module::app.title'));
-
-		//set_exception_handler(array($this, 'handleExceptions'));
-		
 
 		$this->singleton('log', function()
 		{
@@ -59,19 +53,18 @@ class Application extends Container
 		$request = $this['request'];
 
 
-		//require '../app/routes.php';
-		$response = $this['router']->handel($request);
+		$this['router']->handel($request);
 
 		
 		//$response->send();
 
 		//$this->terminate();
 
-		restore_exception_handler();
+		//restore_exception_handler();
 
 		register_shutdown_function(function()
 		{
-			trace('===' . memory_get_usage()/1024/1024  . '===');
+			//trace('===' . memory_get_usage()/1024/1024  . '===');
 			//print_r(get_included_files());
 		});
 	}

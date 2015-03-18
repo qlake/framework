@@ -52,6 +52,13 @@ class Cookie
 
 
 
+	public function toString()
+	{
+		# http_build_cookie()
+	}
+
+
+
 	public function getName()
 	{
 		return $this->name;

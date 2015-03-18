@@ -2,8 +2,6 @@
 
 namespace Qlake\Routing;
 
-use Qlake\Routing\Route;
-use Qlake\Routing\Collection;
 use Qlake\Http\Request;
 use Qlake\Support\Queue;
 use Qlake\Exception\ClearException;
@@ -29,7 +27,6 @@ class Router
 	/**
 	 * Create an instance of Router class.
 	 *
-	 * @return void
 	 */
 	public function __construct()
 	{
@@ -158,6 +155,10 @@ class Router
 
 		$argc = count($args);
 
+		$uri = '';
+		$closure;
+		$options = [];
+
 		if ($argc >= 3)
 		{
 			$uri = array_shift($args);
@@ -280,7 +281,7 @@ class Router
 	/**
 	 * Chack matching requested uri by registered routes.
 	 * 
-	 * @param string $requestUri 
+	 * @param Qlake\Http\Request $request 
 	 * @return Qlake\Routing\Route|null
 	 */
 	public function match(Request $request)
@@ -329,9 +330,22 @@ class Router
 	public Route getMatchedRoute ()
 	public array getMatches ()
 	public bool wasMatched ()
-	public Route [] getRoutes ()
 	public Route | false getRouteById (string $id)
 	public Route getRouteByName (string $name)
+
+	// For Route Or Router???
+	public Router controller()
+	public Router controllers()
+	public Route via(array $methods)
+	public restful()
+	public Route as/setName/byName(atring $name)
+	public beSecure()
+	public Router notFound()
+	public string getParam($name)
+	public array getParams()
+-	public Route | null getRouteByUrl()
+	public getMatches()
+	public bool isMatch($uri)
 	*/
 
 	public function getRoutes()
