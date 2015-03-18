@@ -140,4 +140,22 @@ class CookieTest extends PHPUnit_Framework_TestCase
 	}
 
 
+
+	public function testCreateWithDefaultHttpProtocolType()
+	{
+		$cookie = new Cookie('name', 'value', 0, null, null, false);
+
+		$this->assertEquals(false, $cookie->isHttpOnly());
+	}
+
+
+
+	public function testCreateWithGivenHttpProtocolType()
+	{
+		$cookie = new Cookie('name', 'value', 0, null, null, false, true);
+
+		$this->assertEquals(true, $cookie->isHttpOnly());
+	}
+
+
 }
