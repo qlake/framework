@@ -13,11 +13,6 @@ class Environment implements ArrayAccess
 
 	public function __construct()
 	{
-        //$this->getScriptName();
-
-        //$this->getRequestUri();
-
-		//$this->getPathInfo();
 	}
 
 
