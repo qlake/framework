@@ -43,10 +43,10 @@ class Request
 
 
 	
-	public function __construct(array $query = [], array $data = [], $server = null, $cookies = [], $files = [], $content = null)
+	public function __construct(array $query = [], array $data = [], $env = null, $cookies = [], $files = [], $content = null)
 	{
 		$this->header = new Header;
-		$this->env    = new Environment;
+		$this->env    = $env;
 		$this->query  = $this->parseInputs($query);
 		$this->data   = $this->parseInputs($data);
 
@@ -62,7 +62,7 @@ class Request
 	
 	public static function capture()
 	{
-		return new static($_GET, $_POST, null, null, $_FILES);
+		return new static($_GET, $_POST, new Environment, $_COOKIE, $_FILES);
 	}
 
 
@@ -106,9 +106,6 @@ class Request
 
 	public function getPathInfo()
 	{
-		//print_r($_SERVER);
-
-		//echo $this->env['SCRIPT_NAME'];exit;
 		return $this->env['PATH_INFO'];
 	}
 
@@ -197,7 +194,7 @@ class Request
 
 
 	public function isAjax()
-	{// must be edited
+	{// must be edited. using $_SERVER instand of $this->env
 		return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) AND strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest');
 	}
 
