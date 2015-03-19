@@ -3,13 +3,14 @@
 namespace Qlake\Payment\Gateway;
 
 use SoapClient;
+use SoapFault;
 
-class Saman implements GatewayInterface
+class Mellat implements GatewayInterface
 {
-	protected $wsdlUrl = 'https://sep.shaparak.ir/Payments/InitPayment.asmx?wsdl';
+	protected $wsdlUrl = 'https://bpm.shaparak.ir/pgwchannel/services/pgw?wsdl';
 
 
-	protected $paymentUrl = 'https://sep.shaparak.ir/Payment.aspx';
+	protected $paymentUrl = 'https://bpm.shaparak.ir/pgwchannel/startpay.mellat';
 
 
 	protected $terminalId;
@@ -33,7 +34,8 @@ class Saman implements GatewayInterface
 
 	public function __construct(array $config)
 	{
-		$this->client = new SoapClient($config['requestUrl']);
+		//$this->client = new SoapClient($config['requestUrl'], ['exceptions' => false]);
+		$this->client = new SoapClient($this->wsdlUrl, ['exceptions' => false]);
 		$this->terminalId = $config['terminalId'];
 		//$this->orderId = $payment->id;
 		//$this->callbackUrl = '$callbackUrl';
@@ -47,34 +49,39 @@ class Saman implements GatewayInterface
 		$this->receiptId = $receiptId;
 
 		$params = [
-			'TermID'          => $this->terminalId,
-			'ResNum'          => $this->receiptId,
-			'TotalAmount'     => $this->amount,
-			/*
-			'SegAmount1'      => null,
-			'SegAmount2'      => null,
-			'SegAmount3'      => null,
-			'SegAmount4'      => null,
-			'SegAmount5'      => null,
-			'SegAmount6'      => null,
-			'AdditionalData1' => null,
-			'AdditionalData1' => null,
-			'wage'            => null,
-			*/
+			'terminalId'     => $this->terminalId,
+			'userName'       => $this->userName,
+			'userPassword'   => $this->userPassword,
+			'orderId'        => $this->receiptId,
+			'amount'         => $this->amount,
+			'localDate'      => $this->localDate,
+			'localTime'      => $this->localTime,
+			'additionalData' => $this->additionalData,
+			'callBackUrl'    => $this->callBackUrl,
+			'payerId'        => $this->payerId,
 		];
 
-		$result = $this->client->__soapCall('RequestToken', $params);
+		$result = $this->client->__soapCall('bpPayRequest', $params);
 
-		if (is_numeric($result) and $result <= 0)
+		if ($result instanceof SoapFault)
+		{
+			$this->requestError = $result;
+
+			return false;
+		}
+print_r((array)$result);exit;
+		$result = explode(',', $result);
+
+		if ($result !== $result[0])
 		{
 			$this->requestError = $result;
 
 			return false;
 		}
 
-		$this->token = $result;
+		$this->token = $result[1];
 
-		$this->requestData = $result;
+		$this->requestData = $result[1];
 
 		return true;
 	}

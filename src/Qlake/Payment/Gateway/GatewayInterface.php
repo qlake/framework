@@ -8,7 +8,7 @@ interface GatewayInterface
 
 
 
-	public function request($amount, $receipt);
+	public function sendRequest($amount, $receipt);
 
 
 

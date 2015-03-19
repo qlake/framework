@@ -4,9 +4,9 @@ namespace Qlake\Payment\Gateway;
 
 use SoapClient;
 
-class Saman implements GatewayInterface
+class Parsian implements GatewayInterface
 {
-	protected $wsdlUrl = 'https://sep.shaparak.ir/Payments/InitPayment.asmx?wsdl';
+	protected $wsdlUrl = 'https://pec.shaparak.ir/pecpaymentgateway/eshopservice.asmx?wsdl';
 
 
 	protected $paymentUrl = 'https://sep.shaparak.ir/Payment.aspx';
@@ -33,7 +33,8 @@ class Saman implements GatewayInterface
 
 	public function __construct(array $config)
 	{
-		$this->client = new SoapClient($config['requestUrl']);
+		//$this->client = new SoapClient($config['requestUrl']);
+		$this->client = new SoapClient($this->wsdlUrl);
 		$this->terminalId = $config['terminalId'];
 		//$this->orderId = $payment->id;
 		//$this->callbackUrl = '$callbackUrl';
@@ -47,23 +48,15 @@ class Saman implements GatewayInterface
 		$this->receiptId = $receiptId;
 
 		$params = [
-			'TermID'          => $this->terminalId,
-			'ResNum'          => $this->receiptId,
-			'TotalAmount'     => $this->amount,
-			/*
-			'SegAmount1'      => null,
-			'SegAmount2'      => null,
-			'SegAmount3'      => null,
-			'SegAmount4'      => null,
-			'SegAmount5'      => null,
-			'SegAmount6'      => null,
-			'AdditionalData1' => null,
-			'AdditionalData1' => null,
-			'wage'            => null,
-			*/
+			'pin'         => 'SLpL4380HE5fKH4tB8d4',
+			'amount'      => $this->amount,
+			'orderId'     => $this->receiptId,
+			'callbackUrl' => $this->callbackUrl,
+			'authority'   => $authority,
+			'status'      => $status,
 		];
 
-		$result = $this->client->__soapCall('RequestToken', $params);
+		$result = $this->client->__soapCall('PinPaymentRequest', $params);
 
 		if (is_numeric($result) and $result <= 0)
 		{

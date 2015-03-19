@@ -9,6 +9,9 @@ class Payment
 	protected $gateway;
 
 
+	protected $requestData = [];
+
+
 	public function __construct(GatewayInterface $gateway)
 	{
 		$this->gateway = $gateway;
@@ -16,9 +19,24 @@ class Payment
 
 
 
-	public function request($amount, $receiptId)
+	public function sendRequest($amount, $receiptId)
 	{
-		return $this->gateway->request($amount, $receiptId);
+		return $this->gateway->sendRequest($amount, $receiptId);
+	}
+
+
+
+	public function getRequestData()
+	{
+		return $this->gateway->getRequestData();
+	}
+
+
+
+
+	public function getRequestError()
+	{
+		return $this->gateway->getRequestError();
 	}
 
 
