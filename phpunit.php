@@ -4,6 +4,6 @@ error_reporting(E_ALL & ~E_NOTICE);
 
 ini_set("display_errors", 1); 
 
-require __DIR__ . '/../../autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
 date_default_timezone_set('UTC');
