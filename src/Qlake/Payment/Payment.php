@@ -19,9 +19,16 @@ class Payment
 
 
 
-	public function sendRequest($amount, $receiptId)
+	public function purchase($amount, $receiptId)
 	{
-		return $this->gateway->sendRequest($amount, $receiptId);
+		return $this->gateway->purchase($amount, $receiptId);
+	}
+
+
+
+	public function send()
+	{
+		return $this->gateway->send($amount, $receiptId);
 	}
 
 

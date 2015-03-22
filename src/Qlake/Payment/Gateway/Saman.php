@@ -41,11 +41,18 @@ class Saman implements GatewayInterface
 
 
 
-	public function sendRequest($amount, $receiptId)
+	public function purchase($amount, $receiptId)
 	{
 		$this->amount    = (int)$amount;
 		$this->receiptId = $receiptId;
 
+		return $this;
+	}
+
+
+
+	public function send()
+	{
 		$params = [
 			'TermID'          => $this->terminalId,
 			'ResNum'          => $this->receiptId,
