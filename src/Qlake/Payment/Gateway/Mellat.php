@@ -5,7 +5,7 @@ namespace Qlake\Payment\Gateway;
 use SoapClient;
 use SoapFault;
 
-class Mellat implements GatewayInterface
+class Mellat extends Gateway implements GatewayInterface
 {
 	protected $wsdlUrl = 'https://bpm.shaparak.ir/pgwchannel/services/pgw?wsdl';
 
@@ -34,34 +34,42 @@ class Mellat implements GatewayInterface
 
 	public function __construct(array $config)
 	{
-		//$this->client = new SoapClient($config['requestUrl'], ['exceptions' => false]);
-		$this->client = new SoapClient($this->wsdlUrl, ['exceptions' => false]);
-		$this->terminalId = $config['terminalId'];
-		//$this->orderId = $payment->id;
-		//$this->callbackUrl = '$callbackUrl';
+		$this->client = new SoapClient($this->wsdlUrl, ['exceptions' => false, 'encoding' => 'UTF-8']);
+
+		$this->terminalId   = $config['terminalId'];
+		$this->userName     = $config['userName'];
+		$this->userPassword = $config['userPassword'];
+		$this->callbackUrl  = $config['callbackUrl'];
 	}
 
 
 
-	public function sendRequest($amount, $receiptId)
+	public function purchase($amount, $receiptId)
 	{
 		$this->amount    = (int)$amount;
 		$this->receiptId = $receiptId;
 
+		return $this;
+	}
+
+
+
+	public function send()
+	{
 		$params = [
 			'terminalId'     => $this->terminalId,
 			'userName'       => $this->userName,
 			'userPassword'   => $this->userPassword,
 			'orderId'        => $this->receiptId,
 			'amount'         => $this->amount,
-			'localDate'      => $this->localDate,
-			'localTime'      => $this->localTime,
-			'additionalData' => $this->additionalData,
-			'callBackUrl'    => $this->callBackUrl,
-			'payerId'        => $this->payerId,
+			'localDate'      => date('Ymd'),
+			'localTime'      => date('His'),
+			'additionalData' => '',//$this->additionalData,
+			'callBackUrl'    => $this->callbackUrl,
+			'payerId'        => 0,//$this->payerId,
 		];
 
-		$result = $this->client->__soapCall('bpPayRequest', $params);
+		$result = $this->client->__soapCall('bpPayRequest', [$params]);
 
 		if ($result instanceof SoapFault)
 		{
@@ -69,12 +77,12 @@ class Mellat implements GatewayInterface
 
 			return false;
 		}
-print_r((array)$result);exit;
-		$result = explode(',', $result);
 
-		if ($result !== $result[0])
+		$result = explode(',', $result->return);
+
+		if ($result[0] !== '0')
 		{
-			$this->requestError = $result;
+			$this->requestError = $result[0];
 
 			return false;
 		}
@@ -111,37 +119,21 @@ print_r((array)$result);exit;
 
 	public function redirect()
 	{
-		$html = <<<html
-		<!doctype html>
-		<html>
-		<head>
-			<title></title>
-		</head>
-		<body>
-			<form action="{$this->paymentUrl}" method="post">
-				<input type="hidden" value="{$this->token}" name="Token" />
-				<input type="hidden" value="{$this->callbackUrl}" name="RedirectURL" />
-			</form>
-			<script type="text/javascript">
-				document.getElementsByTagName('form')[0].submit();
-			</script>
-		</body>
-		</html>
-html;
-
-		echo $html;
+		$this->redirectByForm($this->paymentUrl, ['RefId' => $this->token]);
 	}
 
 
 
 	public function handle()
 	{
-		// redirect to RedirectURL
-		// $_POST['State']
-		// $_POST['RefNum']
-		// $_POST['ResNum']
-		// $_POST['MID']
-		// $_POST['TraceNo']
+/*
+		[RefId] => A434BF0F8C1BA9BB 
+		[ResCode] => 0 
+		[SaleOrderId] => -11 
+		[SaleReferenceId] => 106935951768 
+		[CardHolderInfo] => 8A67E131795C8228B4AB27D6D6BC8F2ACFE579F37CED9131798BAF0F435BF0F1 
+		[CardHolderPan] => 610433****9374 ) 
+*/
 		$state = $_POST['state'];
 		if ($state !== 'OK')
 		{
