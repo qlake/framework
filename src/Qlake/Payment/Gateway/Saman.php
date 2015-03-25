@@ -4,7 +4,7 @@ namespace Qlake\Payment\Gateway;
 
 use SoapClient;
 
-class Saman implements GatewayInterface
+class Saman extends Gateway implements GatewayInterface
 {
 	protected $wsdlUrl = 'https://sep.shaparak.ir/Payments/InitPayment.asmx?wsdl';
 
@@ -33,10 +33,10 @@ class Saman implements GatewayInterface
 
 	public function __construct(array $config)
 	{
-		$this->client = new SoapClient($config['requestUrl']);
-		$this->terminalId = $config['terminalId'];
-		//$this->orderId = $payment->id;
-		//$this->callbackUrl = '$callbackUrl';
+		$this->client = new SoapClient($this->wsdlUrl, ['exceptions' => false]);
+
+		$this->terminalId   = $config['terminalId'];
+		$this->callbackUrl  = $config['callbackUrl'];
 	}
 
 
@@ -111,25 +111,7 @@ class Saman implements GatewayInterface
 
 	public function redirect()
 	{
-		$html = <<<html
-		<!doctype html>
-		<html>
-		<head>
-			<title></title>
-		</head>
-		<body>
-			<form action="{$this->paymentUrl}" method="post">
-				<input type="hidden" value="{$this->token}" name="Token" />
-				<input type="hidden" value="{$this->callbackUrl}" name="RedirectURL" />
-			</form>
-			<script type="text/javascript">
-				document.getElementsByTagName('form')[0].submit();
-			</script>
-		</body>
-		</html>
-html;
-
-		echo $html;
+		$this->redirectByForm($this->paymentUrl, ['Token' => $this->token, 'RedirectURL' => $this->callbackUrl]);
 	}
 
 
