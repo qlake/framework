@@ -13,23 +13,6 @@ class Gateway
 			$elements .= "<input type=\"hidden\" value=\"{$value}\" name=\"{$name}\" />";
 		}
 
-		$html = <<<html
-		<!doctype html>
-		<html>
-		<head>
-			<title></title>
-		</head>
-		<body>
-			<form action="{$url}" method="post">
-				{$elements}
-			</form>
-			<script type="text/javascript">
-				document.getElementsByTagName('form')[0].submit();
-			</script>
-		</body>
-		</html>
-html;
-
-		echo $html;
+		include __DIR__ . '/form.html';
 	}
 }
