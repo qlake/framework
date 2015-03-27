@@ -45,10 +45,10 @@ class Mellat extends Gateway implements GatewayInterface
 
 
 
-	public function purchase(array $params)
+	public function purchase($amount, $receiptId)
 	{
-		$this->amount    = (int)$params['amount'];
-		$this->receiptId = $params['receiptId'];
+		$this->amount    = (int)$amount;
+		$this->receiptId = $receiptId;
 
 		return $this;
 	}

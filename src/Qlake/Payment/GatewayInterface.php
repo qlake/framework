@@ -8,7 +8,7 @@ interface GatewayInterface
 
 
 
-	public function purchase(array $params);
+	public function purchase($amount, $receiptId);
 
 
 
