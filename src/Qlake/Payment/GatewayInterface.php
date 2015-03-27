@@ -1,6 +1,6 @@
 <?php
 
-namespace Qlake\Payment\Gateway;
+namespace Qlake\Payment;
 
 interface GatewayInterface
 {
@@ -8,7 +8,7 @@ interface GatewayInterface
 
 
 
-	public function purchase($amount, $receipt);
+	public function purchase(array $params);
 
 
 
@@ -20,7 +20,7 @@ interface GatewayInterface
 
 
 
-	public function handle();
+	//public function handle();
 
 
 

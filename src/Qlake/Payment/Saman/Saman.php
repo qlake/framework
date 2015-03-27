@@ -1,8 +1,12 @@
 <?php
 
-namespace Qlake\Payment\Gateway;
+namespace Qlake\Payment\Saman;
+
+use Qlake\Payment\Gateway;
+use Qlake\Payment\GatewayInterface;
 
 use SoapClient;
+use SoapFault;
 
 class Saman extends Gateway implements GatewayInterface
 {
@@ -31,20 +35,20 @@ class Saman extends Gateway implements GatewayInterface
 
 
 
-	public function __construct(array $config)
+	public function __construct(array $params)
 	{
-		$this->client = new SoapClient($this->wsdlUrl, ['exceptions' => false]);
 
-		$this->terminalId   = $config['terminalId'];
-		$this->callbackUrl  = $config['callbackUrl'];
+		$this->terminalId   = $params['terminalId'];
+		$this->callbackUrl  = $params['callbackUrl'];
 	}
 
 
 
-	public function purchase($amount, $receiptId)
+	public function purchase($amount, $receiptId, $token = null)
 	{
 		$this->amount    = (int)$amount;
 		$this->receiptId = $receiptId;
+		$this->token     = $token;
 
 		return $this;
 	}
@@ -102,10 +106,7 @@ class Saman extends Gateway implements GatewayInterface
 
 
 
-	public function isReady()
-	{
-		return $this->requestError === null;
-	}
+
 
 
 
@@ -116,7 +117,7 @@ class Saman extends Gateway implements GatewayInterface
 
 
 
-	public function handle()
+	public function capture()
 	{
 		// redirect to RedirectURL
 		// $_POST['State']
@@ -124,17 +125,41 @@ class Saman extends Gateway implements GatewayInterface
 		// $_POST['ResNum']
 		// $_POST['MID']
 		// $_POST['TraceNo']
-		$state = $_POST['state'];
-		if ($state !== 'OK')
-		{
-			echo "Error: $state";
-			exit;
-		}
-		if ($_POST['RefNum'] /*is not uniqu*/)
-		{
-			echo 'error';
-			exit;
-		}
+	}
+
+
+
+	public function isSuccessfulResponse()
+	{
+		return ($_POST['State'] === 'OK' && $_POST['RefNum'] === $token) ? true : false;
+	}
+
+
+
+	public function getResponseData()
+	{
+		//return $this->requestData;
+	}
+
+
+
+	public function getResponseError()
+	{
+		return $_POST['State'];
+	}
+
+
+
+	public function check($amount, $orderId, $token)
+	{
+		// redirect to RedirectURL
+		// $_POST['State']
+		// $_POST['RefNum']
+		// $_POST['ResNum']
+		// $_POST['MID']
+		// $_POST['TraceNo']
+
+		return ($_POST['State'] === 'OK' && $_POST['RefNum'] === $token) ? true : false;
 	}
 
 

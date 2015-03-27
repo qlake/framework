@@ -1,6 +1,9 @@
 <?php
 
-namespace Qlake\Payment\Gateway;
+namespace Qlake\Payment\Mellat;
+
+use Qlake\Payment\Gateway;
+use Qlake\Payment\GatewayInterface;
 
 use SoapClient;
 use SoapFault;
@@ -34,8 +37,6 @@ class Mellat extends Gateway implements GatewayInterface
 
 	public function __construct(array $config)
 	{
-		$this->client = new SoapClient($this->wsdlUrl, ['exceptions' => false, 'encoding' => 'UTF-8']);
-
 		$this->terminalId   = $config['terminalId'];
 		$this->userName     = $config['userName'];
 		$this->userPassword = $config['userPassword'];
@@ -44,10 +45,10 @@ class Mellat extends Gateway implements GatewayInterface
 
 
 
-	public function purchase($amount, $receiptId)
+	public function purchase(array $params)
 	{
-		$this->amount    = (int)$amount;
-		$this->receiptId = $receiptId;
+		$this->amount    = (int)$params['amount'];
+		$this->receiptId = $params['receiptId'];
 
 		return $this;
 	}
@@ -179,4 +180,8 @@ class Mellat extends Gateway implements GatewayInterface
 		}
 		return true;
 	}
+
+
+
+
 }
