@@ -48,23 +48,23 @@ class Response
 
 
 
-	public function getRequestData()
+	/*public function getRequestData()
 	{
 		return $this->requestData;
-	}
+	}*/
 
 
 
-	public function getRequestError()
+	/*public function getRequestError()
 	{
 		return $this->requestError;
-	}
+	}*/
 
 
 
 	public function redirect()
 	{
-		$this->redirectByForm($this->paymentUrl, ['RefId' => $this->token]);
+		$this->gateway->redirectByForm($this->gateway->paymentUrl, ['RefId' => $this->token]);
 	}
 
 

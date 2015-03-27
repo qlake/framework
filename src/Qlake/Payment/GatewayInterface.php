@@ -16,7 +16,7 @@ interface GatewayInterface
 
 
 
-	public function redirect();
+	//public function redirect();
 
 
 
@@ -24,5 +24,5 @@ interface GatewayInterface
 
 
 
-	public function verify();
+	//public function verify();
 }

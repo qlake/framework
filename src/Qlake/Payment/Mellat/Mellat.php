@@ -72,32 +72,12 @@ class Mellat extends Gateway implements GatewayInterface
 
 		$result = $this->client->__soapCall('bpPayRequest', [$params]);
 
-		if ($result instanceof SoapFault)
-		{
-			$this->requestError = $result;
-
-			return false;
-		}
-
-		$result = explode(',', $result->return);
-
-		if ($result[0] !== '0')
-		{
-			$this->requestError = $result[0];
-
-			return false;
-		}
-
-		$this->token = $result[1];
-
-		$this->requestData = $result[1];
-
-		return true;
+		return new Response($this, $result);
 	}
 
 
 
-	public function getRequestData()
+	/*public function getRequestData()
 	{
 		return $this->requestData;
 	}
@@ -127,21 +107,21 @@ class Mellat extends Gateway implements GatewayInterface
 
 	public function handle()
 	{
-/*
-		[RefId] => A434BF0F8C1BA9BB 
-		[ResCode] => 0 
-		[SaleOrderId] => -11 
-		[SaleReferenceId] => 106935951768 
-		[CardHolderInfo] => 8A67E131795C8228B4AB27D6D6BC8F2ACFE579F37CED9131798BAF0F435BF0F1 
-		[CardHolderPan] => 610433****9374 ) 
-*/
+
+		#[RefId] => A434BF0F8C1BA9BB 
+		#[ResCode] => 0 
+		#[SaleOrderId] => -11 
+		#[SaleReferenceId] => 106935951768 
+		#[CardHolderInfo] => 8A67E131795C8228B4AB27D6D6BC8F2ACFE579F37CED9131798BAF0F435BF0F1 
+		#[CardHolderPan] => 610433****9374 ) 
+
 		$state = $_POST['state'];
 		if ($state !== 'OK')
 		{
 			echo "Error: $state";
 			exit;
 		}
-		if ($_POST['RefNum'] /*is not uniqu*/)
+		if ($_POST['RefNum'] ) // and is not uniqu
 		{
 			echo 'error';
 			exit;
@@ -182,6 +162,6 @@ class Mellat extends Gateway implements GatewayInterface
 	}
 
 
-
+*/
 
 }
